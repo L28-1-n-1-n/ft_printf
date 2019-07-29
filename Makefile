@@ -20,7 +20,8 @@ SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes
 
-SRCS = main.c ft_printf.c parse.c parse_remain.c
+SRCS = main.c ft_printf.c count_arg.c parse.c parse_remain.c \
+			parse_arg.c compose_str.c treat_arg.c
 
 HEAD = printf.h
 

@@ -32,7 +32,7 @@ SRCS = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 		ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_lstappend.c ft_print_null.c \
 		ft_print.c ft_printi.c ft_char_toupper.c ft_char_toupperi.c \
 		ft_print_tab.c ft_lstelemprint.c ft_elem_upper.c ft_lstlength.c \
-		ft_lsqrt.c
+		ft_lsqrt.c ft_strchr_arg.c
 
 SRCDIR = srcs
 OBJDIR = objs
