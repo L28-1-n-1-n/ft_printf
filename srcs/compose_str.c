@@ -33,7 +33,7 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
     while (!(ft_strchr("cdixXpeEfFgGous%", *fmt)))
       fmt++;
     fmt++;
-    printf("and finally fmt is %s\n", fmt);
+  //  printf("and finally fmt is %s\n", fmt);
   }
-  printf("FIANL is %s\n", final);
+  printf("FIANL is \n%s\n", final);
 }

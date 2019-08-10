@@ -7,7 +7,7 @@ void check_type(char *str, unsigned int k, t_block *blks)
   if (*str)
   {
     if (*str == 'c')
-      blks[k].type = 'c';
+      blks[k].type = 'c'; //done
     if (*str == 'd')
       blks[k].type = 'd';
     if (*str == 'i')
@@ -35,9 +35,8 @@ void check_type(char *str, unsigned int k, t_block *blks)
     if (*str == 'u')
       blks[k].type = 'u';
     if (*str == 's')
-      blks[k].type = 's';
+      blks[k].type = 's'; //done
   }
-  printf("blks[%d].type is %c\n", k, blks[k].type);
 }
 
 char *check_length(char *str, unsigned int k, t_block *blks)

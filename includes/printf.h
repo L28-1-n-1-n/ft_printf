@@ -4,7 +4,8 @@
 # define BUFF 16384
 # include "libft.h"
 # include <stdarg.h>
-
+# include <inttypes.h>
+# include <stdio.h>
 typedef enum		e_modifier
  {
 		 NA = 0,
@@ -35,6 +36,15 @@ void 		parse_remain(const char *fmt, int i, va_list ap);
 void    parse_arg(const char *fmt, unsigned int i, t_block *blks);
 void    compose_str(const char *fmt, va_list ap, t_block *blks);
 void    treat_arg(char *final, va_list ap, t_block *blks);
+void    string_hex(uintmax_t n, char *final, t_block *blksk);
+void    string_digit(intmax_t n, char *final, t_block *blksk);
+char     *dex_to_bin_str(char *result, unsigned long long n);
+uintmax_t  add_unsigned_modifier(va_list ap, t_block *blksk);
+intmax_t  add_modifier(va_list ap, t_block *blksk);
+void      print_n(intmax_t n);
+char    *ft_itoamax(intmax_t n, char *str);
+char  *group_digit(char *str, t_block *blksk);
+
 #endif
 
 

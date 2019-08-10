@@ -31,9 +31,172 @@ int		main()
 	char s[400];
 
 	ft_strcpy(s, "hello");
-//	ft_printf("12345%s", s);
-//	ft_printf("%dc12 %% sdfw % sdf %%%%asdfadf %%%%%\n");
-//	ft_printf("THIS_IS_A_TEST %23$   ' +- 07hf%%%14.*  % 54.222Lc %% %*$970.25hhd%%we \n");
-	ft_printf("THIS_IS_A_TEST%% %c 123 %c and %c then finally %s\n", 'm', 'a', 'b', "Hello World!\n");
+/*
+	printf("Test for formats:\n\n");
+	ft_printf("HEX 42 %u\n", 42);
+	printf("HEX 42 %u\n\n", 42);
+
+	ft_printf("HEX 4242 %-u\n", 4242);
+	printf("HEX 4242 %-u\n\n", 4242);
+
+	ft_printf("HEX 4242 %0u\n", 4242);
+	printf("HEX 4242 %0u\n\n", 4242);
+
+	ft_printf("HEX 4242 %030u\n", 4242);
+	printf("HEX 4242 %030u\n\n", 4242);
+
+	ft_printf("HEX 4242 %-30u\n", 4242);
+	printf("HEX 4242 %-30u\n\n", 4242);
+
+	ft_printf("HEX 4242 %-030u\n", 4242);
+	printf("HEX 4242 %-30u\n\n", 4242);
+
+	printf("Test for limits:\n\n");
+  ft_printf("HEX 2^31 = 2147483648 %lu\n", 2147483648);
+  printf("HEX 2^31 = 2147483648 %lu\n\n", 2147483648);
+
+  ft_printf("HEX -2^31 = -2147483648 %lu\n", -2147483648);
+  printf("HEX -2^31 = -2147483648 %lu\n\n", -2147483648);
+
+  ft_printf("HEX 2^63 - 1 = 9223372036854775807 %lu\n", 9223372036854775807);
+  printf("HEX 2^63 - 1 = 9223372036854775807 %lu\n\n", 9223372036854775807);
+
+  ft_printf("HEX 2^63 = -9223372036854775807 %lu\n", -9223372036854775807);
+  printf("HEX 2^63 = -9223372036854775807 %lu\n\n", -9223372036854775807);*/
+
+	ft_printf("ft_printf-->% 30d\n", -642345234);
+	printf("___printf-->% 30d\n", -642345234);
+
+	ft_printf("ft_printf-->% 30d\n", 642345234);
+	printf("___printf-->% 30d\n", 642345234);
+
+	ft_printf("ft_printf-->% '30d\n", -642345234);
+	printf("___printf-->% 30d\n", -642345234);
+
+	ft_printf("ft_printf-->% '30d\n", 642345234);
+	printf("___printf-->% 30d\n", 642345234);
+
+	ft_printf("ft_printf-->% -30d\n", -642345234);
+	printf("___printf-->% -30d\n", -642345234);
+
+	ft_printf("ft_printf-->% -30d\n", 642345234);
+	printf("___printf-->% -30d\n", 642345234);
+
+	ft_printf("ft_printf-->% 030d\n", -642345234);
+	printf("___printf-->% 030d\n", -642345234);
+
+	ft_printf("ft_printf-->% 030d\n", 642345234);
+	printf("___printf-->% 030d\n", 642345234);
+
+	ft_printf("ft_printf-->% -0'30d\n", -642345234);
+	printf("___printf-->% -'30d\n", -642345234);
+
+	ft_printf("ft_printf-->% d\n", -642345234);
+	printf("___printf-->%d\n", -642345234);
+
+	ft_printf("ft_printf-->% d\n", 642345234);
+	printf("___printf-->% d\n", 642345234);
+
+
+	ft_printf("ft_printf-->%'30u\n", -642345234);
+	printf("___printf-->%30u\n", -642345234);
+
+	ft_printf("ft_printf-->%'30u\n", 642345234);
+	printf("___printf-->%30u\n", 642345234);
+
+	ft_printf("ft_printf-->%30u\n", -642345234);
+	printf("___printf-->%30u\n", -642345234);
+
+	ft_printf("ft_printf-->%30u\n", 642345234);
+	printf("___printf-->%30u\n", 642345234);
+
+	ft_printf("ft_printf-->%-'30u\n", -642345234);
+	printf("___printf-->%-30u\n", -642345234);
+
+	ft_printf("ft_printf-->%-'30u\n", 642345234);
+	printf("___printf-->%-30u\n", 642345234);
+
+
+	ft_printf("ft_printf-->% 0d\n", 0);
+	printf("___printf-->% 0d\n", 0);
+
+	ft_printf("ft_printf-->% d\n", 0);
+	printf("___printf-->% d\n", 0);
+
+	ft_printf("ft_printf-->% 5d\n", 0);
+	printf("___printf-->% 5d\n", 0);
+
+	ft_printf("ft_printf-->%+d\n", 0);
+	printf("___printf-->%+d\n", 0);
+
+	ft_printf("ft_printf-->%-5d\n", 0);
+	printf("___printf-->%-5d\n", 0);
+
+	ft_printf("ft_printf-->%05d\n", 0);
+	printf("___printf-->%05d\n", 0);
+
+	ft_printf("ft_printf-->%5d\n", 0);
+	printf("___printf-->%5d\n", 0);
+
+	ft_printf("ft_printf-->% 'd\n", 0);
+	ft_printf("___printf-->%-0#5d\n", 0);
+
+
+	ft_printf("ft_printf-->%0x\n", 0);
+	printf("___printf-->%0x\n", 0);
+
+	ft_printf("ft_printf-->%#x\n", 0);
+	printf("___printf-->%#x\n", 0);
+
+	ft_printf("ft_printf-->%5x\n", 0);
+	printf("___printf-->%5x\n", 0);
+
+	ft_printf("ft_printf-->%0#x\n", 0);
+	printf("___printf-->%0#x\n", 0);
+
+	ft_printf("ft_printf-->%-5x\n", 0);
+	printf("___printf-->%-5x\n", 0);
+
+	ft_printf("ft_printf-->%05x\n", 0);
+	printf("___printf-->%05x\n", 0);
+
+	ft_printf("ft_printf-->%5x\n", 0);
+	printf("___printf-->%5x\n", 0);
+
+	ft_printf("ft_printf-->%-0#5x\n", 0);
+//	printf("___printf-->%-0#5x\n", 0);
+
+	ft_printf("ft_printf-->% 'x\n", 0);
+//	printf("___printf-->% 'x\n", 0);
+
+
+
+
+	ft_printf("ft_printf-->%0u\n", 0);
+	printf("___printf-->%0u\n", 0);
+
+	ft_printf("ft_printf-->%#u\n", 0);
+	//printf("___printf-->%#u\n", 0);
+
+	ft_printf("ft_printf-->%5u\n", 0);
+	printf("___printf-->%5u\n", 0);
+
+	ft_printf("ft_printf-->%0#u\n", 0);
+	//printf("___printf-->%0#u\n", 0);
+
+	ft_printf("ft_printf-->%-5u\n", 0);
+	printf("___printf-->%-5u\n", 0);
+
+	ft_printf("ft_printf-->%05u\n", 0);
+	printf("___printf-->%05u\n", 0);
+
+	ft_printf("ft_printf-->%5u\n", 0);
+	printf("___printf-->%5u\n", 0);
+
+	ft_printf("ft_printf-->%-0#5u\n", 0);
+	//	printf("___printf-->%-0#5x\n", 0);
+
+	ft_printf("ft_printf-->% 'u\n", 0);
+	//	printf("___printf-->% 'x\n", 0);
 	return (0);
 }

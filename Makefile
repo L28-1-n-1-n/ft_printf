@@ -21,7 +21,9 @@ OBJDIR = objs
 INCDIR = includes
 
 SRCS = main.c ft_printf.c count_arg.c parse.c parse_remain.c \
-			parse_arg.c compose_str.c treat_arg.c
+			parse_arg.c compose_str.c treat_arg.c string_hex.c string_digit.c \
+			add_modifier.c add_unsigned_modifier.c print_n.c ft_itoamax.c \
+
 
 HEAD = printf.h
 

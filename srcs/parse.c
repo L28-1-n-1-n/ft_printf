@@ -40,7 +40,7 @@ int   parse(const char *fmt, va_list ap)
     {
       blks[k].str = "%";
       blks[k].pos = i; // i is pos of '%', ft_strchr_arg has 0 at '%'
-      printf("blks[%d].pos is %d\n", k, i);
+      //printf("blks[%d].pos is %d\n", k, i);
       k++;
       i += 2; /*skip till next argument*/
     }
@@ -48,7 +48,7 @@ int   parse(const char *fmt, va_list ap)
       if (fmt[i] == '%')
       {
         blks[k].pos = i;
-        printf("blks[%d].pos is %d\n", k, i);
+      //  printf("blks[%d].pos is %d\n", k, i);
         parse_arg(fmt, k, blks);
         k++;
         i++;
@@ -59,11 +59,11 @@ int   parse(const char *fmt, va_list ap)
 
   compose_str(fmt, ap, blks);
   m = count_arg(fmt);
-  printf("Total args are %d\n", m);
+//  printf("Total args are %d\n", m);
   k = 0;
   while (k < m)
   {
-    printf("blks[%d].str is %s\n", k, blks[k].str);
+//    printf("blks[%d].str is %s\n", k, blks[k].str);
     k++;
   }
   (void)ap;
