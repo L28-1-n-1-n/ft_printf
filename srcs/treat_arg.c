@@ -28,7 +28,7 @@ void    treat_num(char *final, va_list ap, t_block *blksk)
   intmax_t n;
 
   n = add_modifier(ap, blksk);
-  printf("n is first %jd\n", n); 
+  printf("n is first %jd\n", n);
   string_digit(n, final, blksk);
 }
 /*
@@ -55,7 +55,7 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
   if (blksk->type == 's')
     treat_string(final, ap);
   if ((blksk->type == 'x') || (blksk->type == 'X') ||
-      (blksk->type == 'o') || (blksk->type == 'u'))
+      (blksk->type == 'o') || (blksk->type == 'u') || (blksk->type == 'p'))
     treat_hex(final, ap, blksk);
   if((blksk->type == 'd') || (blksk->type == 'i'))
     treat_num(final, ap, blksk);

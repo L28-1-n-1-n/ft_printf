@@ -4,9 +4,13 @@
 uintmax_t add_unsigned_modifier(va_list ap, t_block *blksk)
 {
   uintmax_t n;
-
-    if (blksk->modifier == ll)
-      n = va_arg(ap, unsigned long long);
+  if (blksk->type == 'p')
+  {
+    n = va_arg(ap, unsigned long long);
+    return (n);
+  }
+  if (blksk->modifier == ll)
+    n = va_arg(ap, unsigned long long);
   else
     if (blksk->modifier == l)
       n = va_arg(ap, unsigned long);

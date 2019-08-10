@@ -63,7 +63,7 @@ int		main()
 
   ft_printf("HEX 2^63 = -9223372036854775807 %lu\n", -9223372036854775807);
   printf("HEX 2^63 = -9223372036854775807 %lu\n\n", -9223372036854775807);*/
-
+/*
 	ft_printf("ft_printf-->% 30d\n", -642345234);
 	printf("___printf-->% 30d\n", -642345234);
 
@@ -198,5 +198,22 @@ int		main()
 
 	ft_printf("ft_printf-->% 'u\n", 0);
 	//	printf("___printf-->% 'x\n", 0);
+*/
+	ft_printf("pointer=%020p\n", s);
+	printf("pointer=%p\n", s);
+	ft_printf("pointer=%020p\n", &s[12]);
+	printf("pointer=%p\n", &s[12]);
+
+	int *num1;
+	num1 = NULL;
+
+	int num2;
+	num2 = 4;
+
+	ft_printf("pointer=%020p\n", num1);
+	printf("pointer=%p\n", num1);
+
+	ft_printf("pointer=%020p\n", &num2);
+	printf("pointer=%p\n", &num2);
 	return (0);
 }

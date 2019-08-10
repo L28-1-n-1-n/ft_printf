@@ -52,6 +52,8 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk)
   int j;
 
   ft_bzero(tmp, 23);
+  if (blksk->type == 'p') // to skip all flags for pointer
+    return (ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)));
   if (blksk->flag & 64) // apostrophe flag
     i = ft_strlen(ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)));
   else
@@ -118,6 +120,11 @@ void string_hex(uintmax_t n, char *final, t_block *blksk)
     if ((blksk->flag & 16) && (n != 0)) // '#'
       str[0] = '0';
     base = "012345678";
+  }
+  if (blksk->type == 'p')
+  {
+    ft_strcpy(str, "0x");
+    base = "0123456789abcdef";
   }
   if (blksk->type == 'u')
     base = "0123456789";
