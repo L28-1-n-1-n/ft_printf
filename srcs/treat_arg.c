@@ -23,6 +23,7 @@ void    treat_hex(char *final, va_list ap, t_block *blksk)
   n = add_unsigned_modifier(ap, blksk);
   string_hex(n, final, blksk);
 }
+
 void    treat_num(char *final, va_list ap, t_block *blksk)
 {
   intmax_t n;
@@ -31,19 +32,31 @@ void    treat_num(char *final, va_list ap, t_block *blksk)
   printf("n is first %jd\n", n);
   string_digit(n, final, blksk);
 }
-/*
-void    treat_pointer(char *final, va_list ap, t_block *blksk)
+
+void    treat_float(char *final, va_list ap, t_block *blksk)
 {
-  unsigned long long n;
-  (void)final;
-  n = va_arg(ap, unsigned long long);
-  string_hex(n, final, blksk);
-  ft_strcat(final, string_hex(n));
-  printf("n is %#llx\n", n);
-  printf("\n16 is %#x and 64 is %#x\n", 16, 64);
-  //ft_strcat(final, string);
+  double n;
+  long double long_n;
+  uint64_t word[2];
+
+  n = 0;
+  long_n = 0;
+  if ((blksk->modifier == l) || (blksk->modifier == 0))
+  {
+    n = va_arg(ap, double);
+    ft_memcpy(&word, &n, sizeof(word));
+  }
+else
+  if (blksk->modifier == L)
+  {
+    long_n = va_arg(ap, long double);
+    ft_memcpy(&word, &long_n, sizeof(word));
+  }
+  printf("word[0] is %llu\n", word[0]); // only consider word[0] for lf
+  printf("word[1] is %hu\n", (uint16_t)word[1]);
+  // cast word[1] to 16 bit each time for Lf
+  decode_float(word, final, blksk);
 }
-*/
 void    treat_arg(char *final, va_list ap, t_block *blksk)
 {
   if (blksk->str)
@@ -59,8 +72,6 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
     treat_hex(final, ap, blksk);
   if((blksk->type == 'd') || (blksk->type == 'i'))
     treat_num(final, ap, blksk);
-//  if (blksk->type == 'd')
-  //  treat_string(final, ap);
-  //if (blksk->type == 'p')
-  //  treat_pointer(final, ap, blksk);
+  if (blksk->type == 'f')
+    treat_float(final, ap, blksk);
 }

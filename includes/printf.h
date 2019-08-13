@@ -27,7 +27,14 @@ typedef struct	s_block
 	char              type; // c d i x X p e E f F g G o u s %
   char              *str; // this is what the result of this block's gonna be
   unsigned int      pos;
-}				t_block;
+}				        t_block;
+
+typedef struct s_float
+{
+  char sign;
+  uint16_t exponent;
+  uint64_t mantissa;
+}              t_float;
 
 void		ft_printf(const char *fmt, ...);
 int			count_arg(const char *str);
@@ -44,7 +51,7 @@ intmax_t  add_modifier(va_list ap, t_block *blksk);
 void      print_n(intmax_t n);
 char    *ft_itoamax(intmax_t n, char *str);
 char  *group_digit(char *str, t_block *blksk);
-
+void   decode_float(uint64_t *word, char *final, t_block *blksk);
 #endif
 
 

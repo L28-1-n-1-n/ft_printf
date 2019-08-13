@@ -80,18 +80,6 @@ After that, process result and put each result in blk[i]
 Then, loop over fmt one last time and form final result reading all tabs
 */
 
-/*
-	while (fmt[i])
-	{
-		if (fmt[i] == '%')
-		{
-			i++;
-			parse_remain(fmt, i, ap);
-		}
-		else
-			while (fmt[i] && fmt[i] != '%')
-				i++;
-	}
-*/
+
   return (1);
 }

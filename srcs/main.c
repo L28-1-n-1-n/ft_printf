@@ -199,6 +199,7 @@ int		main()
 	ft_printf("ft_printf-->% 'u\n", 0);
 	//	printf("___printf-->% 'x\n", 0);
 */
+/*
 	ft_printf("pointer=%020p\n", s);
 	printf("pointer=%p\n", s);
 	ft_printf("pointer=%020p\n", &s[12]);
@@ -215,5 +216,10 @@ int		main()
 
 	ft_printf("pointer=%020p\n", &num2);
 	printf("pointer=%p\n", &num2);
+	*/
+	//ft_printf("we have %llo\n", -9223372036854775808);
+//	ft_printf("float=%Lf\n", 3.123456789012345678901234567890L);
+	ft_printf("float=%lf\n", 263.3L);
+	printf("float is %.100lf\n", 263.3);
 	return (0);
 }

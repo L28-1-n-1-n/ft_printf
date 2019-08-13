@@ -2,8 +2,8 @@
 
 int main()
 {
-	char s[400];
-
-	printf("pointer=%p\n", s);
+	printf("float 263.3 is %f\n", 263.3 + 12.2);
+	
+	
 	return (0);
 }
