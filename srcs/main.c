@@ -217,10 +217,12 @@ int		main()
 	ft_printf("pointer=%020p\n", &num2);
 	printf("pointer=%p\n", &num2);
 	*/
-	//ft_printf("we have %llo\n", -9223372036854775808);
-//	ft_printf("float=%Lf\n", 3.123456789012345678901234567890L);
-	ft_printf("float=%.60Lf\n", -263.3L);
-	printf("float=%.60Lf\n", -263.3L);
+//	ft_printf("we have %llo\n", -9223372036854775808L);
+//	printf("we have %llo\n", -9223372036854775808L);
+	ft_printf("float=%.400f\n", 0x400921fb54442d18);
+//	printf("float=%.40f\n", 4503599627370495);
+//	ft_printf("float=%.60Lf\n", -263.3L);
+//	printf("float=%.60Lf\n", -263.3L);
 //	printf("float is %.50lf\n", 2345.678901019394959697);
 	return (0);
 }

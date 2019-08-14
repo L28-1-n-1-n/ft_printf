@@ -45,18 +45,25 @@ void    treat_float(char *final, va_list ap, t_block *blksk)
   {
     n = va_arg(ap, double);
     ft_memcpy(&word, &n, sizeof(word));
+
+    //if (!(float_special(n, long_n, 64, final)))
+      decode_float(word, final, blksk);
+    //must stop
   }
 else
   if (blksk->modifier == L)
   {
     long_n = va_arg(ap, long double);
     ft_memcpy(&word, &long_n, sizeof(word));
+
+    //if (!(float_special(n, long_n, 80, final)))
+      decode_float(word, final, blksk);
   }
   printf("word[0] is %llu\n", word[0]); // only consider word[0] for lf
   printf("word[1] is %hu\n", (uint16_t)word[1]);
   printf("word[1] is %llu\n", word[1]);
   // cast word[1] to 16 bit each time for Lf
-  decode_float(word, final, blksk);
+  //decode_float(word, final, blksk);
 }
 void    treat_arg(char *final, va_list ap, t_block *blksk)
 {

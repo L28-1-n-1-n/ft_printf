@@ -2,6 +2,7 @@
 # define PRINTF_H
 
 # define BUFF 16384
+# define isnan(x) ((x) != (x))
 # include "libft.h"
 # include <stdarg.h>
 # include <inttypes.h>
