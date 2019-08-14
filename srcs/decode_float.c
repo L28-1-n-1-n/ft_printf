@@ -36,6 +36,7 @@ void   compose_float(t_float fnum, long double *fraction, unsigned int bit_value
   uint64_t remain;
   long double decimal;
   unsigned int i;
+  
   i = (bit_value == 64) ? 52 - fnum.exponent : 63 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
   //i = 52 - fnum.exponent;
   decimal = 0;

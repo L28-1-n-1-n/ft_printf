@@ -1,5 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
+#include <stdint.h>
 void    treat_char(char *final, va_list ap)
 {
   char str[2];
@@ -38,14 +39,25 @@ void    treat_float(char *final, va_list ap, t_block *blksk)
   double n;
   long double long_n;
   uint64_t word[2];
-
+  //uint128_t lord[4];
   n = 0;
   long_n = 0;
   if ((blksk->modifier == l) || (blksk->modifier == 0))
   {
     n = va_arg(ap, double);
+    //n = va_arg(ap, __uint128_t);
     ft_memcpy(&word, &n, sizeof(word));
-
+    if (n == 0x7F0000000000000)
+      printf("POS INF\n");
+      printf("word[0] is %llu\n", word[0]); // only consider word[0] for lf
+      printf("word[1] is %hu\n", (uint16_t)word[1]);
+      printf("word[1] is %llu\n", word[1]);
+    //printf("word[0] is %llu\n", word[0]); // only consider word[0] for lf
+    //printf("word[1] is %hu\n", (uint16_t)word[1]);
+  //  printf("word[1] is %llu\n", word[1]);
+  //  printf("word[2] is %llu\n", word[2]); // only consider word[0] for lf
+    //printf("word[1] is %hu\n", (uint16_t)word[1]);
+  //  printf("word[3] is %llu\n", word[3]);
     //if (!(float_special(n, long_n, 64, final)))
       decode_float(word, final, blksk);
     //must stop
@@ -55,6 +67,8 @@ else
   {
     long_n = va_arg(ap, long double);
     ft_memcpy(&word, &long_n, sizeof(word));
+    if (n == 0x7F0000000000000)
+      printf("POS INF\n");
 
     //if (!(float_special(n, long_n, 80, final)))
       decode_float(word, final, blksk);
