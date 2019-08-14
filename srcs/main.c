@@ -219,7 +219,8 @@ int		main()
 	*/
 	//ft_printf("we have %llo\n", -9223372036854775808);
 //	ft_printf("float=%Lf\n", 3.123456789012345678901234567890L);
-	ft_printf("float=%lf\n", 263.3L);
-	printf("float is %.100lf\n", 263.3);
+	ft_printf("float=%.60Lf\n", -263.3L);
+	printf("float=%.60Lf\n", -263.3L);
+//	printf("float is %.50lf\n", 2345.678901019394959697);
 	return (0);
 }

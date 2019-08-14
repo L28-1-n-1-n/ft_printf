@@ -54,6 +54,7 @@ else
   }
   printf("word[0] is %llu\n", word[0]); // only consider word[0] for lf
   printf("word[1] is %hu\n", (uint16_t)word[1]);
+  printf("word[1] is %llu\n", word[1]);
   // cast word[1] to 16 bit each time for Lf
   decode_float(word, final, blksk);
 }
