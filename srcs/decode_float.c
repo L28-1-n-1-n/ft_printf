@@ -3,9 +3,8 @@ void bit_power(long double *fraction)
 {
   unsigned int i;
   unsigned int previous;
-  long double test;
+  //long double test;
   int final;
-//  float wow;
 
   i = 1;
   previous = 1;
@@ -23,11 +22,11 @@ void bit_power(long double *fraction)
     printf("fraction[%d] is %Lf\n", i, fraction[i]);
     i++;
   }*/
-
+/* This is to print each decimal number by division
   test = (((long double) 1 )/ fraction[63]) + (((long double) 1 )/ fraction[1]) ;
   printf("test is %.100Lf\n", test);
   final = (int)(test * 10);
-  printf("final is %d\n", final);
+  printf("final is %d\n", final);*/
 }
 
 void   compose_float(t_float fnum, long double *fraction, unsigned int bit_value)
@@ -36,15 +35,25 @@ void   compose_float(t_float fnum, long double *fraction, unsigned int bit_value
   uint64_t remain;
   long double decimal;
   unsigned int i;
-  
+
   i = (bit_value == 64) ? 52 - fnum.exponent : 63 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
   //i = 52 - fnum.exponent;
   decimal = 0;
   if (bit_value == 64)
   {
-    integer = (0x10000000000000 + fnum.mantissa) >> (i); // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
-    remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
-  }
+    if (fnum.exponent > 0)
+    {
+      i = (bit_value == 64) ? 52 - fnum.exponent : 63 - fnum.exponent;
+      integer = (0x10000000000000 + fnum.mantissa) >> (i); // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
+      remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
+    }
+    if (fnum.exponent < 0)
+    {
+      integer = 0;
+      remain = (0x10000000000000 + fnum.mantissa); // this will only work when exponent is between -1 and -20
+      i = 52 + (-1 * fnum.exponent);
+    }
+  } // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
   else
   {
     integer = fnum.mantissa >> (i);
@@ -80,9 +89,9 @@ void   decode_float(uint64_t *word, char *final, t_block *blksk)
       else
         fnum.sign = '+';
       fnum.exponent = ((word[0] << 1) >> 53) - 1023;
-      printf("exponent is %hu\n", fnum.exponent);
+      printf("exponent is %i\n", fnum.exponent);
       fnum.mantissa = (word[0] << 12) >> 12;
-      printf("mantissa is %llu\n", fnum.mantissa); // first 12 digits don't count
+      printf("mantissa is %lli\n", fnum.mantissa); // first 12 digits don't count
       compose_float(fnum, fraction, 64);
     }
   else // case L, 80 bit

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 #define isnan(x) ((x) != (x))
 int main()
 {
@@ -17,6 +18,7 @@ int main()
 		printf("yes\n");
 	else
 		printf("no\n");
-	printf("0./0.=%+.500f\n", -11195354654646456545654654644645223372036854775808.02);
+//	printf("0./0.=%+.500f\n", -11195354654646456545654654644645223372036854775808.02);
+	printf("float=%f\n", -INFINITY);
 	return (0);
 }

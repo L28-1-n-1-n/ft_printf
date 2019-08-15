@@ -33,8 +33,8 @@ typedef struct	s_block
 typedef struct s_float
 {
   char sign;
-  uint16_t exponent;
-  uint64_t mantissa;
+  int16_t exponent;
+  int64_t mantissa;
 }              t_float;
 
 void		ft_printf(const char *fmt, ...);
