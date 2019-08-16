@@ -77,41 +77,8 @@ void   compose_float_80(t_float fnum, long double *fraction, unsigned int bit_va
   printf("decimal is finally %.100Lf\n", decimal);
 }
 */
-
-
-void   compose_float_64(t_float fnum, long double *fraction)
+void  print_small_range(unsigned int i, uint64_t integer, uint64_t remain, long double decimal, long double *fraction)
 {
-  uint64_t integer;
-  uint64_t remain;
-  long double decimal;
-  unsigned int i;
-
-  decimal = 0;
-  if ((fnum.exponent > 0) && (fnum.exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
-  { // tested the above correct
-    i = 52 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
-    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
-    integer = (0x10000000000000 + fnum.mantissa) >> i; // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
-    remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
-  }
-  if ((fnum.exponent >= 53) && (fnum.exponent <= 63)) // i.e.total bits is 64, including the 1 we forcefully add in front
-  { // tested the above correct
-    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
-    integer = (0x10000000000000 + fnum.mantissa) << (fnum.exponent - 52); // tested correct
-    remain = 0;
-  }
-  if (fnum.exponent < 0)
-  {
-    integer = 0;
-    remain = (0x10000000000000 + fnum.mantissa); // tested and only work when exponent is between -1 and -12
-    i = 52 + (-1 * fnum.exponent);
-  }
-  // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
-  /*else // case float_80
-  {
-    integer = fnum.mantissa >> i;
-    remain = (fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
-  }*/
   printf("integer is %llu\n", integer);
   //result : first 12 + exp bits of decimal = 12 + 8 = 20 bits must be = 0 and will not be considered
   printf("remain is %llu\n", remain);
@@ -128,6 +95,49 @@ void   compose_float_64(t_float fnum, long double *fraction)
     i--;
   }
   printf("decimal is finally %.100Lf\n", decimal);
+}
+
+void   compose_float_64(t_float fnum, long double *fraction)
+{
+  uint64_t integer;
+  uint64_t remain;
+  long double decimal;
+  unsigned int i;
+
+  decimal = 0;
+  if ((fnum.exponent > 0) && (fnum.exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
+  { // tested the above correct
+    i = 52 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
+    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
+    integer = (0x10000000000000 + fnum.mantissa) >> i; // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
+    remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
+    print_small_range(i, integer, remain, decimal, fraction);
+  }
+  if ((fnum.exponent >= 53) && (fnum.exponent <= 63)) // i.e.total bits is 64, including the 1 we forcefully add in front
+  { // tested the above correct
+    i = 0;
+    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
+    integer = (0x10000000000000 + fnum.mantissa) << (fnum.exponent - 52); // tested correct
+    remain = 0;
+    print_small_range(i, integer, remain, decimal, fraction);
+  }
+  if (fnum.exponent < 0)
+  {
+    integer = 0;
+    remain = (0x10000000000000 + fnum.mantissa); // tested and only work when exponent is between -1 and -12
+    i = 52 + (-1 * fnum.exponent);
+    print_small_range(i, integer, remain, decimal, fraction);
+  }
+  if (fnum.exponent > 63)
+    big_int(fnum);
+  // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
+  /*else // case float_80
+  {
+    integer = fnum.mantissa >> i;
+    remain = (fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
+  }*/
+
+  print_small_range(i, integer, remain, decimal, fraction);
 }
 
 void   decode_float(uint64_t *word, char *final, t_block *blksk)
