@@ -137,7 +137,7 @@ void   compose_float_64(t_float fnum, long double *fraction)
     remain = (fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
   }*/
 
-  print_small_range(i, integer, remain, decimal, fraction);
+//  print_small_range(i, integer, remain, decimal, fraction);
 }
 
 void   decode_float(uint64_t *word, char *final, t_block *blksk)
