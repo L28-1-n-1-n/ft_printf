@@ -216,13 +216,23 @@ int		main()
 
 	ft_printf("pointer=%020p\n", &num2);
 	printf("pointer=%p\n", &num2);
+
+	ft_printf("float=%.10lf\n", -0.00006866455078125);
+	printf("float=%.10lf\n", -0.00006866455078125); //this is exponent = -12, mantissa representing 2^-14 + 2^-17 +2^-64
 	*/
 //	ft_printf("we have %llo\n", -9223372036854775808L);
 //	printf("we have %llo\n", -9223372036854775808L);
 //	ft_printf("float=%.400f\n", -11195354654646456545654654644645223372036854775808);
 //	printf("float=%.40f\n", 4503599627370495);
 	//ft_printf("float=%.60Lf\n", 0xFFF0000000000000L);
-	ft_printf("float=%.10f\n", 0.375);
+//	ft_printf("float=%.10lf\n", 11817445422220183552.0);
+//	ft_printf("float=%f\n", 5770237022568449.0);
+//	printf("float=%f\n", 5770237022568449.0);
+	ft_printf("float=%f\n", 11817445422220199936.0);
+	// this is 0100 10000000 00000000 00000000 00000000 00000000 00001001, plus 1 in front, shifted till we fill up 64 bits
+	//i.e. 1010010000000000000000000000000000000000000000000100100000000000
+	printf("float=%f\n", 11817445422220199936.0);
+
 //	printf("float=%.60Lf\n", -263.3L);
 //	printf("float is %.50lf\n", 2345.678901019394959697);
 	return (0);

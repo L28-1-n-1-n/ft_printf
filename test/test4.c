@@ -19,6 +19,7 @@ int main()
 	else
 		printf("no\n");
 //	printf("0./0.=%+.500f\n", -11195354654646456545654654644645223372036854775808.02);
-	printf("float=%f\n", -INFINITY);
+//	printf("float=%f\n", -INFINITY);
+	printf("float=%.100f\n", 27262976);
 	return (0);
 }
