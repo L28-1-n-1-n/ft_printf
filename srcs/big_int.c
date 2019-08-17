@@ -21,7 +21,8 @@ void  print_bits(uint64_t data, char *message)
     mask = mask >> 1;
     bit_number--;
   }
-  mask = 0xF;
+  ft_strcat(str, " ");
+  mask = 0x80;
   while (bit_number)
   {
     if (data & mask)
@@ -34,46 +35,66 @@ void  print_bits(uint64_t data, char *message)
   printf("%s %s\n", str, message);
 }
 
-void  big_int(t_float fnum)
+void  within_row(uint64_t *raw)
 {
-  uint64_t raw[20]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
   unsigned int block;
+  unsigned int digit;
   unsigned int shift;
-  uint8_t digit;
   uint64_t mask;
-//  char message[10];
 
-//  ft_bzero(message, 10);
   block = 0;
-  digit = 0;
   mask = 0xF00; // start at 9th bit
-  ft_bzero(&raw[0], 20 * sizeof(uint64_t));
-  raw[19] |= (((fnum.mantissa & 0xFE00000000000) >> 45) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
   shift = 8;
-// fnum.mantissa = fnum.mantissa << 8; // will somehow need to find a way to count to 52
-  print_bits(raw[19], "(init)\n");
-
-
+  digit = 0;
   while (shift) // loop until copied number is shifted 8 times
   {
     raw[19] = raw[19] << 1;
     block = 0;
     print_bits(raw[19], "(shift)\n");
-    while (block < 15) // (64 - 8) / 4 = 14
+    while (block < 14) // (64 - 8) / 4 = 14, #0 - #13 = total 14 blocks
     {
-      digit = raw[19] & mask;
+  //    printf("mask is %llu at block %d\n", mask, block);
+      digit = (raw[19] & mask) >> (8 + block * 4);
+  //    printf("raw[19] has value %llu\n", raw[19]);
+  //    printf("mask is %llu\n", mask);
+  //    printf("digit is %d\n", digit);
       if (digit > 4)
       {
-        raw[19] |= (3 << (block * 4));
+        raw[19] += (3 << (8 + block * 4));
         print_bits(raw[19], "(add 3)\n");
+    //    printf("%d is added to the above value\n", (3 << (8 + block * 4)));
       }
-      mask = mask << 4;
+      mask = (block == 13) ? 0xF00 : mask << 4;
       block++;
     }
     shift--;
   }
-  print_bits(raw[19], "RESULT\n");
+  print_bits(raw[19], "RESULT\n\n");
+}
 
+void  big_int(t_float fnum)
+{
+  uint64_t raw[20]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
+  uint64_t man_mask;
+  int z;
+
+  z = 45;
+  man_mask = 0x1FE00000000000; // this value >> 8 gives the 8 bits right after the first 7 bits
+
+  ft_bzero(&raw[0], 20 * sizeof(uint64_t));
+  raw[19] |= (((fnum.mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+  while (z > 5)
+  {
+    print_bits(raw[19], "(init)\n");
+    within_row(raw);
+    man_mask >>= 8;
+    z -= 8;
+    raw[19] |= ((fnum.mantissa & man_mask) >> z);
+  }
+  printf("final value of z is %d\n", z);
+  // next step is to copy the last 5 bits from mantissa, then << 3, then copy that to raw[19] and shift one cycle
+  // then repeat cycle calling on raw[19] alone, until exponent - 52 nos. of zeroes has been shifted
+  // for that, we need to write method to shift and add least significant bit to one row above
   int i;
   i = 0;
   (void)fnum;
@@ -83,5 +104,4 @@ void  big_int(t_float fnum)
     i++;
   }
   //remain is essentially zeros
-  printf("size of uint64_t is %lu\n", sizeof(uint64_t));
 }
