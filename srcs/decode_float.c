@@ -129,7 +129,7 @@ void   compose_float_64(t_float fnum, long double *fraction)
     print_small_range(i, integer, remain, decimal, fraction);
   }
   if (fnum.exponent > 63)
-    big_int_recursive(fnum);
+    big_int(fnum);
   // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
   /*else // case float_80
   {
