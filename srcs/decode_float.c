@@ -1,9 +1,31 @@
 #include "printf.h"
+
+void underflow_exponent(t_float fnum)
+{
+  uint64_t remain;
+  unsigned int i;
+  remain = (0x10000000000000 + fnum.mantissa);
+  //the last bit of mantissa is 2^52, so it has index 52,  we need to add exponent (negative) + 52
+  // to each index, this will give you its neg exponet, i.e. 2^what
+  // ideas: 2^-127 = 2^-63 * 2 ^-63 *2 ^-1, using decimal += (((long double)1)/ fraction[i]);
+  // we can express everything in long double, then use method below to print it
+  while (i > 0)
+  {
+    if (remain & 1)
+    {
+      decimal += (((long double)1)/ fraction[i]);
+      printf("i is %d\n", i);
+      printf("i is %u, we added %.40Lf and decimal is  %.100Lf\n",i, (((long double)1)/ fraction[i]), decimal);
+    }
+    remain = remain >> 1;
+    i--;
+  }
+}
 void bit_power(long double *fraction)
 {
   unsigned int i;
   unsigned int previous;
-  //long double test;
+  long double test;
   int final;
 
   i = 1;
@@ -16,17 +38,17 @@ void bit_power(long double *fraction)
     i++;
   }
   i = 0;
-  /*print the whole array
+  /*print the whole array*/
   while (i < 64)
   {
     printf("fraction[%d] is %Lf\n", i, fraction[i]);
     i++;
-  }*/
-/* This is to print each decimal number by division
+  }
+/* This is to print each decimal number by division*/
   test = (((long double) 1 )/ fraction[63]) + (((long double) 1 )/ fraction[1]) ;
   printf("test is %.100Lf\n", test);
   final = (int)(test * 10);
-  printf("final is %d\n", final);*/
+  printf("final is %d\n", final);
 }
 /*
 void   compose_float_80(t_float fnum, long double *fraction, unsigned int bit_value)
@@ -82,6 +104,7 @@ void  print_small_range(unsigned int i, uint64_t integer, uint64_t remain, long 
   printf("integer is %llu\n", integer);
   //result : first 12 + exp bits of decimal = 12 + 8 = 20 bits must be = 0 and will not be considered
   printf("remain is %llu\n", remain);
+  printf("i is %d\n", i);
   // last bit is 2^-44, where 44 = 52 - 8, i.e. 52 - exponent
 
   while (i > 0)
@@ -89,12 +112,21 @@ void  print_small_range(unsigned int i, uint64_t integer, uint64_t remain, long 
     if (remain & 1)
     {
       decimal += (((long double)1)/ fraction[i]);
+      printf("i is %d\n", i);
       printf("i is %u, we added %.40Lf and decimal is  %.100Lf\n",i, (((long double)1)/ fraction[i]), decimal);
     }
     remain = remain >> 1;
     i--;
   }
   printf("decimal is finally %.100Lf\n", decimal);
+
+  i = 0;
+  while (i < 64)
+  {
+    printf("2^-%d is %.70Lf\n", i, (((long double)1)/ fraction[i]));
+    i++;
+  }
+  printf("2^-126is %.140Lf\n", (((long double)1)/ fraction[63]) * (((long double)1)/ fraction[63]));
 }
 
 void   compose_float_64(t_float fnum, long double *fraction)
@@ -121,7 +153,7 @@ void   compose_float_64(t_float fnum, long double *fraction)
     remain = 0;
     print_small_range(i, integer, remain, decimal, fraction);
   }
-  if (fnum.exponent < 0)
+  if ((fnum.exponent >= -12) && (fnum.exponent < 0))
   {
     integer = 0;
     remain = (0x10000000000000 + fnum.mantissa); // tested and only work when exponent is between -1 and -12
@@ -130,6 +162,8 @@ void   compose_float_64(t_float fnum, long double *fraction)
   }
   if (fnum.exponent > 63)
     big_int(fnum);
+  if (fnum.exponent < -12)
+    underflow_exponent(fnum);
   // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
   /*else // case float_80
   {
