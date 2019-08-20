@@ -1,26 +1,47 @@
 #include "printf.h"
 
-void underflow_exponent(t_float fnum)
+void underflow_exponent(t_float fnum, long double decimal, long double *fraction)
 {
   uint64_t remain;
-  unsigned int i;
+  int i;
+  unsigned int array[53]; // this will input the corresoinding ^ at each bit
+  unsigned int add_exp;
+  long double total;
+
+  total = 0;
   remain = (0x10000000000000 + fnum.mantissa);
-  //the last bit of mantissa is 2^52, so it has index 52,  we need to add exponent (negative) + 52
-  // to each index, this will give you its neg exponet, i.e. 2^what
-  // ideas: 2^-127 = 2^-63 * 2 ^-63 *2 ^-1, using decimal += (((long double)1)/ fraction[i]);
-  // we can express everything in long double, then use method below to print it
-  while (i > 0)
+  ft_bzero(array, 53 * sizeof(unsigned int));
+  add_exp = -1 * fnum.exponent;
+  decimal = 1;
+  i = 0;
+  while (i < 64)
+  {
+    printf("2^-%d is %.70Lf\n", i, (((long double)1)/ fraction[i]));
+    i++;
+  }
+  i = 52;
+  while (i >= 0)
   {
     if (remain & 1)
     {
-      decimal += (((long double)1)/ fraction[i]);
-      printf("i is %d\n", i);
-      printf("i is %u, we added %.40Lf and decimal is  %.100Lf\n",i, (((long double)1)/ fraction[i]), decimal);
+      array[i] = i + add_exp;
+      printf("array[%d] is %d\n",i, array[i]);
+      while (array[i] >= 63)
+      {
+          decimal *= (((long double)1)/ fraction[63]);
+          array[i] -=63;
+      }
+      if (array[i])
+        decimal *= (((long double)1)/ fraction[array[i]]);
+      total += decimal;
+      decimal = 1;
     }
     remain = remain >> 1;
     i--;
   }
+  printf("total is finally %.100Lf\n", total);
 }
+
 void bit_power(long double *fraction)
 {
   unsigned int i;
@@ -50,37 +71,49 @@ void bit_power(long double *fraction)
   final = (int)(test * 10);
   printf("final is %d\n", final);
 }
-/*
-void   compose_float_80(t_float fnum, long double *fraction, unsigned int bit_value)
+
+void   compose_float_80(t_float fnum, long double *fraction)
 {
   uint64_t integer;
   uint64_t remain;
   long double decimal;
   unsigned int i;
-
-  i = (bit_value == 64) ? 52 - fnum.exponent : 63 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
-  //i = 52 - fnum.exponent;
+/*
   decimal = 0;
-  if (bit_value == 64)
-  {
-    if (fnum.exponent > 0)
-    {
-      i = (bit_value == 64) ? 52 - fnum.exponent : 63 - fnum.exponent;
-      integer = (0x10000000000000 + fnum.mantissa) >> (i); // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
-      remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
-    }
-    if (fnum.exponent < 0)
-    {
-      integer = 0;
-      remain = (0x10000000000000 + fnum.mantissa); // this will only work when exponent is between -1 and -20
-      i = 52 + (-1 * fnum.exponent);
-    }
-  } // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
-  else // case float_80
-  {
-    integer = fnum.mantissa >> i;
-    remain = (fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
+  if ((fnum.exponent > 0) && (fnum.exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
+  { // tested the above correct
+    i = 52 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
+    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
+    integer = (0x10000000000000 + fnum.mantissa) >> i; // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
+    remain = (fnum.mantissa << (12 + fnum.exponent)) >> (12 + fnum.exponent);
+    print_small_range(i, integer, remain, decimal, fraction);
   }
+  if ((fnum.exponent >= 53) && (fnum.exponent <= 63)) // i.e.total bits is 64, including the 1 we forcefully add in front
+  { // tested the above correct
+    i = 0;
+    printf("we want integer to be (0x10000000000000 + fnum.mantissa) i.e.%llu\n", (0x10000000000000 + fnum.mantissa));
+    integer = (0x10000000000000 + fnum.mantissa) << (fnum.exponent - 52); // tested correct
+    remain = 0;
+    print_small_range(i, integer, remain, decimal, fraction);
+  }
+  if ((fnum.exponent >= -12) && (fnum.exponent < 0))
+  {
+    integer = 0;
+    remain = (0x10000000000000 + fnum.mantissa); // tested and only work when exponent is between -1 and -12
+    i = 52 + (-1 * fnum.exponent);
+    print_small_range(i, integer, remain, decimal, fraction);
+  }
+  if (fnum.exponent > 63)
+    big_int(fnum);
+  if (fnum.exponent < -12)
+    underflow_exponent(fnum, decimal, fraction);
+*/
+
+
+  i = 63 - fnum.exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
+  decimal = 0;
+  integer = (uint64_t)fnum.mantissa >> i;
+  remain = (uint64_t)(fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
   printf("integer is %llu\n", integer);
   //result : first 12 + exp bits of decimal = 12 + 8 = 20 bits must be = 0 and will not be considered
   printf("remain is %llu\n", remain);
@@ -98,7 +131,7 @@ void   compose_float_80(t_float fnum, long double *fraction, unsigned int bit_va
   }
   printf("decimal is finally %.100Lf\n", decimal);
 }
-*/
+
 void  print_small_range(unsigned int i, uint64_t integer, uint64_t remain, long double decimal, long double *fraction)
 {
   printf("integer is %llu\n", integer);
@@ -163,15 +196,13 @@ void   compose_float_64(t_float fnum, long double *fraction)
   if (fnum.exponent > 63)
     big_int(fnum);
   if (fnum.exponent < -12)
-    underflow_exponent(fnum);
+    underflow_exponent(fnum, decimal, fraction);
   // We now need major restructuring. One function for float 64, one for float 80, and one for use decimal array method, another for BCD method
   /*else // case float_80
   {
     integer = fnum.mantissa >> i;
     remain = (fnum.mantissa << (1 + fnum.exponent)) >> (1 + fnum.exponent);
   }*/
-
-//  print_small_range(i, integer, remain, decimal, fraction);
 }
 
 void   decode_float(uint64_t *word, char *final, t_block *blksk)
@@ -195,17 +226,18 @@ void   decode_float(uint64_t *word, char *final, t_block *blksk)
       printf("mantissa is %lli\n", fnum.mantissa); // first 12 digits don't count
       compose_float_64(fnum, fraction);
     }
-  else // case L, 80 bit
+  else // case L, 80 bit, 1, 15, 1 (integer part), 63
     {
-      fnum.exponent = (word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
+      fnum.exponent = ((uint16_t)word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
       fnum.sign = (word[1] & 0x8000) ? '-' : '+';
       fnum.mantissa = word[0]; // This should change
       // remove leading 16 bits, then the trailing zeros should become last 16 bits of word[1], or uint16_t of word 1
+      printf("at decode_float, word[0] is %llu\n", word[0]);
+      printf("((uint16_t)word[1] & 0x7FFF) is %d\n", ((uint16_t)word[1] & 0x7FFF));
       printf("L exponent is %hu\n", fnum.exponent);
       printf("mantissa is %llu\n", fnum.mantissa); // first 64 digits don't count
-    //  compose_float_80(fnum, fraction, 80);
+      compose_float_80(fnum, fraction);
     }
-  // the other option is 80 bits, 1, 15, 1 (integer part), 63
   printf("sign is %c\n", fnum.sign);
   (void)blksk;
   (void)final;
