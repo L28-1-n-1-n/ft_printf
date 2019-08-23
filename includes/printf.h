@@ -54,7 +54,7 @@ char    *ft_itoamax(intmax_t n, char *str);
 char  *group_digit(char *str, t_block *blksk);
 void   decode_float(uint64_t *word, char *final, t_block *blksk);
 void  big_int(t_float fnum);
-
+void  big_int_80(t_float fnum);
 #endif
 
 
