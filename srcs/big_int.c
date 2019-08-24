@@ -156,7 +156,7 @@ void  within_row(uint64_t *raw, unsigned int shift)
   printf("\n\nShift_count is %d\n", shift_count);
 }
 
-void  big_int(t_float fnum)
+void  big_int(t_float *fnum)
 {
   uint64_t raw[21]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
   uint64_t man_mask;
@@ -165,18 +165,18 @@ void  big_int(t_float fnum)
   z = 45;
   man_mask = 0x1FE00000000000; // this value >> 8 gives the 8 bits right after the first 7 bits
   ft_bzero(&raw[0], 21 * sizeof(uint64_t));
-  raw[19] |= (((fnum.mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+  raw[19] |= (((fnum->mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
   while (z >= 5)
   {
     print_bits(raw, "(init)", 19, 19);
     within_row(raw, 8);
     man_mask >>= 8;
     z -= 8;
-    raw[19] = (z > 0)? raw[19] | ((fnum.mantissa & man_mask) >> z) : raw[19] | ((fnum.mantissa & man_mask) << (-1 * z));
+    raw[19] = (z > 0)? raw[19] | ((fnum->mantissa & man_mask) >> z) : raw[19] | ((fnum->mantissa & man_mask) << (-1 * z));
   }
   print_bits(raw, "(hola)", 19, 19);
   within_row(raw, 8);
-  z = fnum.exponent - 52 + z;
+  z = fnum->exponent - 52 + z;
   printf("z is %d\n", z);
   print_bits(raw, "(HOLA)", 19, 19);
   while (z > 8)
@@ -191,8 +191,6 @@ void  big_int(t_float fnum)
   print_bits(raw, "RESULT", 17, 17);
   print_bits(raw, "RESULT", 18, 18);
   print_bits(raw, "RESULT", 19, 19);
-  printf("-------------------     When you read the result, make sure to ignore the last 00000000 of raw[19]   ---------------\n");
-  printf("--------------TO DO : write function to translate the result number into digits and then result string    ----------\n");
   print_result(raw);
   int i;
   i = 0;
@@ -202,5 +200,4 @@ void  big_int(t_float fnum)
     printf("raw[%d] has value %llu\n" , i, raw[i]);
     i++;
   }
-  //remain is essentially zeros
 }

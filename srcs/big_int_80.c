@@ -8,7 +8,6 @@ void  print_result_80(uint64_t *raw)
   uint64_t block;
   char str[5270]; // max digit = 1 + 4932 + 2 = 312 + 20 * \n, where 20 = 320 / 16
 
-
   ft_bzero(str, 5270);
   digit = 0;
   mask = 0xF000000000000000;
@@ -138,7 +137,7 @@ void  within_row_80(uint64_t *raw, unsigned int shift)
   printf("\n\nShift_count is %d\n", shift_count);
 }
 
-void  big_int_80(t_float fnum)
+void  big_int_80(t_float *fnum)
 {
   uint64_t raw[311]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
   uint64_t man_mask;
@@ -147,7 +146,7 @@ void  big_int_80(t_float fnum)
   z = 56;
   man_mask = 0xFF00000000000000; // this value >> 8 gives the 8 bits right after the first 7 bits
   ft_bzero(&raw[0], 311 * sizeof(uint64_t));
-  raw[309] |= ((fnum.mantissa & 0xFF00000000000000) >> z); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+  raw[309] |= ((fnum->mantissa & 0xFF00000000000000) >> z); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
   while (z > 0)
   {
     print_bits_80(raw, "(init)", 309, 309);
@@ -155,11 +154,11 @@ void  big_int_80(t_float fnum)
     man_mask >>= 8;
     z -= 8;
     printf("mask is %llu and z is %d\n", man_mask, z);
-    raw[309] |= ((fnum.mantissa & man_mask) >> z);
+    raw[309] |= ((fnum->mantissa & man_mask) >> z);
   }
   print_bits_80(raw, "(hola)", 309, 309);
   within_row_80(raw, 8);
-  z = fnum.exponent - 64;
+  z = fnum->exponent - 64;
   printf("z is %d\n", z);
   print_bits_80(raw, "(HOLA)", 309, 309);
   while (z > 8)
