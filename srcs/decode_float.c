@@ -1,21 +1,36 @@
 #include "printf.h"
 #include <stdlib.h>
 
+void round_float(char *final, int carry, size_t i)
+{
+  if (!carry)
+    return(0);
+  if (final[i] == '9') // i.e. carry is 1
+    if (final[i - 1] == '9')
+      round_float(final, 1, i - 1);
+    else
+    {
+      final[i - 1]++;
+      final[i] = '0';
+    }
+  else
+    final[i]++;
+  return (0);
+}
+
 void print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[8192];
+  int carry;
 
+  carry = 0;
   ft_bzero(str, 8192);
   if (fnum->sign == '-')
     str[0] = '-';
   if ((fnum->sign == '+') && (blksk->flag & 4))
     str[0] = '+';
   if (blksk->precision == 0)
-  {
     fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
-    printf("fnum->decimal is %Lf\n", fnum->decimal);
-    printf("integer is %d\n", (int)(fnum->decimal * 10));
-  }
   while (fnum->integer / 10)
     {
       ft_strcat_char(str, fnum->integer % 10 + '0');
@@ -26,22 +41,28 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strrev(&str[1]);
   else
     ft_strrev(str);
-
+  if ((blksk->flag & 16) || (blksk->precision)) // '#' is on
+    ft_strcat_char(str, '.');
     // PROBLEM: ROUNDING NEEDS TO BE RECURSIVE UNTIL YOU'VE ROUNDED ALL 9s !!!
     // the idea of multiplying the decimal by power is out of the question, imagine a precision of 100, then you will have 10^100
     // will just have to write function to retrospectively change the last digit of str, recursive function until you no longer hit a 9
-  while (blksk->precision > 1) // why isn't this carried out 20 times?
+  if (blksk->precision > 0)
   {
-    ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
-    fnum->decimal = fnum->decimal - (int)(fnum->decimal * 10);
-    printf("fnum->decimal is %Lf\n", fnum->decimal);
-    printf("precision is now %d\n", blksk->precision);
-    blksk->precision--;
+    while (blksk->precision > 0)
+    {
+      ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
+      fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
+      printf("fnum->decimal is %Lf\n", fnum->decimal);
+      printf("precision is now %d\n", blksk->precision);
+      blksk->precision--;
+    }
+    carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0);
+    round_float(final, carry, ft_strlen(final));
   }
-  if ((int)(fnum->decimal * 10) >= 5)
+/*  if ((int)(fnum->decimal * 10) >= 5)
     ft_strcat_char(str,(int)(fnum->decimal * 10) + 1 + '0');
   else
-    ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
+    ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');*/
   printf("str is %s\n", str);
   printf("final is %s\n", final);
   (void)blksk;
