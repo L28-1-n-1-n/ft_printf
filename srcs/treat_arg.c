@@ -52,6 +52,7 @@ else
   {
     long_n = va_arg(ap, long double);
     ft_memcpy(&word, &long_n, sizeof(word));
+  //  printf("sucessfully found L\n");
     //if (!(float_special(n, long_n, 80, final)))
     //  decode_float(word, final, blksk); // remember, if value  = 0 and '#' flag is on, then dot needs to be printed
   }

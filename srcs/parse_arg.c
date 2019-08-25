@@ -75,6 +75,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
   else
     str = (char *)(fmt + blks[k].pos + 1);
+  printf("str is %s\n", str);
   while (*str && !(ft_strchr("*.cdixXpeEfFgGous%hlLz123456789", *str)))
     {
       if (*str == '+')
@@ -94,6 +95,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
   // now we arrive at either * .  or letter or digit
   if ((*str > '0') && (*str <= '9'))
       blks[k].width = ft_atoi(str);
+
   if (*str == '*')
     blks[k].width = -1;
   if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
@@ -104,6 +106,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     else
       blks[k].precision = ft_atoi((char *)str);
   }
+
   return (str);
 }
 

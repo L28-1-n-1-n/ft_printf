@@ -1,21 +1,24 @@
 #include "printf.h"
 #include <stdlib.h>
 
-void round_float(char *final, int carry, size_t i)
+void round_float(char *str, int carry, size_t i)
 {
   if (!carry)
-    return(0);
-  if (final[i] == '9') // i.e. carry is 1
-    if (final[i - 1] == '9')
-      round_float(final, 1, i - 1);
+    return ;
+  if (str[i] == '9') // i.e. carry is 1
+    if (str[i - 1] == '9')
+    {
+      str[i] = '0';
+      round_float(str, 1, i - 1);
+    }
     else
     {
-      final[i - 1]++;
-      final[i] = '0';
+      str[i - 1]++;
+      str[i] = '0';
     }
   else
-    final[i]++;
-  return (0);
+    str[i]++;
+  return ;
 }
 
 void print_float_str(char *final, t_block *blksk, t_float *fnum)
@@ -52,18 +55,14 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     {
       ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
       fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
-      printf("fnum->decimal is %Lf\n", fnum->decimal);
+      printf("fnum->decimal is %.20Lf\n", fnum->decimal);
       printf("precision is now %d\n", blksk->precision);
       blksk->precision--;
     }
-    carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0);
-    round_float(final, carry, ft_strlen(final));
+    carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
+    round_float(str, carry, ft_strlen(str) - 1);
   }
-/*  if ((int)(fnum->decimal * 10) >= 5)
-    ft_strcat_char(str,(int)(fnum->decimal * 10) + 1 + '0');
-  else
-    ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');*/
-  printf("str is %s\n", str);
+  ft_strcat(final, str);
   printf("final is %s\n", final);
   (void)blksk;
 }

@@ -142,7 +142,6 @@ void  big_int_80(t_float *fnum)
   uint64_t raw[311]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
   uint64_t man_mask;
   int z;
-
   z = 56;
   man_mask = 0xFF00000000000000; // this value >> 8 gives the 8 bits right after the first 7 bits
   ft_bzero(&raw[0], 311 * sizeof(uint64_t));
