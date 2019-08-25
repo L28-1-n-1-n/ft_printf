@@ -38,7 +38,6 @@ void    treat_float(char *final, va_list ap, t_block *blksk)
   double n;
   long double long_n;
   uint64_t word[2];
-  //uint128_t lord[4];
   n = 0;
   long_n = 0;
   if ((blksk->modifier == l) || (blksk->modifier == 0))
@@ -54,13 +53,12 @@ else
     long_n = va_arg(ap, long double);
     ft_memcpy(&word, &long_n, sizeof(word));
     //if (!(float_special(n, long_n, 80, final)))
-    //  decode_float(word, final, blksk);
+    //  decode_float(word, final, blksk); // remember, if value  = 0 and '#' flag is on, then dot needs to be printed
   }
 
   printf("word[0] is %llu\n", word[0]);
   printf("word[1] is %hu\n", (uint16_t)word[1]);
   printf("word[1] is %llu\n", word[1]);
-
   decode_float(word, final, blksk);
 }
 void    treat_arg(char *final, va_list ap, t_block *blksk)

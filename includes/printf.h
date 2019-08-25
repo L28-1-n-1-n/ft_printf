@@ -35,6 +35,9 @@ typedef struct s_float
   char sign;
   int16_t exponent;
   int64_t mantissa;
+  uint64_t integer;
+  uint64_t remain;
+  long double decimal;
 }              t_float;
 
 void		ft_printf(const char *fmt, ...);
@@ -52,9 +55,9 @@ intmax_t  add_modifier(va_list ap, t_block *blksk);
 void      print_n(intmax_t n);
 char    *ft_itoamax(intmax_t n, char *str);
 char  *group_digit(char *str, t_block *blksk);
-void   decode_float(uint64_t *word, char *final, t_block *blksk);
-void  big_int(t_float fnum);
-
+int   decode_float(uint64_t *word, char *final, t_block *blksk);
+void  big_int(t_float *fnum);
+void  big_int_80(t_float *fnum);
 #endif
 
 

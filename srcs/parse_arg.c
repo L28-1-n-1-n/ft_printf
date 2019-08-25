@@ -96,7 +96,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
       blks[k].width = ft_atoi(str);
   if (*str == '*')
     blks[k].width = -1;
-  if (ft_strchr_arg(str, '.'))
+  if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
   {
     str += 1 + ft_strchr_arg(str, '.');
     if (*str == '*')
