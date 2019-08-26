@@ -13,6 +13,7 @@ char *group_digit(char *str, t_block *blksk)
   count = 2;
   end = 0; // case '+'
   if (str[0] == '-')
+  if ((str[0] == '-') || (str[0] == '+'))
     end = 1;
   i = ft_strlen(str) - 1;
   while (i > end)
@@ -71,8 +72,7 @@ printf("n is %jd\n", n);
       }
       if ((!(blksk->flag & 2)) && (!(blksk->flag & 8))) // no '0' flag, no '-' flag
       {
-          // first move content of str backwards, then pad with space
-        ft_memmove(&str[j], &str[0], i);
+        ft_memmove(&str[j], &str[0], i);// first move content of str backwards, then pad with space
         j -= 1;
         while (j >= 0)
           str[j--] = ' ';
@@ -91,7 +91,6 @@ printf("n is %jd\n", n);
           ft_memmove(&str[1], &str[0], ft_strlen(str));
           str[0] = ' ';
           str[ft_strlen(str) - 1] = '\0';
-
         }
         else
           if ((!(blksk->flag & 4)) && (blksk->width == 0) && (n > 0))//just ' 'flag and no '+' flag, and n is positive, and width = 0

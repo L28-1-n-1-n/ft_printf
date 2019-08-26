@@ -28,9 +28,9 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
 
   carry = 0;
   ft_bzero(str, 8192);
-  if (fnum->sign == '-')
+  if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
-  if ((fnum->sign == '+') && (blksk->flag & 4))
+  if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
     str[0] = '+';
   if (blksk->precision == 0)
     fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
@@ -44,23 +44,48 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strrev(&str[1]);
   else
     ft_strrev(str);
-  if ((blksk->flag & 16) || (blksk->precision)) // '#' is on
-    ft_strcat_char(str, '.');
-    // PROBLEM: ROUNDING NEEDS TO BE RECURSIVE UNTIL YOU'VE ROUNDED ALL 9s !!!
-    // the idea of multiplying the decimal by power is out of the question, imagine a precision of 100, then you will have 10^100
-    // will just have to write function to retrospectively change the last digit of str, recursive function until you no longer hit a 9
+  if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
+    ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
   {
     while (blksk->precision > 0)
     {
       ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
       fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
-      printf("fnum->decimal is %.20Lf\n", fnum->decimal);
-      printf("precision is now %d\n", blksk->precision);
       blksk->precision--;
     }
     carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
+  }
+  carry = blksk->width - ft_strlen(str);
+  if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8))) // space flag
+    ft_strcat_char(final, ' ');
+  if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
+    ft_strcat_char(final, ' ');
+  if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
+      ft_strcat_char(final, '-');
+  if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
+      ft_strcat_char(final, '+');
+  if (blksk->width > ft_strlen(str))
+  {
+      if (blksk->flag & 8)// '-' flag , 0 ignored
+      {
+      carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
+        while (carry--)
+          ft_strcat_char(str, ' ');
+      }
+      if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
+      {
+        carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
+        while (carry--)
+          ft_strcat_char(final, '0');
+      }
+      if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
+      {
+        carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
+        while (carry--)
+          ft_strcat_char(final, ' ');
+      }
   }
   ft_strcat(final, str);
   printf("final is %s\n", final);
