@@ -41,8 +41,10 @@ void check_type(char *str, unsigned int k, t_block *blks)
 
 char *check_length(char *str, unsigned int k, t_block *blks)
 {
+  printf("to check modifier, str is %s\n", str);
   while (*str && !(ft_strchr("hlLzcdixXpeEfFgGous%", *str)))
     str++;
+  printf("to check modifier, str is %s\n", str);
   if (*str == 'L')
     blks[k].modifier = L; //5
   if (*str == 'z')
@@ -63,6 +65,7 @@ char *check_length(char *str, unsigned int k, t_block *blks)
     else
       blks[k].modifier = l; //4
   }
+  printf("modifier is %d\n", blks[k].modifier);
   return(str);
 }
 
@@ -106,7 +109,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     else
       blks[k].precision = ft_atoi((char *)str);
   }
-
+  str++;
   return (str);
 }
 

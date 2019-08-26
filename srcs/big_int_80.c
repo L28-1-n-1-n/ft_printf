@@ -1,6 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
-void  print_result_80(uint64_t *raw)
+void  print_result_80(uint64_t *raw, t_float *fnum)
 {
   unsigned int i;
   uint64_t mask;
@@ -23,11 +23,17 @@ void  print_result_80(uint64_t *raw)
       mask = (block == 16) ? 0xF000000000000000 : mask >> 4; //reset mask to block 1 before exit loop at block == 14
     }
     i++;
-    ft_strcat_char(str, '\n');
-    printf("last i is %d\n",i);
+    //ft_strcat_char(str, '\n');
   }
 
-  printf("RESULTING NUMBER IS %s\n", str);
+  i = 0;
+  while (str[i] == '0')
+    i++;
+  digit = ft_strlen(&str[i]) - 2;
+  ft_memmove(&str[0], &str[i], digit);
+  ft_memset(&str[digit], '\0', 5270 - digit);
+  ft_strcpy(fnum->big_str, str);
+  printf("THE RESULTING STRING IS =%s\n", str);
 }
 
 void  print_bits_80(uint64_t *data, char *message, unsigned int number, unsigned int row_no)
@@ -173,5 +179,5 @@ void  big_int_80(t_float *fnum)
   print_bits_80(raw, "RESULT", 310, 310);
   printf("-------------------     When you read the result, make sure to ignore the last 00000000 of raw[19]   ---------------\n");
   printf("--------------TO DO : write function to translate the result number into digits and then result string    ----------\n");
-  print_result_80(raw);
+  print_result_80(raw, fnum);
 }

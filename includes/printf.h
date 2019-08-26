@@ -38,6 +38,7 @@ typedef struct s_float
   uint64_t integer;
   uint64_t remain;
   long double decimal;
+  char big_str[5270];
 }              t_float;
 
 void		ft_printf(const char *fmt, ...);
@@ -59,6 +60,7 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk);
 void  big_int(t_float *fnum);
 void  big_int_80(t_float *fnum);
 char *group_digit(char *str, t_block *blksk);
+void print_float_str(char *final, t_block *blksk, t_float *fnum);
 #endif
 
 
