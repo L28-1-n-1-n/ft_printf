@@ -67,16 +67,11 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
 {
   printf("integer is %llu\n", fnum->integer);
   printf("remain is %llu\n", fnum->remain);
-  printf("YOLO\n");
   while (i > 0)
   {
     if (fnum->remain & 1)
-    {
       fnum->decimal += (((long double)1)/ fraction[i]);
-      printf("i is %d\n", i);
-      printf("i is %u, we added %.40Lf and decimal is  %.100Lf\n",i, (((long double)1)/ fraction[i]), fnum->decimal);
-    }
-    fnum->remain = fnum->remain >> 1;
+    fnum->remain >>= 1;
     i--;
   }
   printf("decimal is finally %.100Lf\n", fnum->decimal);

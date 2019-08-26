@@ -44,7 +44,6 @@ char *check_length(char *str, unsigned int k, t_block *blks)
   printf("to check modifier, str is %s\n", str);
   while (*str && !(ft_strchr("hlLzcdixXpeEfFgGous%", *str)))
     str++;
-  printf("to check modifier, str is %s\n", str);
   if (*str == 'L')
     blks[k].modifier = L; //5
   if (*str == 'z')
@@ -65,7 +64,6 @@ char *check_length(char *str, unsigned int k, t_block *blks)
     else
       blks[k].modifier = l; //4
   }
-  printf("modifier is %d\n", blks[k].modifier);
   return(str);
 }
 
@@ -78,7 +76,6 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
   else
     str = (char *)(fmt + blks[k].pos + 1);
-  printf("str is %s\n", str);
   while (*str && !(ft_strchr("*.cdixXpeEfFgGous%hlLz123456789", *str)))
     {
       if (*str == '+')
@@ -123,5 +120,4 @@ void    parse_arg(const char *fmt, unsigned int k, t_block *blks)
 {
   check_order(fmt, k, blks);
   check_type(check_length(check_flags_width_pres(fmt, k, blks), k , blks), k, blks);
-
 }

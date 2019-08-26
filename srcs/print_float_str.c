@@ -21,12 +21,10 @@ void round_float(char *str, int carry, size_t i)
   return ;
 }
 
-
 void print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[8192];
   int carry;
-
   carry = 0;
   ft_bzero(str, 8192);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
@@ -42,14 +40,17 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
         ft_strcat_char(str, fnum->integer % 10 + '0');
         fnum->integer = fnum->integer / 10;
       }
-      ft_strcat_char(str, fnum->integer ='0'); // this is the case where rounding to precision 0 is dealt with
+      ft_strcat_char(str, fnum->integer + '0'); // this is the case where rounding to precision 0 is dealt with
   }
   else
-    ft_strcat(ft_strrev(str), fnum->big_str);
-  if (( dstr[0] == '-') || (str[0] == '+')) && fnum.big_str = '\0')
-    ft_strrev(&str[1]);
-  else
-    ft_strrev(str);
+    ft_strcat(str, fnum->big_str);
+  if (!(*(fnum->big_str)))
+  {
+    if (( str[0] == '-') || (str[0] == '+'))
+      ft_strrev(&str[1]);
+      else
+      ft_strrev(str);
+  }
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
@@ -64,7 +65,8 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     round_float(str, carry, ft_strlen(str) - 1);
   }
   carry = blksk->width - ft_strlen(str);
-  if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8))) // space flag
+  if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
+      (!((fnum->sign == '-') && (blksk->flag & 2)))) // space flag
     ft_strcat_char(final, ' ');
   if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
     ft_strcat_char(final, ' ');
