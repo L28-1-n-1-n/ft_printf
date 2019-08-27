@@ -6,13 +6,13 @@
 #    By: hlo <marvin@42.fr>                         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/19 18:11:40 by hlo               #+#    #+#              #
-#    Updated: 2019/05/08 19:51:47 by hlo              ###   ########.fr        #
+#    Updated: 2019/08/27 04:40:48 by hlo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_printf
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Wextra #-Werror
 
 CC = gcc
 
@@ -23,7 +23,7 @@ INCDIR = includes
 SRCS = main.c ft_printf.c count_arg.c parse.c parse_arg.c big_int.c\
 			compose_str.c treat_arg.c string_hex.c string_digit.c decode_float.c \
 			add_modifier.c add_unsigned_modifier.c print_n.c ft_itoamax.c \
-			big_int_80.c print_float_str.c
+			big_int_80.c print_float_str.c float_special.c
 
 
 HEAD = printf.h

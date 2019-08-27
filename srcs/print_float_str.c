@@ -25,7 +25,13 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[8192];
   int carry;
+  long double tens;
+  unsigned int index;
+  unsigned int second_count;
+  second_count = 56;
   carry = 0;
+  tens = 1;
+  index = 18;
   ft_bzero(str, 8192);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
@@ -55,12 +61,29 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
   {
+    while (second_count)
+    {
+      while (index)
+      {
+        tens = tens * ((long double)10);
+        index--;
+      }
+      printf("tens is %Lf\n",tens);
+      fnum->decimal *= tens;
+      printf("fnum->decimal is %.400Lf\n", fnum->decimal);
+      tens = 1;
+      index = 18;
+      second_count--;
+    }
+
     while (blksk->precision > 0)
     {
       ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
       fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
+    //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
       blksk->precision--;
     }
+
     carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
   }

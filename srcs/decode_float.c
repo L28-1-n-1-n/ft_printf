@@ -7,7 +7,14 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
   long double tmp_decimal;
   unsigned int array[64];
 
-  fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
+  // if not subnormal:
+//  fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
+  // if subnormal  :
+//  if (subnormal)
+//  {
+    fnum->remain = fnum->mantissa;
+    fnum->exponent += 1;
+//  }
   ft_bzero(array, 64 * sizeof(unsigned int));
   tmp_decimal = 1;
   i = (bit_value == 64) ? 52 : 63;
@@ -16,6 +23,7 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
     if (fnum->remain & 1)
     {
       array[i] = i + (-1 * fnum->exponent);
+      printf("value of array[i] is %u\n", array[i]);
       while (array[i] >= 63)
       {
           tmp_decimal *= (((long double)1)/ fraction[63]);
@@ -29,14 +37,14 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
     fnum->remain = fnum->remain >> 1;
     i--;
   }
-  printf("total is finally %.100Lf\n", fnum->decimal);
+  printf("total is finally %.400Lf\n", fnum->decimal);
 }
 
 void bit_power(long double *fraction)
 {
   unsigned int i;
   unsigned int previous;
-  //long double test;
+//  long double test;
   int final;
 
   i = 1;
@@ -48,15 +56,15 @@ void bit_power(long double *fraction)
     fraction[i] = (unsigned long long)1 << i;
     i++;
   }
-  /*print the whole array
+  //print the whole array
   i = 0;
   while (i < 64)
   {
-    printf("fraction[%d] is %Lf\n", i, fraction[i]);
+    printf("fraction[%d] is %.70Lf\n", i, ((long double)1)/ fraction[i]);
     i++;
   }
 //This is to print each decimal number by division
-  test = (((long double) 1 )/ fraction[63]) + (((long double) 1 )/ fraction[1]) ;
+/*  test = (((long double) 1 )/ fraction[63]) + (((long double) 1 )/ fraction[1]) ;
   printf("test is %.100Lf\n", test);
   final = (int)(test * 10);
   printf("final is %d\n", final);*/
@@ -153,22 +161,24 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
   if (!(fnum = (t_float *)malloc(sizeof(t_float))))
     return (0);
   init_float(fnum);
+  bit_power(fraction);
   if ((blksk->modifier == 0) || (blksk->modifier == l)) // 1, 11, 52
     {
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
-      bit_power(fraction);
-      compose_float_64(fnum, fraction);
+      if (!(float_special(fnum, 64)))
+        compose_float_64(fnum, fraction);
     }
   else // case L, 80 bit, 1, 15, 1 (integer part), 63
     {
       fnum->exponent = ((uint16_t)word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
       fnum->sign = (word[1] & 0x8000) ? '-' : '+';
       fnum->mantissa = word[0];
-      bit_power(fraction);
-      compose_float_80(fnum, fraction);
+    //  if (!(float_special(fnum, 80)))
+        compose_float_80(fnum, fraction);
     }
+  printf("we got hereeeee\n");
   print_float_str(final, blksk, fnum);
   free(fnum);
   return (1);

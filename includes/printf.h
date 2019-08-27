@@ -39,7 +39,7 @@ typedef struct s_float
   uint64_t remain;
   long double decimal;
   char big_str[5270];
-}              t_float;
+}              t_float; 
 
 void		ft_printf(const char *fmt, ...);
 int			count_arg(const char *str);
@@ -61,6 +61,7 @@ void  big_int(t_float *fnum);
 void  big_int_80(t_float *fnum);
 char *group_digit(char *str, t_block *blksk);
 void print_float_str(char *final, t_block *blksk, t_float *fnum);
+int  float_special(t_float *fnum, unsigned int bit_value);
 #endif
 
 

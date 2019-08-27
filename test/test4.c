@@ -14,13 +14,17 @@ int main()
 	printf("0 is %Lf\n", 0.0L);
 	printf("0 is %.20Lf\n", 0.0L);
 //	printf("%.100Lf\n",45035996273);
-	if (isnan(0x7FF0000000000001))
+	if (isnan(-INFINITY))
 		printf("yes\n");
 	else
 		printf("no\n");
 //	printf("0./0.=%+.500f\n", -11195354654646456545654654644645223372036854775808.02);
-//	printf("float=%f\n", -INFINITY);
+	printf("float=%-+020.30f\n", +INFINITY);
+	printf("float=%+-020.30f\n", -(double)0);
 //	printf("float=%.100f\n", 27262976);
-	printf("flaot=%.100f\n", 1/32);
+//	printf("flaot=%.100f\n", 1/32);
+	printf("nan is=%+-020.30f\n", 0./0.);
+	printf("nan is=%+-020.30f\n", NAN);
+//	printf("macro returns %d\n", FP_NAN(0./0.));
 	return (0);
 }

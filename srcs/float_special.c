@@ -1,8 +1,28 @@
 #include "printf.h"
 
-int  float_special(double n, long double long_n, unsigend int bit_value, char *final)
+int  float_special(t_float *fnum, unsigned int bit_value)
 {
-  unsigned int flag;
+  printf("exponent is %d\n", fnum->exponent);
+  if (fnum->exponent == 1024) // full 1 for 11 digits = 2047, 2047 - bias of 1023 = 1024
+  {
+    if (fnum->mantissa == 0)
+      ft_strcpy(fnum->big_str, "inf");
+    else
+      ft_strcpy(fnum->big_str, "nan");
+    return (1);
+  }
+/*  if (fnum->exponent == -1023)
+  {
+    printf("subnormal detected\n");
+    //compose_subnormal_64(fnum);
+    return (1);
+  }*/
+
+
+
+
+
+/*  unsigned int flag;
 
   flag = 0;
   if (bit_value = 64)
@@ -23,8 +43,9 @@ int  float_special(double n, long double long_n, unsigend int bit_value, char *f
   {
     if(isnan(long_n))
       ft_strcat(final, "nan");
-  }
-
+  }*/
+  (void)fnum;
+  (void)bit_value;
   return (0);
 }
 
