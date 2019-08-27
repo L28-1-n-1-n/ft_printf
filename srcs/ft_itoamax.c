@@ -47,6 +47,5 @@ char		*ft_itoamax(intmax_t n, char *str)
 	}
 	if (orig_num < 0)
 		str[0] = '-';
-	printf("str in itoa is %s\n", str);
 	return (str);
 }

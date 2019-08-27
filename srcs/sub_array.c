@@ -11,7 +11,6 @@ void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power)
     while (offset)
     {
       ft_strcat_char(fnum->big_str, '0');
-      printf("offset in loop is %d\n", offset);
       offset--;
     }
   ft_strcat(fnum->big_str, product[power + 1022]);
@@ -22,13 +21,13 @@ void    sum_power(char product[1080][1000], t_float *fnum)
 {
   unsigned int power;
   unsigned int offset;
-  unsigned int n;
-  unsigned int i;
+  unsigned int carry;
+  int i;
 
   power = 52;
   offset = 0;
-  n = 0;
-
+  i = 0;
+  carry = 0;
   while (!(fnum->remain & 1))
   {
     fnum->remain >>= 1;
@@ -43,24 +42,24 @@ void    sum_power(char product[1080][1000], t_float *fnum)
     if (fnum->remain & 1)
     {
       offset = power + 1022 - ft_strlen(product[power + 1022]);
-      n = offset;
-      while (n)
-      {
-        ft_strcat_char(fnum->big_str, '0');
-        printf("offset in loop is %d\n", offset);
-        n--;
-      }
-      i = 0;
+      i = ft_strlen(product[power + 1022]) - 1;
+      carry = 0;
       while (product[power + 1022][i])
       {
-        fnum->big_str[offset + i] = product[power + 1022][i];
-        i++;
+        fnum->big_str[offset + i] += product[power + 1022][i] + carry - '0';
+        carry = 0;
+        if (fnum->big_str[offset + i] > '9')
+        {
+          carry = 1;
+          fnum->big_str[offset + i] -= 10;
+        }
+        i--;
       }
-  //  ft_strcat(fnum->big_str, product[power + 1022]);
+      if (carry)
+        fnum->big_str[offset - 1] += carry;
     }
     fnum->remain >>= 1;
     power--;
-    printf("offset is %d\n", offset);
   }
   printf("printing subnorminal number=%s\n",fnum->big_str);
 
@@ -143,7 +142,7 @@ void    sub_array(t_float *fnum)
   {
     printf("product[%d] is %s\n", i, product[i]);
     i++;
-  }*/
-
+  }
+*/
   sum_power(product, fnum);
 }
