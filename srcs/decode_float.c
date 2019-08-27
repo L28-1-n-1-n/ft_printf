@@ -6,15 +6,21 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
   int i;
   long double tmp_decimal;
   unsigned int array[64];
-
+    if (fnum->exponent == -1023)
+    {
+      fnum->remain = fnum->mantissa;
+      fnum->exponent += 1;
+      sub_array(fnum);
+      return ;
+    }
   // if not subnormal:
-//  fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
+ fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
   // if subnormal  :
-//  if (subnormal)
-//  {
+/*  if (subnormal)
+  {
     fnum->remain = fnum->mantissa;
     fnum->exponent += 1;
-//  }
+  }*/
   ft_bzero(array, 64 * sizeof(unsigned int));
   tmp_decimal = 1;
   i = (bit_value == 64) ? 52 : 63;
@@ -92,7 +98,7 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
   }
   printf("decimal is finally %.100Lf\n", fnum->decimal);
 
-  sub_array();
+  sub_array(fnum);
 
 }
 
@@ -188,7 +194,6 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
     //  if (!(float_special(fnum, 80)))
         compose_float_80(fnum, fraction);
     }
-  printf("we got hereeeee\n");
   print_float_str(final, blksk, fnum);
   free(fnum);
   return (1);
