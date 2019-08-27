@@ -25,13 +25,13 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[8192];
   int carry;
-  long double tens;
-  unsigned int index;
-  unsigned int second_count;
-  second_count = 56;
+//  long double tens;
+//  unsigned int index;
+  //unsigned int second_count;
+  //second_count = 56;
+//  tens = 1;
+//  index = 18;
   carry = 0;
-  tens = 1;
-  index = 18;
   ft_bzero(str, 8192);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
@@ -61,6 +61,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
   {
+    /*
     while (second_count)
     {
       while (index)
@@ -74,7 +75,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       tens = 1;
       index = 18;
       second_count--;
-    }
+    }*/
 
     while (blksk->precision > 0)
     {

@@ -44,7 +44,7 @@ void bit_power(long double *fraction)
 {
   unsigned int i;
   unsigned int previous;
-//  long double test;
+  long double test;
   int final;
 
   i = 1;
@@ -61,6 +61,14 @@ void bit_power(long double *fraction)
   while (i < 64)
   {
     printf("fraction[%d] is %.70Lf\n", i, ((long double)1)/ fraction[i]);
+    i++;
+  }
+  i = 1;
+  test = 1;
+  while (i < 65)
+  {
+    test = test * ((long double)5);
+    printf("test ^ %d is %Lf\n", i, test);
     i++;
   }
 //This is to print each decimal number by division
@@ -83,6 +91,8 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
     i--;
   }
   printf("decimal is finally %.100Lf\n", fnum->decimal);
+
+  sub_array();
 
 }
 
