@@ -13,6 +13,13 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
       sub_array(fnum);
       return ;
     }
+    if (fnum->exponent == -16383)
+    {
+      fnum->remain = ((uint64_t)(fnum->mantissa << 1) >> 1;
+      fnum->exponent += 1;
+      sub_array_80(fnum);
+      return ;
+    }
   // if not subnormal:
  fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
   // if subnormal  :
@@ -97,9 +104,6 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
     i--;
   }
   printf("decimal is finally %.100Lf\n", fnum->decimal);
-
-  sub_array(fnum);
-
 }
 
 void   compose_float_80(t_float *fnum, long double *fraction)
@@ -183,6 +187,10 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
+      printf("we got here\n");
+      printf("fnum->sign is %c\n", fnum->sign);
+      printf("fnum->exponent is %hd\n", fnum->exponent);
+      printf("fnum->mantissa is %llu\n", fnum->mantissa);
       if (!(float_special(fnum, 64)))
         compose_float_64(fnum, fraction);
     }
@@ -191,7 +199,7 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       fnum->exponent = ((uint16_t)word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
       fnum->sign = (word[1] & 0x8000) ? '-' : '+';
       fnum->mantissa = word[0];
-    //  if (!(float_special(fnum, 80)))
+      if (!(float_special(fnum, 80)))
         compose_float_80(fnum, fraction);
     }
   print_float_str(final, blksk, fnum);
