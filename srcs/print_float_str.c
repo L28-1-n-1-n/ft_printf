@@ -34,6 +34,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
 
 
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
+// algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
   ft_bzero(str, 8192);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged

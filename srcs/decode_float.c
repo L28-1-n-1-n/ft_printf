@@ -23,12 +23,7 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
     }
   // if not subnormal:
  fnum->remain = (bit_value == 64) ? (0x10000000000000 + fnum->mantissa) : fnum->mantissa;
-  // if subnormal  :
-/*  if (subnormal)
-  {
-    fnum->remain = fnum->mantissa;
-    fnum->exponent += 1;
-  }*/
+
   ft_bzero(array, 64 * sizeof(unsigned int));
   tmp_decimal = 1;
   i = (bit_value == 64) ? 52 : 63;
