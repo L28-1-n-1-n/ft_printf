@@ -23,25 +23,21 @@ void round_float(char *str, int carry, size_t i)
 
 void print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
-  char str[8192];
+  char str[20000];
   int carry;
-//  long double tens;
-//  unsigned int index;
-  //unsigned int second_count;
-  //second_count = 56;
-//  tens = 1;
-//  index = 18;
+  int i;
 
+  i = 0;
 
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
-  ft_bzero(str, 8192);
+  ft_bzero(str, 20000);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
     str[0] = '+';
-  if (blksk->precision == 0)
+  if (blksk->precision == 0) // Absolutely no need to worry about big_int or sub_array in this one, since in both cases first digit of decimal must always be zero
     fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
   if (!(*(fnum->big_str)))
   {
@@ -50,10 +46,11 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
         ft_strcat_char(str, fnum->integer % 10 + '0');
         fnum->integer = fnum->integer / 10;
       }
-      ft_strcat_char(str, fnum->integer + '0'); // this is the case where rounding to precision 0 is dealt with
+      ft_strcat_char(str, fnum->integer + '0'); // this is the case where rounding to precision 0 is dealt with, or if integer is less than 10 to begin with
   }
   else
-    ft_strcat(str, fnum->big_str);
+    if (fnum->exponent > 0) // case big_int and big_int only
+      ft_strcat(str, fnum->big_str);
   if (!(*(fnum->big_str)))
   {
     if (( str[0] == '-') || (str[0] == '+'))
@@ -65,29 +62,37 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
   {
-    /*
-    while (second_count)
-    {
-      while (index)
+    if ((fnum->big_str) && (fnum->exponen < 0)) // sub_array
       {
-        tens = tens * ((long double)10);
-        index--;
-      }
-      printf("tens is %Lf\n",tens);
-      fnum->decimal *= tens;
-      printf("fnum->decimal is %.400Lf\n", fnum->decimal);
-      tens = 1;
-      index = 18;
-      second_count--;
-    }*/
+        if ((blksk->modifier == L) && (blksk->precision < 4931))
+          while (blksk->precision--)
+            ft_strcat_char(str,'0');
+        else // include L and precision >= 4931, or ANY precision for non-L, i.e. sub_array
+        {
+          i = 4931;
+          while (i--)
+            ft_strcat_char(str,'0');
+          blksk->precision -= 4931;
 
-    while (blksk->precision > 0)
-    {
-      ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
-      fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
-    //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
-      blksk->precision--;
-    }
+          // NEED TO CHANGE BELOW: if flag == f only, precision is same as current method, if not, precision wiil make probram look for
+          corresponding index in sub_array, and (what?) of sub_array and sub_array_80 respectively?
+          while (blksk->precision > 0)
+          {
+            ft_strcat_char(str,fnum->big_str[i + 4931] + '0');
+            fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
+            //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
+            blksk->precision--;
+          }
+        }
+      }
+    else
+      while (blksk->precision > 0) // case normal decimals
+      {
+        ft_strcat_char(str,(int)(fnum->decimal * 10) + '0');
+        fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
+        //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
+        blksk->precision--;
+      }
 
     carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
