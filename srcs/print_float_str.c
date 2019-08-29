@@ -31,6 +31,9 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   //second_count = 56;
 //  tens = 1;
 //  index = 18;
+
+
+// SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
   carry = 0;
   ft_bzero(str, 8192);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged

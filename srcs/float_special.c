@@ -22,7 +22,7 @@ int  float_special(t_float *fnum, unsigned int bit_value)
 }
 /*  if ((fnum->exponent == 0) && (fnum->mantissa == 0))
     return (1);*/
-if (bit_value = 80)
+if (bit_value == 80)
 {
   if (fnum->exponent == -16383) // all zero exponent
   {
@@ -32,12 +32,8 @@ if (bit_value = 80)
       fnum->decimal = 0;
       return (1);
     }
-    else
-      denormalized;
-    return (1);
   }
 }
-
   return (0);
 }
 

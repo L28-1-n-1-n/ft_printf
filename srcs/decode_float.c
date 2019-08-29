@@ -15,8 +15,9 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
     }
     if (fnum->exponent == -16383)
     {
-      fnum->remain = ((uint64_t)(fnum->mantissa << 1) >> 1;
+      fnum->remain = ((uint64_t)(fnum->mantissa << 1)) >> 1;
       fnum->exponent += 1;
+      printf("fnum->remain is %llu\n", fnum->remain);
       sub_array_80(fnum);
       return ;
     }
@@ -70,18 +71,18 @@ void bit_power(long double *fraction)
     i++;
   }
   //print the whole array
+  /*
   i = 0;
   while (i < 64)
   {
     printf("fraction[%d] is %.70Lf\n", i, ((long double)1)/ fraction[i]);
     i++;
-  }
+  }*/
   i = 1;
   test = 1;
   while (i < 65)
   {
     test = test * ((long double)5);
-    printf("test ^ %d is %Lf\n", i, test);
     i++;
   }
 //This is to print each decimal number by division

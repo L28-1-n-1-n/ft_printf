@@ -63,6 +63,7 @@ char *group_digit(char *str, t_block *blksk);
 void print_float_str(char *final, t_block *blksk, t_float *fnum);
 int  float_special(t_float *fnum, unsigned int bit_value);
 void sub_array(t_float *fnum);
+void sub_array_80(t_float *fnum);
 #endif
 
 

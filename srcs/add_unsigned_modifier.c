@@ -26,8 +26,5 @@ uintmax_t add_unsigned_modifier(va_list ap, t_block *blksk)
       n = (unsigned char)n;
     if (blksk->modifier == h)
       n = (unsigned short)n;
-//  print_n(n);
-  if (n >> 63)
-    printf("it is 64 bits\n");
   return (n);
 }
