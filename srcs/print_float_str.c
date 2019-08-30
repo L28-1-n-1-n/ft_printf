@@ -47,42 +47,53 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
         fnum->integer = fnum->integer / 10;
       }
       ft_strcat_char(str, fnum->integer + '0'); // this is the case where rounding to precision 0 is dealt with, or if integer is less than 10 to begin with
+    if (( str[0] == '-') || (str[0] == '+'))
+      ft_strrev(&str[1]);
+    else
+      ft_strrev(str);
   }
   else
     if (fnum->exponent > 0) // case big_int and big_int only
       ft_strcat(str, fnum->big_str);
-  if (!(*(fnum->big_str)))
-  {
-    if (( str[0] == '-') || (str[0] == '+'))
-      ft_strrev(&str[1]);
-      else
-      ft_strrev(str);
-  }
+
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
   {
-    if ((fnum->big_str) && (fnum->exponen < 0)) // sub_array
+    if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
       {
         if ((blksk->modifier == L) && (blksk->precision < 4931))
           while (blksk->precision--)
             ft_strcat_char(str,'0');
         else // include L and precision >= 4931, or ANY precision for non-L, i.e. sub_array
         {
-          i = 4931;
-          while (i--)
-            ft_strcat_char(str,'0');
-          blksk->precision -= 4931;
-
-          // NEED TO CHANGE BELOW: if flag == f only, precision is same as current method, if not, precision wiil make probram look for
-          corresponding index in sub_array, and (what?) of sub_array and sub_array_80 respectively?
-          while (blksk->precision > 0)
+          if (blksk->modifier == L)
           {
-            ft_strcat_char(str,fnum->big_str[i + 4931] + '0');
-            fnum->decimal = fnum->decimal * 10 - (int)(fnum->decimal * 10);
-            //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
-            blksk->precision--;
+            i = 4931;
+            while (i--)
+              ft_strcat_char(str,'0');
+            blksk->precision -= 4931;
+          // NEED TO CHANGE BELOW: if flag == f only, precision is same as current method, if not, precision wiil make probram look for
+          //corresponding index in sub_array, and (what?) of sub_array and sub_array_80 respectively?
+            i = 0;
+            while (fnum->big_str[i] != '0')
+              i++;
+            while (blksk->precision > 0)
+            {
+              ft_strcat_char(str,fnum->big_str[i]);
+              blksk->precision--;
+            }
           }
+          else // case modifier == 0 or l
+           {
+             i = 0;
+             while (blksk->precision > 0)
+             {
+               ft_strcat_char(str, fnum->big_str[i]);
+               i++;
+               blksk->precision--;
+             }
+           }
         }
       }
     else
@@ -93,8 +104,10 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
         //  printf("fnum->decimal is %.400Lf\n", fnum->decimal);
         blksk->precision--;
       }
-
-    carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
+    if (*(fnum->big_str) && (fnum->exponent < 0))
+      carry = (fnum->big_str[i] > '5') ? 1 : 0;
+    else
+      carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
   }
   carry = blksk->width - ft_strlen(str);
