@@ -28,7 +28,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   int i;
 
   i = 0;
-
+  printf("we got to print_float\n");
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
@@ -39,8 +39,10 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     str[0] = '+';
   if (blksk->precision == 0) // Absolutely no need to worry about big_int or sub_array in this one, since in both cases first digit of decimal must always be zero
     fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
+
   if (!(*(fnum->big_str)))
   {
+
     while (fnum->integer / 10)
       {
         ft_strcat_char(str, fnum->integer % 10 + '0');
@@ -55,7 +57,8 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   else
     if (fnum->exponent > 0) // case big_int and big_int only
       ft_strcat(str, fnum->big_str);
-
+  if (fnum->exponent < 0)
+    ft_strcat_char(str, fnum->integer + '0');
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
@@ -76,21 +79,34 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
           // NEED TO CHANGE BELOW: if flag == f only, precision is same as current method, if not, precision wiil make probram look for
           //corresponding index in sub_array, and (what?) of sub_array and sub_array_80 respectively?
             i = 0;
-            while (fnum->big_str[i] != '0')
+
+            while ((fnum->big_str[i] == '0') && (fnum->big_str[i]))
               i++;
-            while (blksk->precision > 0)
+            while ((blksk->precision > 0) && (fnum->big_str[i]))
             {
               ft_strcat_char(str,fnum->big_str[i]);
+              i++;
+              blksk->precision--;
+            }
+            printf("str is %s\n", str);
+            while (blksk->precision > 0)
+            {
+              ft_strcat_char(str,'0');
               blksk->precision--;
             }
           }
           else // case modifier == 0 or l
            {
              i = 0;
-             while (blksk->precision > 0)
+             while ((blksk->precision > 0) && (fnum->big_str[i]))
              {
                ft_strcat_char(str, fnum->big_str[i]);
                i++;
+               blksk->precision--;
+             }
+             while (blksk->precision > 0)
+             {
+               ft_strcat_char(str,'0');
                blksk->precision--;
              }
            }

@@ -3,7 +3,7 @@
 
 void	compose_str(const char *fmt, va_list ap, t_block *blks)
 {
-  char final[16384];
+  char final[50000];
   unsigned int i;
   unsigned int k;
   unsigned int len;
@@ -11,7 +11,7 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
   i = 0;
   len = 0;
   k = 0;
-  ft_bzero(final, 16384);
+  ft_bzero(final, 50000);
   (void)blks;
   while (*fmt)
   {

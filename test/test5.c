@@ -10,11 +10,6 @@ int main()
 	printf("digit is=% 015.3f\n", 56.1234567);
 	printf("float is %.000f\n", 0.0);*/
 
-	int i;
-
-	i = 10;
-
-	while(i--)
-		printf("i is %d\n", i);
+	printf("e is %e\n", 0.00000000123456789); 
 	return (0);
 }

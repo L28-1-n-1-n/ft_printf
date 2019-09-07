@@ -38,7 +38,7 @@ typedef struct s_float
   uint64_t integer;
   uint64_t remain;
   long double decimal;
-//  char big_str[5270];
+
   char big_str[20000];
 }              t_float;
 
