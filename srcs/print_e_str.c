@@ -205,10 +205,12 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
       ft_strrev(str);
   }
   else
+  {
     if (fnum->exponent > 0) // case big_int and big_int only
       ft_strcat(str, fnum->big_str);
-  if (fnum->exponent < 0)
+    if (fnum->exponent < 0)
     ft_strcat_char(str, fnum->integer + '0');
+  }
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
   if (blksk->precision > 0)
@@ -298,7 +300,7 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
       {
         carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
         if (fnum->eflag == 1)
-              carry -= 2;
+              carry -= 3;
         while (carry--)
           ft_strcat_char(final, '0');
       }
@@ -306,7 +308,7 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
       {
         carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
         if (fnum->eflag == 1)
-              carry -= 2;
+              carry -= 3;
         while (carry--)
           ft_strcat_char(final, ' ');
       }

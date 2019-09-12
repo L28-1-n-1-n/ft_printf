@@ -72,6 +72,7 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
     treat_hex(final, ap, blksk);
   if((blksk->type == 'd') || (blksk->type == 'i'))
     treat_num(final, ap, blksk);
-  if ((blksk->type == 'f') || (blksk->type == 'e') || (blksk->type == 'E'))
+  if ((blksk->type == 'f') || (blksk->type == 'e') || (blksk->type == 'E') ||
+    (blksk->type == 'g') || (blksk->type == 'G'))
     treat_float(final, ap, blksk);
 }

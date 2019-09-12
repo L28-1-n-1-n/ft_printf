@@ -53,14 +53,20 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       ft_strrev(&str[1]);
     else
       ft_strrev(str);
+      printf("in the middle, str is %s\n", str);
+
   }
   else
+  {
     if (fnum->exponent > 0) // case big_int and big_int only
       ft_strcat(str, fnum->big_str);
-  if (fnum->exponent < 0)
+    if (fnum->exponent < 0)
     ft_strcat_char(str, fnum->integer + '0');
+  }
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
+    printf("in the middle, str is %s\n", str);
+
   if (blksk->precision > 0)
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
@@ -158,6 +164,5 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       }
   }
   printf("dot is at pos %zu\n", ft_strchr_arg(str, '.'));
-
   ft_strcat(final, str);
 }

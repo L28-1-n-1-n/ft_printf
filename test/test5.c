@@ -26,5 +26,8 @@ int main()
 	printf("123456.7890 %.12g\n", 123456.789012345);
 	printf("flaot is %.12f\n", 0.000000123);
 	printf("atoi(01) is %d\n", atoi("01"));
+	printf("float 0.00378 is %.7f\n", 0.0000000378123);
+	printf("float 0.00378 is %.7e\n", 0.0000000378123);
+	printf("float 0.00378 is %.7g\n", 0.0000000378123);
 	return (0);
 }
