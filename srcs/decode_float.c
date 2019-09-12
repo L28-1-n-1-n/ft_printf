@@ -168,6 +168,7 @@ t_float   *init_float(t_float *fnum)
   fnum->integer = 0;
   fnum->remain = 0;
   fnum->decimal = 0;
+  fnum->eflag = 0;
   ft_strcpy(fnum->big_str, "\0");
   return (fnum);
 }
@@ -201,7 +202,15 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       if (!(float_special(fnum, 80)))
         compose_float_80(fnum, fraction);
     }
-  print_float_str(final, blksk, fnum);
+  if (blksk->type == 'f')
+    print_float_str(final, blksk, fnum);
+  else
+  {
+    if (blksk->type == 'e')
+      print_e_str(final, blksk, fnum);
+    else // 'g' flag
+      print_g_str(final, blksk, fnum);
+  }
   free(fnum);
   return (1);
 }

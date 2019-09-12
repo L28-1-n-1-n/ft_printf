@@ -50,7 +50,6 @@ else
   {
     long_n = va_arg(ap, long double);
     ft_memcpy(&word, &long_n, sizeof(word));
-   // remember, if value  = 0 and '#' flag is on, then dot needs to be printed
   }
 
   printf("word[0] is %llu\n", word[0]);
@@ -73,6 +72,6 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
     treat_hex(final, ap, blksk);
   if((blksk->type == 'd') || (blksk->type == 'i'))
     treat_num(final, ap, blksk);
-  if (blksk->type == 'f')
+  if ((blksk->type == 'f') || (blksk->type == 'e') || (blksk->type == 'E'))
     treat_float(final, ap, blksk);
 }
