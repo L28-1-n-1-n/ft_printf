@@ -167,9 +167,6 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   int pres_holder;
   int final_len;
 
-//  if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
-//    fnum->eflag = 1;
-//  blksk->precision = (fnum->eflag == 1) ? blksk->precision++ : blksk->precision;
   if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
   {
     blksk->precision++;
@@ -178,9 +175,6 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   final_len = ft_strlen(final);
   pres_holder = blksk->precision;
   i = 0;
-  printf("we got to print_float\n");
-// SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
-// algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
   ft_bzero(str, 20000);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged

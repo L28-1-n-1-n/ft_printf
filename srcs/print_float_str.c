@@ -54,7 +54,6 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     else
       ft_strrev(str);
       printf("in the middle, str is %s\n", str);
-
   }
   else
   {
