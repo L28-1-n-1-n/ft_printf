@@ -100,6 +100,20 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
     i--;
   }
   printf("decimal is finally %.100Lf\n", fnum->decimal);
+  long double test_deci;
+  int test_int;
+  i = 0;
+  test_deci = fnum->decimal;
+    printf("decimal is finally %.100Lf\n", fnum->decimal);
+    printf("test_deci is first %.100Lf\n", test_deci);
+  while (i < 30)
+  {
+    test_int = (int)(test_deci * 10);
+    printf("integer=%d\n", test_int);
+    test_deci = test_deci - (int)(test_deci * 10);
+    printf("decimal=%Lf\n", test_deci);
+    i++;
+  }
 }
 
 void   compose_float_80(t_float *fnum, long double *fraction)
