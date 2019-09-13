@@ -9,6 +9,7 @@ void    treat_char(char *final, va_list ap)
   str[0] = va_arg(ap, int);
   ft_strcat(final, str);
 }
+
 void    treat_string(char *final, va_list ap)
 {
   char *string;
@@ -17,6 +18,23 @@ void    treat_string(char *final, va_list ap)
   ft_strcat(final, string);
 }
 
+void    treat_bin (char *final, va_list ap) // needs to be tested, also needs to deal with '+' and '-'
+{
+  int orig_num;
+  char str[32];
+  ft_bzero(str, 32);
+  orig_num = va_arg(ap, int);
+  while (orig_num / 2)
+  {
+    if (orig_num % 2)
+      ft_strcat(str, '1');
+    else
+      ft_strcat(str, '0,');
+    orig_nmum /= 2;
+  }
+  ft_strrev(str);
+  ft_strcat(final, str);
+}
 void    treat_hex(char *final, va_list ap, t_block *blksk)
 {
   uintmax_t n;
@@ -75,4 +93,6 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
   if ((blksk->type == 'f') || (blksk->type == 'e') || (blksk->type == 'E') ||
     (blksk->type == 'g') || (blksk->type == 'G'))
     treat_float(final, ap, blksk);
+  if (blksk->type == 'b')
+    treat_bin(final, ap);
 }

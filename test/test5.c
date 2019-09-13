@@ -29,5 +29,6 @@ int main()
 	printf("float 0.00378 is %.7f\n", 0.0000000378123);
 	printf("float 0.00378 is %.7e\n", 0.0000000378123);
 	printf("float 0.00378 is %.7g\n", 0.0000000378123);
+	printf("testing 0.00378 is *.7f\n", 1, 0.0000000378123);
 	return (0);
 }

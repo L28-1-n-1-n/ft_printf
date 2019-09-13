@@ -304,7 +304,6 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   {
       if (blksk->flag & 8)// '-' flag , 0 ignored
       {
-      printf("BIBUBIBUBIBUBIBU\n");
       carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
         while (carry--)
           ft_strcat_char(str, ' ');
