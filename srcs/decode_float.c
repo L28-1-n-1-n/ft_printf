@@ -19,6 +19,7 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
       fnum->exponent += 1;
       printf("fnum->remain is %llu\n", fnum->remain);
       sub_array_80(fnum);
+      printf("we did not exit underflow\n");
       return ;
     }
   // if not subnormal:
@@ -131,9 +132,10 @@ void   compose_float_80(t_float *fnum, long double *fraction)
     print_small_range(i, fnum, fraction);
   }
   if (fnum->exponent > 64)
-    big_int_80(fnum); // need to rewrite this so first 8 bits are copied instead of first 7
+    big_int_80(fnum);
   if (fnum->exponent < 0)
     underflow_exponent(fnum, fraction, 80); // needs testing
+  printf("trace success\n");
 //  print_float_str(final, blksk, fnum);
 }
 
@@ -180,6 +182,7 @@ t_float   *init_float(t_float *fnum)
   fnum->integer = 0;
   fnum->remain = 0;
   fnum->decimal = 0;
+  fnum->eflag = 0;
   ft_strcpy(fnum->big_str, "\0");
   return (fnum);
 }
@@ -190,6 +193,7 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
   long double fraction[64];
   if (!(fnum = (t_float *)malloc(sizeof(t_float))))
     return (0);
+
   init_float(fnum);
   bit_power(fraction);
   if ((blksk->modifier == 0) || (blksk->modifier == l)) // 1, 11, 52
@@ -212,7 +216,15 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       if (!(float_special(fnum, 80)))
         compose_float_80(fnum, fraction);
     }
-  print_float_str(final, blksk, fnum);
+  if (blksk->type == 'f')
+    print_float_str(final, blksk, fnum);
+  else
+  {
+    if (blksk->type == 'e')
+      print_e_str(final, blksk, fnum);
+    else // 'g' flag
+      print_g_str(final, blksk, fnum);
+  }
   free(fnum);
   return (1);
 }

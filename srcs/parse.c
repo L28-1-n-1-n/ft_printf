@@ -11,7 +11,7 @@ void init_blocks(t_block *blks, int total)
     blks[total].flag = 0;
     blks[total].width = 0;
     blks[total].modifier = NA;
-    blks[total].precision = 0;
+    blks[total].precision = 6;
     blks[total].type = NA;
     blks[total].str = 0;
     blks[total].pos = 0;

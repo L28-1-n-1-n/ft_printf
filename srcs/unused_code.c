@@ -117,3 +117,120 @@ void	parse_remain(const char *fmt, int i, va_list ap)
 //	ft_putstr(str);
 	//printf("str is %s\n", str);
 }
+
+#include "printf.h"
+#include <stdio.h>
+#include <inttypes.h>
+intmax_t twos_comp_int(intmax_t n)
+{
+    intmax_t power;
+    unsigned long long k;
+    unsigned long int result; // this needs to be 32 bits
+    char str[70];
+
+    int i;
+
+    i = 69; // str[32] is the last element ( 33rd ) and = backslash 0, i = 0-31 store value
+  //  ft_bzero(str, 64);
+    power = 1;
+
+    while (i >= 0)
+    {
+      if (n & power)
+        str[i] = '1';
+      else
+        str[i] = '0';
+      power = power << 1;
+      i --;
+    }
+    printf("we have : %s\n", str);
+    return (n);
+/*
+    power = 0;
+    result = 0;
+    //k = -n;
+
+    while (n > 0)
+    {
+      n = n >> 1;
+      power++;
+    }
+    power --; // 64 is 2 ^6
+    printf("power is %lu\n", power);
+    power = 1 << power;
+    printf("power is %lu\n", power);
+  //  power = raise_to_power(2, power, result);
+
+    n = n ^ power;
+
+    n = n ^ 1;
+    n += 1;
+    return (n);*/
+}
+
+int main()
+{
+  printf("we have : %llx", twos_comp_int(-64));
+  return (0);
+}
+
+#include "printf.h"
+#include <stdio.h>
+char *add_one(char *str)
+{
+	if (*str == '0')
+		*str = '1';
+	else // case last digit is a "1"
+	{
+		if (*str == '1')
+			*str = '0';
+		str--;
+		add_one(str);
+	}
+	return (str);
+}
+
+char *twos_compliment_str(char *str)
+{
+	int i;
+
+	i = 0;
+printf("hi");
+	while (str[i])
+	{
+		if (str[i] == '1')
+			str[i] = '0';
+		else
+		{
+			if (str[i] == '1')
+				str[i] = '0';
+		}
+		i++;
+		printf("str[%d] is %c\n", i, str[i]);
+	}
+/*
+	while (*str)
+	{
+		if (*str == '1')
+			*str = '0';
+		else
+			*str = '1';
+		str++;
+	}
+*/
+	printf("we got here");
+//	str--;
+//	add_one(str);
+	return (str);
+}
+
+int main()
+{
+	char str[8] = "10000101";
+	01111010
+
+	!!!!!should just use bitwise opearator on decimal number !!!
+	twos_compliment(str);
+	printf(" after 2 \", it is %s", str);
+	return (0);
+}

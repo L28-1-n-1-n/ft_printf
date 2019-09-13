@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 int main()
 {
 /*	printf("digit is=%.0f\n", 0.0);
@@ -10,11 +12,22 @@ int main()
 	printf("digit is=% 015.3f\n", 56.1234567);
 	printf("float is %.000f\n", 0.0);*/
 
-	int i;
-
-	i = 10;
-
-	while(i--)
-		printf("i is %d\n", i);
+	printf("e is %#.30e\n", 0.00000000123456789);
+	printf("e is %#.30f\n", 0.00000000123456789); 
+	printf("e is %#.30g\n", 0.00000000123456789);
+	printf("0.125 is %e\n", 0.125);
+	printf("0.125 is %f\n", 0.125);
+	printf("0.125 is %g\n", 0.125);
+	printf("0.3 is % 030e\n", 0.312346);
+	printf("9.1233 is %020e\n", 9.1233);
+	printf("99.1233 is %020e\n", 99.1233);
+	printf("123456.7890 %.12f\n", 123456.789012345);
+	printf("123456.7890 %.12e\n", 123456.789012345);
+	printf("123456.7890 %.12g\n", 123456.789012345);
+	printf("flaot is %.12f\n", 0.000000123);
+	printf("atoi(01) is %d\n", atoi("01"));
+	printf("float 0.00378 is %.7f\n", 0.0000000378123);
+	printf("float 0.00378 is %.7e\n", 0.0000000378123);
+	printf("float 0.00378 is %.7g\n", 0.0000000378123);
 	return (0);
 }

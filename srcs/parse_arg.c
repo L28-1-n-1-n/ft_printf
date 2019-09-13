@@ -107,6 +107,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
       blks[k].precision = ft_atoi((char *)str);
   }
   str++;
+  printf("blks[k].precision is %d\n", blks[k].precision);
   return (str);
 }
 

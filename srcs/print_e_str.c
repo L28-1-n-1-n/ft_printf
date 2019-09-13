@@ -1,7 +1,29 @@
 #include "printf.h"
 #include <stdlib.h>
+void adjust_str(char *str, t_block *blksk, int carry, t_float *fnum)
+{
+printf("we got this far\n");
+printf("str is %s\n", str);
+(void)fnum;
+  if (blksk->flag & 8)// '-' flag , 0 ignored
+    while (carry--)
+      ft_strcat_char(str, ' ');
+  if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
+    while (carry--)
+    {
+      if ((str[0] == '-') || (str[0] == '+'))
+        ft_strpcat_char(&str[1], '0');
+      else
+        ft_strpcat_char(str, '0');
+      printf("str is during loop %s\n", str);
+    }
+  if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
+    while (carry--)
+      ft_strpcat_char(str, ' ');
+  printf("str is %s\n", str);
+}
 
-void round_float(char *str, int carry, size_t i)
+void round_e_float(char *str, int carry, size_t i)
 {
   if (!carry)
     return ;
@@ -9,7 +31,7 @@ void round_float(char *str, int carry, size_t i)
     if (str[i - 1] == '9')
     {
       str[i] = '0';
-      round_float(str, 1, i - 1);
+      round_e_float(str, 1, i - 1);
     }
     else
     {
@@ -21,12 +43,140 @@ void round_float(char *str, int carry, size_t i)
   return ;
 }
 
-void print_float_str(char *final, t_block *blksk, t_float *fnum)
+void pos_exp(char *str, t_block *blksk, int i)
+{
+  int tens;
+  char digits[10];
+  int carry;
+  //int placeholder;
+  printf("i is %d\n",i);
+  ft_bzero(digits, 10);
+  tens = 1;
+  while ((str[i - tens]) && (str[i - tens] >= '0') && (str[i - tens] <= '9'))
+    tens++;
+  tens -= 2;
+  printf("tens is %d\n",tens);
+  ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]));
+  ft_memmove(&str[i - tens + 1], &str[i - tens], ft_strlen(&str[i - tens]));
+  i = i - tens;
+  str[i] = '.';
+  carry = (str[i + blksk->precision + 1] > '5') ? 1 : 0;
+  round_e_float(str, carry, i + blksk->precision);
+  printf("str is first %s\n", str);
+  printf("i + blksk->precision is first %d\n", i + blksk->precision);
+  str[i + blksk->precision + 1] = '\0';
+
+  if (blksk->type == 'e')
+    ft_strcat(str, "e+");
+  else
+    ft_strcat(str, "E+");
+  if (tens < 10)
+    ft_strcat(str, "0");
+  while (tens / 10)
+  {
+    ft_strcat_char(digits, (tens % 10 + '0'));
+    tens /= 10;
+  }
+  ft_strcat_char(digits, (tens + '0'));
+  ft_strcat(str, ft_strrev(digits));
+  printf("digits is %s\n", digits);
+  printf("str after cat digits is %s\n", str);
+  ft_strcat_char(str, '\0');
+  tens = ft_strlen(str);
+  while(tens < 20000)
+  {
+    str[tens] = '\0';
+    tens++;
+  }
+  printf("tens has been augmented to %d\n", tens);
+}
+
+void neg_exp(char *str, t_block *blksk, int i)
+{
+  int tens;
+  char digits[10];
+  int placeholder;
+  int carry;
+
+  ft_bzero(digits, 10);
+  tens = 1;
+  while (str[i + tens] == '0')
+    tens++;
+  ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]));
+  ft_memmove(&str[i + tens + 1], &str[i + tens], ft_strlen(&str[i + tens]));
+  i = i + tens;
+  str[i] = '.';
+  printf("before rounding, str is %s\n", str);
+  carry = (str[i + blksk->precision + 1] > '5') ? 1 : 0;
+  round_e_float(str, carry, i + blksk->precision);
+  str[i + blksk->precision] = '\0';
+
+  if (blksk->type == 'e')
+    ft_strcat(str, "e-");
+  else
+    ft_strcat(str, "E-");
+  if (tens < 10)
+    ft_strcat(str, "0");
+  while (tens / 10)
+  {
+    ft_strcat_char(digits, (tens % 10 + '0'));
+    tens /= 10;
+  }
+  ft_strcat_char(digits, (tens + '0'));
+  ft_strcat(str, ft_strrev(digits));
+  tens = 0;
+  while (str[tens] != '0')
+    tens++;
+  placeholder = tens + ft_strlen(&str[i - 1]);
+  ft_memmove(&str[tens], &str[i - 1], ft_strlen(&str[i - 1]));
+  str[placeholder] = '\0';
+  tens = ft_strlen(str);
+  while(tens < 20000)
+  {
+    str[tens] = '\0';
+    tens++;
+  }
+}
+void move_dot(char *str, t_block *blksk)
+{
+  int i;
+  int placeholder;
+
+  placeholder = 0;
+  i = ft_strchr_arg(str, '.'); // case 0.0000000001234
+  if ((str[i - 1] > '0') && (str[i - 1] <= '9'))
+    pos_exp(str, blksk, i);
+  if (str[i - 1] == '0')
+  {
+    placeholder = i - 1;
+    while ((str[placeholder]) && (str[placeholder] == '0'))
+      placeholder--;
+    if ((str[placeholder]) && (str[placeholder] > '0') && (str[placeholder] <= '9'))
+      pos_exp(str, blksk, i);
+    else
+      neg_exp(str, blksk, i);
+  }
+  printf("str is now %s\n", str);
+}
+
+void print_e_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[20000];
   int carry;
   int i;
+  int pres_holder;
+  int final_len;
 
+//  if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
+//    fnum->eflag = 1;
+//  blksk->precision = (fnum->eflag == 1) ? blksk->precision++ : blksk->precision;
+  if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
+  {
+    blksk->precision++;
+    fnum->eflag = 1;
+  }
+  final_len = ft_strlen(final);
+  pres_holder = blksk->precision;
   i = 0;
   printf("we got to print_float\n");
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
@@ -53,8 +203,6 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       ft_strrev(&str[1]);
     else
       ft_strrev(str);
-      printf("in the middle, str is %s\n", str);
-
   }
   else
   {
@@ -65,8 +213,6 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   }
   if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
-    printf("in the middle, str is %s\n", str);
-
   if (blksk->precision > 0)
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
@@ -129,8 +275,8 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
     if (*(fnum->big_str) && (fnum->exponent < 0))
       carry = (fnum->big_str[i] > '5') ? 1 : 0;
     else
-      carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
-    round_float(str, carry, ft_strlen(str) - 1);
+      carry = ((int)(fnum->decimal * 10) > 5) ? 1 : 0;
+    round_e_float(str, carry, ft_strlen(str) - 1);
   }
   carry = blksk->width - ft_strlen(str);
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
@@ -153,16 +299,27 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
       {
         carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
+        if (fnum->eflag == 1)
+              carry -= 3;
         while (carry--)
           ft_strcat_char(final, '0');
       }
       if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
       {
         carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
+        if (fnum->eflag == 1)
+              carry -= 3;
         while (carry--)
           ft_strcat_char(final, ' ');
       }
   }
-  printf("dot is at pos %zu\n", ft_strchr_arg(str, '.'));
+  printf("before move_dot, str is %s\n", str);
+  blksk->precision = pres_holder;
+  move_dot(str, blksk);
+  carry = blksk->width - (ft_strlen(final) - final_len + ft_strlen(str));
+  printf("before adjustment, carry is %d\n", carry);
+  if (carry > 0)
+    adjust_str(str, blksk, carry, fnum);
   ft_strcat(final, str);
+  printf("after adjust, final is %s\n", final);
 }
