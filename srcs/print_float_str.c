@@ -148,6 +148,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
         while (carry--)
           ft_strcat_char(str, ' ');
+      fnum->eflag |= 2; // this one particular case we need to deal with trailing zeros followed by space in g flag
       }
       if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
       {

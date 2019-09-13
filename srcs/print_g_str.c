@@ -1,6 +1,68 @@
 #include "printf.h"
 #include <stdlib.h>
+void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
+{
+  //exp is the i pos of '.'
+  /* This is final check to remove all trailing zeroes*/
+  int tmp;
+  int count_del;
+  int dot_pos;
 
+  dot_pos = exp;
+  count_del = 0;
+  tmp = 0;
+  if (blksk->type == 'f')
+  {
+    tmp = ft_strlen(final) - 1;
+    while (!((final[tmp] >= '0') && (final[tmp] <= '9')))
+      tmp--;
+    exp = tmp;
+    while(final[tmp] == '0')
+      tmp--;
+    printf("first digit is %c\n", final[tmp]);
+    while (++tmp <= exp)
+    {
+      if (fnum->eflag & 2)
+        final[tmp] = ' ';
+      else
+        final[tmp] = '\0';
+    }
+    final[tmp] = '\0';
+  }
+  else
+  {
+    if (blksk->type == 'e')
+      while (final[exp] != 'e')
+        exp++;
+    else // case 'E'
+      while (final[exp] != 'E')
+        exp++;
+    exp -= 1;
+    tmp = exp;
+    while(final[tmp] == '0')
+      tmp--;
+    count_del = exp - tmp;
+   if (count_del != 0) // so trailing zeroes present
+      ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp]));
+    printf("final is %s\n", final);
+/*    exp = ft_strlen(final) - 1;
+    dot_pos -= 1;
+    while ((final[dot_pos] == '+') || (final[dot_pos] == '-') || (final[dot_pos] == ' '))
+      dot_pos--;
+    while (count_del)
+    {
+      if ((fnum->eflag & 2) || ((blksk->width > (unsigned int)(exp - dot_pos + 1)) && (blksk->flag & 8)))
+      {
+        printf("we've got you\n");
+        final[exp - count_del] = 'A';
+      }
+      else
+        final[exp - count_del] = '\0';
+      count_del--;
+    }
+    final[exp] = '\0';*/
+  }
+}
 void      adjust_trail(char *final, t_block *blksk, int exp)
 {
   //exp is the i pos of '.'
@@ -123,10 +185,13 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
     exp = ft_strlen(final) - 1;
     while ((final[exp] != '0') && (final[exp] != '.'))
       exp--;
+    printf("first exp %c\n", final[exp]);
     while (final[exp] == '0')
       exp--;
+    printf("second exp %c\n", final[exp]);
     if (final[exp] == '.')
       adjust_trail(final, blksk, exp);
+    remove_finalz(final, blksk, exp, fnum);
   }
   free(fnume);
   free(blkse);

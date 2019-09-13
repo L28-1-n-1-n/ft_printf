@@ -158,7 +158,23 @@ void move_dot(char *str, t_block *blksk)
   }
   printf("str is now %s\n", str);
 }
+int change_precision(long double decimal)
+{
+  int test_int;
+  int count;
 
+  count = 0;
+  test_int = (int)(decimal * 10);
+  if (test_int != 0)
+    return (0);
+  while (test_int == 0)
+  {
+    test_int = (int)(decimal * 10);
+    decimal = decimal * 10 - (int)(decimal * 10);
+    count++;
+  }
+  return (count);
+}
 void print_e_str(char *final, t_block *blksk, t_float *fnum)
 {
   char str[20000];
@@ -170,10 +186,12 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
   {
     blksk->precision++;
-    fnum->eflag = 1;
+    fnum->eflag |= 1;
   }
-  final_len = ft_strlen(final);
   pres_holder = blksk->precision;
+  if ((fnum->integer == 0) && (fnum->decimal != 0))
+    blksk->precision += change_precision(fnum->decimal); // case 0.00000000sth
+  final_len = ft_strlen(final);
   i = 0;
   carry = 0;
   ft_bzero(str, 20000);
@@ -286,9 +304,11 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   {
       if (blksk->flag & 8)// '-' flag , 0 ignored
       {
+      printf("BIBUBIBUBIBUBIBU\n");
       carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
         while (carry--)
           ft_strcat_char(str, ' ');
+      fnum->eflag |= 2;
       }
       if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
       {
