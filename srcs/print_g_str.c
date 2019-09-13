@@ -42,27 +42,26 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
     while(final[tmp] == '0')
       tmp--;
     count_del = exp - tmp;
+  printf("final is %s\n", final);
    if (count_del != 0) // so trailing zeroes present
-      ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp]));
+      ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp + 1]));
     printf("final is %s\n", final);
-/*    exp = ft_strlen(final) - 1;
+  /*  exp = ft_strlen(final) - 1;
     dot_pos -= 1;
     while ((final[dot_pos] == '+') || (final[dot_pos] == '-') || (final[dot_pos] == ' '))
       dot_pos--;
     while (count_del)
     {
-      if ((fnum->eflag & 2) || ((blksk->width > (unsigned int)(exp - dot_pos + 1)) && (blksk->flag & 8)))
-      {
-        printf("we've got you\n");
-        final[exp - count_del] = 'A';
-      }
+      if ((fnum->eflag & 2) || (((blksk->width > (unsigned int)(exp - dot_pos + 1)) && (blksk->flag & 8))))
+        final[exp - count_del] = ' ';
       else
         final[exp - count_del] = '\0';
       count_del--;
-    }
-    final[exp] = '\0';*/
+    }*/
   }
 }
+
+
 void      adjust_trail(char *final, t_block *blksk, int exp)
 {
   //exp is the i pos of '.'
