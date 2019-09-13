@@ -110,9 +110,9 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
   while (i < 30)
   {
     test_int = (int)(test_deci * 10);
-    printf("integer=%d\n", test_int);
+//    printf("integer=%d\n", test_int);
     test_deci = test_deci - (int)(test_deci * 10);
-    printf("decimal=%Lf\n", test_deci);
+//    printf("decimal=%Lf\n", test_deci);
     i++;
   }
 }

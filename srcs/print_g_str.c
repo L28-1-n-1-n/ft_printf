@@ -1,6 +1,41 @@
 #include "printf.h"
 #include <stdlib.h>
 
+void      adjust_trail(char *final, t_block *blksk, int exp)
+{
+  //exp is the i pos of '.'
+    printf("WE GOT TO ADJUST TRAIL\n");
+  int end;
+  int tmp;
+  tmp = 0;
+  end = ft_strlen(final) - 1;
+  if (blksk->flag & 8)// '-' flag , 0 ignored
+    while (exp < end)
+      final[exp++] = ' ';
+  if ((blksk->flag & 2) && (!(blksk->flag & 8))) // zero flag without '-'
+  {
+    final[end] = final[exp - 1];
+    exp -=1;
+    while (exp < end)
+      final[exp++] = '0';
+  }
+  if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
+  {
+    final[end] = final[exp - 1];
+    tmp = exp - 1;
+    while ((final[tmp] >= '0') && (final[tmp] <= '9'))
+      tmp--;
+    if ((final[tmp] == '+') || (final[tmp] == '-'))
+    {
+      final[end - 1] = final[tmp];
+      exp -= 1;
+      end -= 1;
+    }
+    exp -=1;
+    while (exp < end)
+      final[exp++] = ' ';
+  }
+}
 t_float   *copy_float(t_float *fnum, t_float *fnum_copy)
 {
   fnum_copy->sign = fnum->sign;
@@ -83,6 +118,17 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
     blksk->precision = blksk->precision - (exp + 1);
     print_float_str(final, blksk, fnum);
   }
+  if (!(blksk->flag & 16)) // if '#' flag is present, nothing changes. Only in its absence trailing zeroes are removed
+  {
+    exp = ft_strlen(final) - 1;
+    while ((final[exp] != '0') && (final[exp] != '.'))
+      exp--;
+    while (final[exp] == '0')
+      exp--;
+    if (final[exp] == '.')
+      adjust_trail(final, blksk, exp);
+  }
   free(fnume);
   free(blkse);
+  printf("finallll is %s\n", final);
 }
