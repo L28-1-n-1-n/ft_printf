@@ -29,6 +29,7 @@ int main()
 	printf("float nan=%+030.20F\n", +INFINITY);
 	printf("float 0.00378 is %.7e\n", 0.0000000378123);
 	printf("float 0.00378 is %.7g\n", 0.0000000378123);
-	printf("testing 0.00378 is *.7f\n", 1, 0.0000000378123);
+//	printf("testing 0.00378 is 23.*s\n", 2, "hello");
+	printf("%.*s\n", -3, "hello");
 	return (0);
 }

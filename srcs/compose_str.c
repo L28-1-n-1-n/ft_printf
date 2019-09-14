@@ -26,11 +26,12 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
       break;
     treat_arg(final, ap, &blks[k]);
     // Treat '%' and ft_strncpy the result into final
+    printf("we are still in compose str\n");
     k++;
     fmt++;
     if (!(*fmt))
       break;
-    while (!(ft_strchr("cdixXpeEfFgGous%", *fmt)))
+    while (!(ft_strchr("cdixXpeEfFgGousb%", *fmt)))
       fmt++;
     fmt++;
   //  printf("and finally fmt is %s\n", fmt);

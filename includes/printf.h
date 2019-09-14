@@ -22,8 +22,8 @@ typedef struct	s_block
 {
 	unsigned int      order; // n in n $, where n cannot be negative or 0, n must be valid order, e.g. 1 and 2, not 1 and 3
 	unsigned int      flag; // '0'   '+'   '-'   '#', default '^' means NULL
-	unsigned int			width; // -1 means '*'
-	int			           precision; // -1 means '*'
+	int			          width; // -1 means '*'
+	int			          precision; // -1 means '*'
  	t_modifier        modifier;
 	char              type; // c d i x X p e E f F g G o u s %
   char              *str; // this is what the result of this block's gonna be
@@ -70,6 +70,7 @@ void sub_array_80(t_float *fnum);
 t_float   *init_float(t_float *fnum);
 void print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
+void string_bin(intmax_t n, char *final, t_block *blksk);
 
 #endif
 

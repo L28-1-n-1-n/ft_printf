@@ -2,7 +2,7 @@
 #include <stdio.h>
 void check_type(char *str, unsigned int k, t_block *blks)
 {
-  while (*str && !(ft_strchr("cdixXpeEfFgGous%", *str)))
+  while (*str && !(ft_strchr("cdixXpeEfFgGousb%", *str)))
     str++;
   if (*str)
   {
@@ -44,7 +44,7 @@ void check_type(char *str, unsigned int k, t_block *blks)
 char *check_length(char *str, unsigned int k, t_block *blks)
 {
   printf("to check modifier, str is %s\n", str);
-  while (*str && !(ft_strchr("hlLzcdixXpeEfFgGous%", *str)))
+  while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousb%", *str)))
     str++;
   if (*str == 'L')
     blks[k].modifier = L; //5
@@ -78,7 +78,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
   else
     str = (char *)(fmt + blks[k].pos + 1);
-  while (*str && !(ft_strchr("*.cdixXpeEfFgGous%hlLz123456789", *str)))
+  while (*str && !(ft_strchr("*.cdixXpeEfFgGousb%hlLz123456789", *str)))
     {
       if (*str == '+')
         blks[k].flag |= 4;

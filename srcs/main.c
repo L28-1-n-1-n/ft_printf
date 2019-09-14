@@ -27,7 +27,7 @@ void	vafunc(char *fmt, ...)
 
 int		main()
 {
-	char s[400];
+	/*char s[400];
 
 	ft_strcpy(s, "hello");
 	ft_printf("=%+40f\n", 0.00123);
@@ -41,7 +41,22 @@ int		main()
 	ft_printf("=%+40g\n", 0.00123);
 	printf("=%+40g\n", 0.00123);
 	ft_printf("=%-40G\n", 0.00123);
-	printf("=%-40G\n", 0.00123);
+	printf("=%-40G\n", 0.00123);*/
+
+//	ft_printf("bin=%-Lb\n", -9223372036854775808);
+//	ft_printf("zero=%+ 30.788f\n", -0);
+//	printf("zero=%+ 30.788f\n", -0);
+//		ft_printf("flaot=%*.*f\n",-50, 23, 123.544);
+	/*	ft_printf("flaot=%*.*f\n", -50, -23, 123.544);
+	   	 printf("flaot=%*.*f\n", -50, -23, 123.544);
+		ft_printf("flaot=%*.*f\n", 50, -23, 123.544);
+		   printf("flaot=%*.*f\n", 50, -23, 123.544);*/
+	//		 ft_printf("string=%*.*s", 3, 7, "hello");
+		printf("string=%*.*s\n", 3,3, 3, "hello");
+	//ft_printf("dec=%llx\n",-9223372036854775808);
+	//printf("dec=%llx\n", -9223372036854775808);
+//	printf("digit=% -5d\n", 12);
+//	ft_printf("bin=% #5b\n", 4);
 /*	printf("%x%x%x%x%x%x%x%x%x%x%x%x");
 	printf("%x%x%x%x%x%x%x%x%x%x%x%x");*/
 /*
