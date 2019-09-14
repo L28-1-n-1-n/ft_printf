@@ -1,6 +1,23 @@
 #include "printf.h"
 #include <stdlib.h>
 #include <stdio.h>
+void shift_position(unsigned int m, t_block *blks)
+{
+  unsigned int order;
+  unsigned int i;
+  unsigned int copy
+
+  i = 0;
+  order = 1;
+  while (i < m)
+  {
+    while (!(ft_strcmp(blks[i].str, "%")))
+      i++;
+    blk[i].order = blk[i - 1].order + 1;
+
+  }
+
+}
 
 void init_blocks(t_block *blks, int total)
 {
@@ -28,10 +45,10 @@ int   parse(const char *fmt, va_list ap)
   t_block *blks;
 	i = 0;
   k = 0; /*keep track on argument or blk number */
-  m = 0;
+  m = count_arg(fmt);
   if(!(blks = (t_block *)malloc(sizeof(t_block) * count_arg(fmt))))
     return (0);
-  init_blocks(blks, count_arg(fmt));
+  init_blocks(blks, m);
   while (fmt[i])
   {
     while (fmt[i] && (fmt[i] != '%'))
@@ -56,16 +73,22 @@ int   parse(const char *fmt, va_list ap)
           i++; /*skip until you find the next argument*/
       }
   }
-
+  if (blks[0].order)
+  {
+    shift_position(m, blks);
+    quick_sort(m, blks);
+  // the idea is that quick_sort will return t_block* new_blks
+  //  compose_str(fmt, ap, quick_sort(count_arg(fmt), blks));
+  }
+    printf("Total args are %d\n", m);
   compose_str(fmt, ap, blks);
-  m = count_arg(fmt);
-//  printf("Total args are %d\n", m);
-  k = 0;
+
+/*  k = 0;
   while (k < m)
   {
-//    printf("blks[%d].str is %s\n", k, blks[k].str);
+   printf("blks[%d].str is %s\n", k, blks[k].str);
     k++;
-  }
+  }*/
   (void)ap;
 /*
 

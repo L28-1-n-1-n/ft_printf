@@ -10,7 +10,7 @@ int		count_percent(const char *str, int i)
 	start = i;
 	while (str[i] == '%')
 	{
-		consec_percent ++;
+		consec_percent++;
 		i++;
 	}
 	return (consec_percent / 2);

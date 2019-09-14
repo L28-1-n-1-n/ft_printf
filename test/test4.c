@@ -27,6 +27,6 @@ int main()
 	printf("nan is=%+-020.30f\n", NAN);
 //	printf("macro returns %d\n", FP_NAN(0./0.));
 //	printf("result is %llu\n", 6917529027641081856 >> 61);
-	printf("we print %3$d, %1$d\n", 3, 4); 
+	printf("we print %2$d, %%%% %1$d\n", 3, 4); 
 	return (0);
 }
