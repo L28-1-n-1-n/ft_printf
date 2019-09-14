@@ -7,7 +7,7 @@ void check_type(char *str, unsigned int k, t_block *blks)
   if (*str)
   {
     if (*str == 'c')
-      blks[k].type = 'c'; //done
+      blks[k].type = 'c';
     if (*str == 'd')
       blks[k].type = 'd';
     if (*str == 'i')
@@ -35,7 +35,9 @@ void check_type(char *str, unsigned int k, t_block *blks)
     if (*str == 'u')
       blks[k].type = 'u';
     if (*str == 's')
-      blks[k].type = 's'; //done
+      blks[k].type = 's';
+    if (*str == 'b')
+      blks[k].type = 'b';
   }
 }
 

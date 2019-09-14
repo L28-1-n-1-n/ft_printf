@@ -53,20 +53,17 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       ft_strrev(&str[1]);
     else
       ft_strrev(str);
-      printf("in the middle, str is %s\n", str);
   }
   else
   {
-    if (fnum->exponent > 0) // case big_int and big_int only
+    if ((fnum->exponent > 0) && (!(fnum->eflag & 4))) // case big_int and big_int only
       ft_strcat(str, fnum->big_str);
-    if (fnum->exponent < 0)
-    ft_strcat_char(str, fnum->integer + '0');
+    if (fnum->exponent < 0) // sub_array and sub_array_80
+      ft_strcat_char(str, fnum->integer + '0');
   }
-  if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
+  if (((blksk->flag & 16) || (blksk->precision)) && (!(fnum->eflag & 4))) // '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
-    printf("in the middle, str is %s\n", str);
-
-  if (blksk->precision > 0)
+  if ((blksk->precision > 0) && (!(fnum->eflag & 4))) // not nan or inf
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
       {
@@ -131,6 +128,8 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
       carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
   }
+  if (fnum->eflag & 4) // only here we add nan or inf
+    ft_strcat(str, fnum->big_str);
   carry = blksk->width - ft_strlen(str);
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
       (!((fnum->sign == '-') && (blksk->flag & 2)))) // space flag
@@ -138,9 +137,9 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
     ft_strcat_char(final, ' ');
   if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
-      ft_strcat_char(final, '-');
+    ft_strcat_char(final, '-');
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
-      ft_strcat_char(final, '+');
+    ft_strcat_char(final, '+');
   if (blksk->width > ft_strlen(str))
   {
       if (blksk->flag & 8)// '-' flag , 0 ignored
@@ -150,7 +149,7 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
           ft_strcat_char(str, ' ');
       fnum->eflag |= 2; // this one particular case we need to deal with trailing zeros followed by space in g flag
       }
-      if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
+      if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4))) // zero flag without '-'
       {
         carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
         while (carry--)

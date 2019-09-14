@@ -11,7 +11,7 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
   dot_pos = exp;
   count_del = 0;
   tmp = 0;
-  if (blksk->type == 'f')
+  if ((blksk->type == 'f') || (blksk->type == 'F'))
   {
     tmp = ft_strlen(final) - 1;
     while (!((final[tmp] >= '0') && (final[tmp] <= '9')))
@@ -42,11 +42,10 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
     while(final[tmp] == '0')
       tmp--;
     count_del = exp - tmp;
-  printf("final is %s\n", final);
+
    if (count_del != 0) // so trailing zeroes present
       ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp + 1]));
-    printf("final is %s\n", final);
-  /*  exp = ft_strlen(final) - 1;
+  /* exp = ft_strlen(final) - 1;
     dot_pos -= 1;
     while ((final[dot_pos] == '+') || (final[dot_pos] == '-') || (final[dot_pos] == ' '))
       dot_pos--;
@@ -175,7 +174,7 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
     }
   else
   {
-    blksk->type = 'f';
+    blksk->type = (blksk->type == 'g') ? 'f' : 'F';
     blksk->precision = blksk->precision - (exp + 1);
     print_float_str(final, blksk, fnum);
   }

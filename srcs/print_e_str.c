@@ -218,14 +218,14 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   }
   else
   {
-    if (fnum->exponent > 0) // case big_int and big_int only
+    if ((fnum->exponent > 0) && (!(fnum->eflag & 4)))// case big_int and big_int only
       ft_strcat(str, fnum->big_str);
     if (fnum->exponent < 0)
     ft_strcat_char(str, fnum->integer + '0');
   }
-  if ((blksk->flag & 16) || (blksk->precision)) // '#' is on or precision is non-zero
+  if (((blksk->flag & 16) || (blksk->precision)) && (!(fnum->eflag & 4)))// '#' is on or precision is non-zero
     ft_strcat_char(group_digit(str, blksk), '.');
-  if (blksk->precision > 0)
+  if ((blksk->precision > 0) && (!(fnum->eflag & 4)))
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
       {
@@ -290,6 +290,8 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
       carry = ((int)(fnum->decimal * 10) > 5) ? 1 : 0;
     round_e_float(str, carry, ft_strlen(str) - 1);
   }
+  if (fnum->eflag & 4) // only here we add nan or inf
+    ft_strcat(str, fnum->big_str);
   carry = blksk->width - ft_strlen(str);
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
       (!((fnum->sign == '-') && (blksk->flag & 2)))) // space flag
@@ -297,9 +299,9 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
     ft_strcat_char(final, ' ');
   if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
-      ft_strcat_char(final, '-');
+    ft_strcat_char(final, '-');
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
-      ft_strcat_char(final, '+');
+    ft_strcat_char(final, '+');
   if (blksk->width > ft_strlen(str))
   {
       if (blksk->flag & 8)// '-' flag , 0 ignored
@@ -309,7 +311,7 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
           ft_strcat_char(str, ' ');
       fnum->eflag |= 2;
       }
-      if ((blksk->flag & 2) &&  (!(blksk->flag & 8))) // zero flag without '-'
+      if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4))) // zero flag without '-'
       {
         carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
         if (fnum->eflag == 1)
@@ -326,13 +328,13 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
           ft_strcat_char(final, ' ');
       }
   }
-  printf("before move_dot, str is %s\n", str);
   blksk->precision = pres_holder;
-  move_dot(str, blksk);
-  carry = blksk->width - (ft_strlen(final) - final_len + ft_strlen(str));
-  printf("before adjustment, carry is %d\n", carry);
-  if (carry > 0)
-    adjust_str(str, blksk, carry, fnum);
+  if (!(fnum->eflag & 4))
+  {
+    move_dot(str, blksk);
+    carry = blksk->width - (ft_strlen(final) - final_len + ft_strlen(str));
+    if (carry > 0)
+      adjust_str(str, blksk, carry, fnum);
+  }
   ft_strcat(final, str);
-  printf("after adjust, final is %s\n", final);
 }

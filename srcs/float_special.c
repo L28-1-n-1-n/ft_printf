@@ -1,6 +1,6 @@
 #include "printf.h"
-
-int  float_special(t_float *fnum, unsigned int bit_value)
+#include <stdio.h>
+int  float_special(t_float *fnum, unsigned int bit_value, char type)
 {
   printf("exponent is %d\n", fnum->exponent);
   if (bit_value == 64)
@@ -8,10 +8,21 @@ int  float_special(t_float *fnum, unsigned int bit_value)
     if (fnum->exponent == 1024) // full 1 for 11 digits = 2047, 2047 - bias of 1023 = 1024
     {
       if (fnum->mantissa == 0)
-        ft_strcpy(fnum->big_str, "inf");
+      {
+        if ((type == 'f') || (type == 'e') || (type == 'g'))
+          ft_strcpy(fnum->big_str, "inf");
+        else // case 'F', 'E' or 'G'
+          ft_strcpy(fnum->big_str, "INF");
+      }
       else
-        ft_strcpy(fnum->big_str, "nan");
-      return (1);
+      {
+        if ((type == 'f') || (type == 'e') || (type == 'g'))
+          ft_strcpy(fnum->big_str, "nan");
+        else // case 'F', 'E' or 'G'
+          ft_strcpy(fnum->big_str, "NAN");
+      }
+     fnum->eflag |= 4;
+     return (1);
     }
   if ((fnum->exponent == -1023) && (fnum->mantissa == 0))
   {
@@ -33,15 +44,34 @@ if (bit_value == 80)
       return (1);
     }
   }
+  if (fnum->exponent == 0x7FFF)
+  {
+    if ((fnum->mantissa >> 61) == (int64_t)2)
+    {
+      if (fnum->mantissa == 4611686018427387904) // All 1 exponent, 2^62 for mantissa
+      {
+        if ((type == 'f') || (type == 'e') || (type == 'g'))
+          ft_strcpy(fnum->big_str, "inf");
+          else // case 'F'
+          ft_strcpy(fnum->big_str, "INF");
+      }
+      else
+      {
+        if ((type == 'f') || (type == 'e') || (type == 'g'))
+          ft_strcpy(fnum->big_str, "snan");
+        else // case 'F'
+          ft_strcpy(fnum->big_str, "SNAN");
+      }
+    }
+    if ((fnum->mantissa >> 61) == (int64_t)3)
+    {
+      if ((type == 'f') || (type == 'e') || (type == 'g'))
+        ft_strcpy(fnum->big_str, "qnan");
+      else // case 'F'
+        ft_strcpy(fnum->big_str, "QNAN");
+    }
+    fnum->eflag |= 4;
+  }
 }
   return (0);
 }
-
-//0xFFF0000000000000L negative infinity, does not work = = but like the real printf, it is treated as positive 0
- // 0x7F0000000000000 positive infinity --> does NOT work = =
- // the tricky thing is, when positive inf and neg inf are read as double, somehow they are not the same number as in wikipedia
-// also need to catch subnormal stuff, i.e. digits, i.e. exponent is 0 (see wikipedia)
-// when you deal with precision, take care to know that you can ask for more precsion than there is, and stop when it is over the limit, or keep printig zeros
-// needs to deal with big int such as -1119223372036854775808.0L
-//https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html check out __float80 and __float128 types
-//https://www.youtube.com/watch?v=6frTBpLN1L8 different ways : denormalized number represented by the same 80 or 64 bits

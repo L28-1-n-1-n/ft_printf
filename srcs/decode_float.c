@@ -19,7 +19,6 @@ void underflow_exponent(t_float *fnum, long double *fraction, unsigned int bit_v
       fnum->exponent += 1;
       printf("fnum->remain is %llu\n", fnum->remain);
       sub_array_80(fnum);
-      printf("we did not exit underflow\n");
       return ;
     }
   // if not subnormal:
@@ -135,7 +134,6 @@ void   compose_float_80(t_float *fnum, long double *fraction)
     big_int_80(fnum);
   if (fnum->exponent < 0)
     underflow_exponent(fnum, fraction, 80); // needs testing
-  printf("trace success\n");
 //  print_float_str(final, blksk, fnum);
 }
 
@@ -205,7 +203,7 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       printf("fnum->sign is %c\n", fnum->sign);
       printf("fnum->exponent is %hd\n", fnum->exponent);
       printf("fnum->mantissa is %llu\n", fnum->mantissa);
-      if (!(float_special(fnum, 64)))
+      if (!(float_special(fnum, 64, blksk->type)))
         compose_float_64(fnum, fraction);
     }
   else // case L, 80 bit, 1, 15, 1 (integer part), 63
@@ -213,17 +211,25 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       fnum->exponent = ((uint16_t)word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
       fnum->sign = (word[1] & 0x8000) ? '-' : '+';
       fnum->mantissa = word[0];
-      if (!(float_special(fnum, 80)))
+      if (!(float_special(fnum, 80, blksk->type)))
         compose_float_80(fnum, fraction);
     }
-  if (blksk->type == 'f')
+  if ((blksk->type == 'f') || (blksk->type == 'F'))
     print_float_str(final, blksk, fnum);
   else
   {
-    if (blksk->type == 'e')
+    if ((blksk->type == 'e') || (blksk->type == 'E'))
       print_e_str(final, blksk, fnum);
     else // 'g' flag
-      print_g_str(final, blksk, fnum);
+    {
+      if (fnum->eflag & 4)
+      {
+        blksk->type = (blksk->type == 'g') ? 'g' : 'G';
+        print_float_str(final, blksk, fnum);
+      }
+      else
+        print_g_str(final, blksk, fnum);
+    }
   }
   free(fnum);
   return (1);

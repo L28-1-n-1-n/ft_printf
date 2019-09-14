@@ -38,7 +38,7 @@ typedef struct s_float
   uint64_t integer;
   uint64_t remain;
   long double decimal;
-  unsigned int eflag; // 1 for e flag, 2 for g flag
+  unsigned int eflag; // 1 for e flag, 2 for g flag, 4 for nan,inf,snan,qnan
 
   char big_str[20000];
 }              t_float;
@@ -64,7 +64,7 @@ void  big_int_80(t_float *fnum);
 char *group_digit(char *str, t_block *blksk);
 void print_float_str(char *final, t_block *blksk, t_float *fnum);
 void print_e_str(char *final, t_block *blksk, t_float *fnum);
-int  float_special(t_float *fnum, unsigned int bit_value);
+int  float_special(t_float *fnum, unsigned int bit_value, char type);
 void sub_array(t_float *fnum);
 void sub_array_80(t_float *fnum);
 t_float   *init_float(t_float *fnum);
