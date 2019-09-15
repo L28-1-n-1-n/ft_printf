@@ -52,7 +52,14 @@ int		main()
 		ft_printf("flaot=%*.*f\n", 50, -23, 123.544);
 		   printf("flaot=%*.*f\n", 50, -23, 123.544);*/
 		//	 ft_printf("string=%2$.*s and then %%%% %3$d\n", 3, "hello", 23);
-		ft_printf("We want to {CYAN}say {{%s}} to {RED}the {RESETTEXT}%s\n", "hello", "{{world}}");
+		ft_printf("♞  🐤🙊 {BBLUE}{WHITE}⏎{RESETTEXT}{RESETFONT}");
+		ft_printf("Because {BBLUE}{WHITE}everything{RESETTEXT}{RESETFONT}{GREEN} is {RESETTEXT}{BWHITE}{RED}AWESOME{RESETTEXT}{RESETFONT} {BORANGE}{BLACK}{IT}!!!{RESETTEXT}{RESETFONT}\n");
+		ft_printf("{BGREY}{BLUE}I feel {RESETTEXT}{RESETFONT}{BOLD}{BYELLOW}{BROWN}MORE{RESETTEXT}{RESETFONT}{BPURPLE}{WHITE} AWESOME {RESETTEXT}{RESETFONT}{BBLACK}{MAGNETA}than an {RESETTEXT}{RESETFONT}{ULINE}{BPINK}{CYAN}awesome possum{RESETTEXT}{RESETFONT}\n");
+		ft_printf("You know what's {BGREEN}{STHRO}{GRAY}%s{RESETTEXT}{RESETFONT}? Everything 😎 ✊ ! {RED}✽{GREEN}✼{MAGNETA}❉{CYAN}✲{BLUE}🃑{BPINK}{BLACK}🃒{WHITE}☺︎{BPURPLE}{CYAN}♠︎{RED}♣︎{BROWN}♥︎{GREEN}♦︎{BYELLOW}{BLACK}☂{RESETTEXT}{RESETFONT}☀︎\n", "awesome");
+		ft_printf("And below we test errors:\n{BYELLOW}{BLACK}Invalid colour {RESETTEXT}{RESETFONT} shall print as text :{YELLOW}\n");
+		ft_printf("{STHRO}And so many bad spellings:\n{BLACKK}{BBLACK}{{BLACK}}{RED}<--double brackets are printed as single ones\n");
+		ft_printf("We want to {CYAN}say {{%s}} to {RED}the{RESETTEXT}%.*s and {GREEEN}{GREEN}then\n", "hello", 3, "{{world}}");
+
 	//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
 //	printf("digit=% -5d\n", 12);

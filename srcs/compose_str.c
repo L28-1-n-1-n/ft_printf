@@ -4,29 +4,77 @@
 int cat_format(char *final, char *adj, int pos, char *mod)
 {
   int len;
+  int total;
 
+  total = 0;
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
-  if (len < 0)
-      ft_memmove(&final[pos + len + ft_strlen(mod)], &final[pos + ft_strlen(mod) + 2], ft_strlen(&final[pos + ft_strlen(mod)]));
   if (len > 0)
     ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
+  if (len < 0)
+    {
+      ft_memmove(&final[pos + len + ft_strlen(mod) + 2], &final[pos + ft_strlen(mod)+ 2], ft_strlen(&final[pos + ft_strlen(mod) + 2]));
+      len = len * -1 + 1;
+      total = ft_strlen(final);
+      while (len--)
+        final[total - len] = '\0';
+    }
   ft_strncpy(&final[pos], adj, ft_strlen(adj));
   return (1);
 }
 
 int alter_format(char *final, char *mod, int pos)
 {
-  printf("mod is %s\n", mod);
-  printf("final[%d] is %c\n", pos, final[pos]);
-  if (ft_strcmp(mod, "CYAN") == 0)
-    return(cat_format(final, CYAN, pos, mod));
+  if (ft_strcmp(mod, "BLACK") == 0)
+    return(cat_format(final, BLACK, pos, mod));
   if (ft_strcmp(mod, "RED") == 0)
     return(cat_format(final, RED, pos, mod));
-    //remove where CYAN where it is, with width ft_strlen(mod) + 2,
-    //and then ft_memmove the current str for ft_strlen(CYAN), i.e. ft_stren(""\033[22;36m") units backwards,
-    //then write  CYAN into original position in final
+  if (ft_strcmp(mod, "GREEN") == 0)
+    return(cat_format(final, GREEN, pos, mod));
+  if (ft_strcmp(mod, "BROWN") == 0)
+    return(cat_format(final, BROWN, pos, mod));
+  if (ft_strcmp(mod, "BLUE") == 0)
+    return(cat_format(final, BLUE, pos, mod));
+  if (ft_strcmp(mod, "MAGNETA") == 0)
+    return(cat_format(final, MAGNETA, pos, mod));
+  if (ft_strcmp(mod, "CYAN") == 0)
+    return(cat_format(final, CYAN, pos, mod));
+  if (ft_strcmp(mod, "GRAY") == 0)
+    return(cat_format(final, GRAY, pos, mod));
+  if (ft_strcmp(mod, "WHITE") == 0)
+    return(cat_format(final, WHITE, pos, mod));
+  if (ft_strcmp(mod, "RESETTEXT") == 0)
+    return(cat_format(final, RESETTEXT, pos, mod));
+  if (ft_strcmp(mod, "BBLUE") == 0)
+    return(cat_format(final, BBLUE, pos, mod));
+  if (ft_strcmp(mod, "BPURPLE") == 0)
+    return(cat_format(final, BPURPLE, pos, mod));
+  if (ft_strcmp(mod, "BPINK") == 0)
+    return(cat_format(final, BPINK, pos, mod));
+  if (ft_strcmp(mod, "BORANGE") == 0)
+    return(cat_format(final, BORANGE, pos, mod));
+  if (ft_strcmp(mod, "BYELLOW") == 0)
+    return(cat_format(final, BYELLOW, pos, mod));
+  if (ft_strcmp(mod, "BGREEN") == 0)
+    return(cat_format(final, BGREEN, pos, mod));
+  if (ft_strcmp(mod, "BGREY") == 0)
+    return(cat_format(final, BGREY, pos, mod));
+  if (ft_strcmp(mod, "BWHITE") == 0)
+    return(cat_format(final, BWHITE, pos, mod));
+  if (ft_strcmp(mod, "BBLACK") == 0)
+    return(cat_format(final, BBLACK, pos, mod));
+  if (ft_strcmp(mod, "BOLD") == 0)
+    return(cat_format(final, BOLD, pos, mod));
+  if (ft_strcmp(mod, "IT") == 0)
+    return(cat_format(final, IT, pos, mod));
+  if (ft_strcmp(mod, "ULINE") == 0)
+    return(cat_format(final, ULINE, pos, mod));
+  if (ft_strcmp(mod, "STHRO") == 0)
+    return(cat_format(final, STHRO, pos, mod));
+  if (ft_strcmp(mod, "RESETFONT") == 0)
+    return(cat_format(final, RESETFONT, pos, mod));
   return (0);
 }
+
 void format_final(char *final)
 {
   int i;
