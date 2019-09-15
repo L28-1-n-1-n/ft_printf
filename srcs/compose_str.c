@@ -1,5 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
+#include <unistd.h>
 
 int cat_format(char *final, char *adj, int pos, char *mod)
 {
@@ -75,6 +76,13 @@ int alter_format(char *final, char *mod, int pos)
   return (0);
 }
 
+void delete_bracket(char *final, int i)
+{
+    printf("yolo i is %d and text is %s\n", i, &final[i]);
+    ft_memmove(&final[i], &final[i + 1], ft_strlen(&final[i + 1]));
+    final[ft_strlen(final) - 1] = '\0';
+}
+
 void format_final(char *final)
 {
   int i;
@@ -86,6 +94,8 @@ void format_final(char *final)
   ft_bzero(mod, 10);
   while (final[i])
   {
+    if ((final[i] == '}') && (final[i + 1] == '}'))
+      delete_bracket(final, i);
     if (final[i] == '{')
       if ((final[i + 1] != '{') && (final[i - 1] != '{'))
       {
@@ -105,6 +115,8 @@ void format_final(char *final)
         }
         k = 0;
       }
+      if ((final[i] == '{') && (final[i + 1] == '{'))
+        delete_bracket(final, i);
     i++;
   //  printf("final[%d] is %c\n",i, final[i]);
   }
@@ -146,5 +158,6 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
   //  printf("and finally fmt is %s\n", fmt);
   }
   format_final(final);
-  printf("FIANL is \n%s\n", final);
+  //printf("FIANL is \n%s\n", final);
+  write(1, &final, ft_strlen(final));
 }
