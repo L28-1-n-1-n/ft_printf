@@ -27,10 +27,12 @@
 # define ULINE "\e[4m"
 # define STHRO "\e[9m"
 # define RESETFONT "\e[0m"
+
 # include "libft.h"
 # include <stdarg.h>
 # include <inttypes.h>
 # include <stdio.h>
+
 typedef enum		e_modifier
  {
 		 NA = 0,
@@ -95,6 +97,7 @@ t_float   *init_float(t_float *fnum);
 void print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
 void string_bin(intmax_t n, char *final, t_block *blksk);
+void treat_time(char *final);
 
 #endif
 
