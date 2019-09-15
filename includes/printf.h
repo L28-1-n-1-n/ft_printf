@@ -3,6 +3,30 @@
 
 # define BUFF 16384
 # define isnan(x) ((x) != (x))
+# define BLACK "\033[22;30m"
+# define RED "\033[22;31m"
+# define GREEN "\033[22;32m"
+# define BROWN "\033[22;33m"
+# define BLUE "\033[22;34m"
+# define MAGNETA "\033[22;35m"
+# define CYAN "\033[22;36m"
+# define GRAY "\033[22;37m"
+# define WHITE "\033[01;37m"
+# define RESETTEXT "\033[0m"
+# define BBLUE "\e[48;5;033m"
+# define BPURPLE "\e[48;5;057m"
+# define BPINK "\e[48;5;213m"
+# define BORANGE "\e[48;5;214m"
+# define BYELLOW "\e[48;5;226m"
+# define BGREEN "\e[48;5;034m"
+# define BGREY "\e[48;5;243m"
+# define BWHITE "\e[48;5;255m"
+# define BBLACK "\e[48;5;237m"
+# define BOLD "\e[1m"
+# define IT "\e[3m"
+# define ULINE "\e[4m"
+# define STHRO "\e[9m"
+# define RESETFONT "\e[0m"
 # include "libft.h"
 # include <stdarg.h>
 # include <inttypes.h>

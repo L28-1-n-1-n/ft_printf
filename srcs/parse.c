@@ -1,6 +1,7 @@
 #include "printf.h"
 #include <stdlib.h>
 #include <stdio.h>
+/*
 void shift_position(unsigned int m, t_block *blks)
 {
   unsigned int order;
@@ -18,7 +19,7 @@ void shift_position(unsigned int m, t_block *blks)
   }
 
 }
-
+*/
 void init_blocks(t_block *blks, int total)
 {
   total = total - 1; /*For example, if 3 blocks to initialize, we will have blk[2], blk[1], blk[0]*/
@@ -73,13 +74,13 @@ int   parse(const char *fmt, va_list ap)
           i++; /*skip until you find the next argument*/
       }
   }
-  if (blks[0].order)
+  /*if (blks[0].order)
   {
     shift_position(m, blks);
     quick_sort(m, blks);
   // the idea is that quick_sort will return t_block* new_blks
   //  compose_str(fmt, ap, quick_sort(count_arg(fmt), blks));
-  }
+}*/
     printf("Total args are %d\n", m);
   compose_str(fmt, ap, blks);
 

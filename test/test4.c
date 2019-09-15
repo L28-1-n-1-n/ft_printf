@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
+#include <unistd.h>
 #define isnan(x) ((x) != (x))
 int main()
 {
@@ -27,6 +29,7 @@ int main()
 	printf("nan is=%+-020.30f\n", NAN);
 //	printf("macro returns %d\n", FP_NAN(0./0.));
 //	printf("result is %llu\n", 6917529027641081856 >> 61);
-	printf("we print %2$d, %%%% %1$d\n", 3, 4); 
+	printf("we \e[31m print %2$d, %%%% %1$d\n", 3, 4);
+	write(1, "we change to \e[31m RED\n", 14);
 	return (0);
 }
