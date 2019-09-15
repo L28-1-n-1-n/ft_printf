@@ -152,7 +152,7 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
     if (!(*fmt))
       break;
-    while (!(ft_strchr("cdixXpeEfFgGousb%", *fmt)))
+    while (!(ft_strchr("cdixXpeEfFgGousbrk%", *fmt)))
       fmt++;
     fmt++;
   //  printf("and finally fmt is %s\n", fmt);

@@ -61,8 +61,9 @@ int		main()
 		ft_printf("Here's a bunch of random brackets\n{{{{}}}}{{}{}{{{}}}}{MAGNETA}{{more %s}}{BLUE} and invalid formats{{IT}}{U_LINE}{RESETTEXT}{RESETFONT}\n", "brackets");
 		ft_printf("We want to {CYAN}say {{%s}} to {RED}the{RESETTEXT}%.*s and {GREEEN}{GREEN}then\n", "hello", 3, "{{world}}");
 		ft_printf("{BORANGE}{BLACK}And now we print first 5 chracters of the string \"0123456789\": %.*s{RESETTEXT}{RESETFONT}\n", 5, "0123456789");*/
-		ft_printf("Testing \t");
-		ft_printf("\\x%02x\n", '\t');
+			ft_printf("Testing \t");
+	//	ft_printf("\\x%02x\n", '\t');
+		ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 		// idea on how to print the above: for 'r' flag, cat final with "\x", then manually input '0' flag, then width of 2, then call string_hex with va_arg to '\t'
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);

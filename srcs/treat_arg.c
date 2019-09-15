@@ -53,6 +53,19 @@ void    treat_hex(char *final, va_list ap, t_block *blksk)
   string_hex(n, final, blksk);
 }
 
+void    treat_non_print(char *final, va_list ap, t_block *blksk)
+{
+  uintmax_t n;
+
+  n = va_arg(ap, unsigned int);
+  blksk->flag |= 2;
+  blksk->width = 2;
+  blksk->precision = 0;
+  blksk->type = 'x';
+  ft_strcat(final, "\\x");
+  string_hex(n, final, blksk);
+}
+
 void    treat_num(char *final, va_list ap, t_block *blksk)
 {
   intmax_t n;
@@ -121,4 +134,6 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
     treat_float(final, ap, blksk);
   if (blksk->type == 'b')
     treat_bin(final, ap, blksk);
+  if (blksk->type == 'r')
+    treat_non_print(final, ap, blksk);
 }

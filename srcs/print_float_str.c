@@ -28,7 +28,6 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   int i;
 
   i = 0;
-  printf("we got to print_float\n");
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;

@@ -2,8 +2,6 @@
 #include <stdlib.h>
 void adjust_str(char *str, t_block *blksk, int carry, t_float *fnum)
 {
-printf("we got this far\n");
-printf("str is %s\n", str);
 (void)fnum;
   if (blksk->flag & 8)// '-' flag , 0 ignored
     while (carry--)
@@ -15,12 +13,10 @@ printf("str is %s\n", str);
         ft_strpcat_char(&str[1], '0');
       else
         ft_strpcat_char(str, '0');
-      printf("str is during loop %s\n", str);
     }
   if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
     while (carry--)
       ft_strpcat_char(str, ' ');
-  printf("str is %s\n", str);
 }
 
 void round_e_float(char *str, int carry, size_t i)
@@ -49,13 +45,11 @@ void pos_exp(char *str, t_block *blksk, int i)
   char digits[10];
   int carry;
   //int placeholder;
-  printf("i is %d\n",i);
   ft_bzero(digits, 10);
   tens = 1;
   while ((str[i - tens]) && (str[i - tens] >= '0') && (str[i - tens] <= '9'))
     tens++;
   tens -= 2;
-  printf("tens is %d\n",tens);
   ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]));
   ft_memmove(&str[i - tens + 1], &str[i - tens], ft_strlen(&str[i - tens]));
   i = i - tens;
