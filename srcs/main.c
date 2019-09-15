@@ -52,7 +52,7 @@ int		main()
 		ft_printf("flaot=%*.*f\n", 50, -23, 123.544);
 		   printf("flaot=%*.*f\n", 50, -23, 123.544);*/
 		//	 ft_printf("string=%2$.*s and then %%%% %3$d\n", 3, "hello", 23);
-		ft_printf("We want to {CYAN} say {{%s}} to {RED}the %s\n", "hello", "{{world}}");
+		ft_printf("We want to {CYAN}say {{%s}} to {RED}the {RESETTEXT}%s\n", "hello", "{{world}}");
 	//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
 //	printf("digit=% -5d\n", 12);

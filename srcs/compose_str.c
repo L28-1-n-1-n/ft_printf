@@ -1,13 +1,31 @@
 #include "printf.h"
 #include <stdio.h>
-void alter_format(char *final, char *mod, int pos)
+
+int cat_format(char *final, char *adj, int pos, char *mod)
+{
+  int len;
+
+  len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
+  if (len < 0)
+      ft_memmove(&final[pos + len + ft_strlen(mod)], &final[pos + ft_strlen(mod) + 2], ft_strlen(&final[pos + ft_strlen(mod)]));
+  if (len > 0)
+    ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
+  ft_strncpy(&final[pos], adj, ft_strlen(adj));
+  return (1);
+}
+
+int alter_format(char *final, char *mod, int pos)
 {
   printf("mod is %s\n", mod);
+  printf("final[%d] is %c\n", pos, final[pos]);
   if (ft_strcmp(mod, "CYAN") == 0)
-    printf("HAHAHA\n");
+    return(cat_format(final, CYAN, pos, mod));
+  if (ft_strcmp(mod, "RED") == 0)
+    return(cat_format(final, RED, pos, mod));
     //remove where CYAN where it is, with width ft_strlen(mod) + 2,
     //and then ft_memmove the current str for ft_strlen(CYAN), i.e. ft_stren(""\033[22;36m") units backwards,
     //then write  CYAN into original position in final
+  return (0);
 }
 void format_final(char *final)
 {
@@ -33,7 +51,8 @@ void format_final(char *final)
       //  printf("after copy, mod is %s\n", mod);
         if ((final[i + k] == '}') && (final[i + k + 1] != '}') && (ft_strlen(mod) > 1))
         {
-          alter_format(final, mod, i - k);
+          printf("i = %d and k = %d\n", i, k);
+          alter_format(final, mod, i - 1);
           ft_bzero(mod, 10);
         }
         k = 0;
