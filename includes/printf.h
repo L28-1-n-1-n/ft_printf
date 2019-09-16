@@ -97,7 +97,7 @@ t_float   *init_float(t_float *fnum);
 void print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
 void string_bin(intmax_t n, char *final, t_block *blksk);
-void treat_time(char *final);
+void treat_time(char *final, t_block *blksk);
 
 #endif
 

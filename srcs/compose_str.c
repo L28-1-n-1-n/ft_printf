@@ -92,6 +92,7 @@ void format_final(char *final)
   i = 0;
   k = 0;
   ft_bzero(mod, 10);
+
   while (final[i])
   {
     if ((final[i] == '}') && (final[i + 1] == '}'))
@@ -147,7 +148,6 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
       break;
     treat_arg(final, ap, &blks[k]);
     // Treat '%' and ft_strncpy the result into final
-    printf("we are still in compose str\n");
     k++;
     fmt++;
     if (!(*fmt))
@@ -156,6 +156,7 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
       fmt++;
     fmt++;
   //  printf("and finally fmt is %s\n", fmt);
+
   }
   format_final(final);
   //printf("FIANL is \n%s\n", final);

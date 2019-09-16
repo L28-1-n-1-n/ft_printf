@@ -137,5 +137,5 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
   if (blksk->type == 'r')
     treat_non_print(final, ap, blksk);
   if (blksk->type == 'k')
-    treat_time(final);
+    treat_time(final, blksk);
 }
