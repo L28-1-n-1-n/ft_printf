@@ -139,3 +139,7 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
   if (blksk->type == 'k')
     treat_time(final, blksk);
 }
+// idea on how to generate random number : find the time, use the last digit of no.of seconds as seed
+// take the last digit of seconds, divide it with second last, given second last is non-ft_bzero
+// then divide first with second, given that both are non-zero, take the first digit of the float as the number (doesn't matter if it is zero)
+// second seed will be second digit of decimal, so second digit e.g. 6, divides digit 6+2 = 8, etc

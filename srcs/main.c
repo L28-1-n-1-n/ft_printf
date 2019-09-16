@@ -65,7 +65,6 @@ int		main()
 	//	ft_printf("\\x%02x\n", '\t');
 		//ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 		ft_printf("time is %k\n");
-		// idea on how to print the above: for 'r' flag, cat final with "\x", then manually input '0' flag, then width of 2, then call string_hex with va_arg to '\t'
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
 //	printf("digit=% -5d\n", 12);
