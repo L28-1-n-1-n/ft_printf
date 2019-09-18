@@ -21,17 +21,19 @@ void round_float(char *str, int carry, size_t i)
   return ;
 }
 
-void print_float_str(char *final, t_block *blksk, t_float *fnum)
+int print_float_str(char *final, t_block *blksk, t_float *fnum)
 {
-  char str[20000];
+  char *str;
   int carry;
   int i;
 
   i = 0;
+  if (!(str = ft_memalloc(SLEN)))
+    return(ft_free(str));
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
-  ft_bzero(str, 20000);
+  ft_bzero(str, SLEN);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
@@ -163,4 +165,5 @@ void print_float_str(char *final, t_block *blksk, t_float *fnum)
   }
   printf("dot is at pos %zu\n", ft_strchr_arg(str, '.'));
   ft_strcat(final, str);
+  return (1);
 }

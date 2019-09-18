@@ -65,6 +65,7 @@ int		main()
 	//	ft_printf("\\x%02x\n", '\t');
 		//ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 		ft_printf("time is %k\n");
+		ft_printf("%s", "dorem12345hello");
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
 //	printf("digit=% -5d\n", 12);

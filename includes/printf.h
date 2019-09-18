@@ -27,7 +27,8 @@
 # define ULINE "\e[4m"
 # define STHRO "\e[9m"
 # define RESETFONT "\e[0m"
-
+# define FLEN 5
+# define SLEN 4294967300
 # include "libft.h"
 # include <stdarg.h>
 # include <inttypes.h>
@@ -74,7 +75,7 @@ int			count_arg(const char *str);
 int 		parse(const char *fmt, va_list ap);
 void 		parse_remain(const char *fmt, int i, va_list ap);
 void    parse_arg(const char *fmt, unsigned int i, t_block *blks);
-void    compose_str(const char *fmt, va_list ap, t_block *blks);
+int     compose_str(const char *fmt, va_list ap, t_block *blks);
 void    treat_arg(char *final, va_list ap, t_block *blks);
 void    string_hex(uintmax_t n, char *final, t_block *blksk);
 void    string_digit(intmax_t n, char *final, t_block *blksk);
@@ -88,7 +89,7 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk);
 void  big_int(t_float *fnum);
 void  big_int_80(t_float *fnum);
 char *group_digit(char *str, t_block *blksk);
-void print_float_str(char *final, t_block *blksk, t_float *fnum);
+int print_float_str(char *final, t_block *blksk, t_float *fnum);
 void print_e_str(char *final, t_block *blksk, t_float *fnum);
 int  float_special(t_float *fnum, unsigned int bit_value, char type);
 void sub_array(t_float *fnum);
@@ -98,7 +99,8 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
 void string_bin(intmax_t n, char *final, t_block *blksk);
 void treat_time(char *final, t_block *blksk);
-
+void output_final(char *final);
+void check_buff(char *final, char *str, size_t len);
 #endif
 
 

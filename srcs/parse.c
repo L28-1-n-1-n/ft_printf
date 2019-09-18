@@ -17,7 +17,6 @@ void shift_position(unsigned int m, t_block *blks)
     blk[i].order = blk[i - 1].order + 1;
 
   }
-
 }
 */
 void init_blocks(t_block *blks, int total)
@@ -48,7 +47,7 @@ int   parse(const char *fmt, va_list ap)
   k = 0; /*keep track on argument or blk number */
   m = count_arg(fmt);
   if(!(blks = (t_block *)malloc(sizeof(t_block) * count_arg(fmt))))
-    return (0);
+    return (ft_free(blks));
   init_blocks(blks, m);
   while (fmt[i])
   {
@@ -58,7 +57,6 @@ int   parse(const char *fmt, va_list ap)
     {
       blks[k].str = "%";
       blks[k].pos = i; // i is pos of '%', ft_strchr_arg has 0 at '%'
-      //printf("blks[%d].pos is %d\n", k, i);
       k++;
       i += 2; /*skip till next argument*/
     }
@@ -66,7 +64,6 @@ int   parse(const char *fmt, va_list ap)
       if (fmt[i] == '%')
       {
         blks[k].pos = i;
-      //  printf("blks[%d].pos is %d\n", k, i);
         parse_arg(fmt, k, blks);
         k++;
         i++;
@@ -74,23 +71,15 @@ int   parse(const char *fmt, va_list ap)
           i++; /*skip until you find the next argument*/
       }
   }
-  /*if (blks[0].order)
-  {
-    shift_position(m, blks);
-    quick_sort(m, blks);
-  // the idea is that quick_sort will return t_block* new_blks
-  //  compose_str(fmt, ap, quick_sort(count_arg(fmt), blks));
-}*/
-    printf("Total args are %d\n", m);
   compose_str(fmt, ap, blks);
-
+  return (1);
+}
 /*  k = 0;
   while (k < m)
   {
    printf("blks[%d].str is %s\n", k, blks[k].str);
     k++;
   }*/
-  (void)ap;
 /*
 
 Initial ideas:
@@ -103,7 +92,3 @@ Initial ideas:
 After that, process result and put each result in blk[i]
 Then, loop over fmt one last time and form final result reading all tabs
 */
-
-
-  return (1);
-}

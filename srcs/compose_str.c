@@ -1,6 +1,18 @@
 #include "printf.h"
 #include <stdio.h>
 #include <unistd.h>
+void output_final(char *final)
+{
+  unsigned int i;
+
+  i = 0;
+  while (i < ft_strlen(final))
+  {
+    write(1, &final[i], 1);
+    i++;
+  }
+  ft_bzero(final, FLEN);
+}
 
 int cat_format(char *final, char *adj, int pos, char *mod)
 {
@@ -10,8 +22,16 @@ int cat_format(char *final, char *adj, int pos, char *mod)
   total = 0;
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
   if (len > 0)
-    ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
-  if (len < 0)
+    {
+      if (len + ft_strlen(final) >=FLEN)
+        // the idea is to print the first bracket {} as colour first, the rest of the string in another iteration
+
+        output_final(final);
+      else
+      //check_buff(final, str, len);
+      ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
+    }
+  if (len < 0) // no problem with this part since we will not overflow final
     {
       ft_memmove(&final[pos + len + ft_strlen(mod) + 2], &final[pos + ft_strlen(mod)+ 2], ft_strlen(&final[pos + ft_strlen(mod) + 2]));
       len = len * -1 + 1;
@@ -78,7 +98,6 @@ int alter_format(char *final, char *mod, int pos)
 
 void delete_bracket(char *final, int i)
 {
-    printf("yolo i is %d and text is %s\n", i, &final[i]);
     ft_memmove(&final[i], &final[i + 1], ft_strlen(&final[i + 1]));
     final[ft_strlen(final) - 1] = '\0';
 }
@@ -92,7 +111,6 @@ void format_final(char *final)
   i = 0;
   k = 0;
   ft_bzero(mod, 10);
-
   while (final[i])
   {
     if ((final[i] == '}') && (final[i + 1] == '}'))
@@ -101,16 +119,13 @@ void format_final(char *final)
       if ((final[i + 1] != '{') && (final[i - 1] != '{'))
       {
         i++;
-      //  printf("inside loop, final[%d] is %c\n", i, final[i]);
         while ((final[i + k] != '}') && (k < 9))
           {
             mod[k] = final[i + k];
             k++;
           }
-      //  printf("after copy, mod is %s\n", mod);
         if ((final[i + k] == '}') && (final[i + k + 1] != '}') && (ft_strlen(mod) > 1))
         {
-          printf("i = %d and k = %d\n", i, k);
           alter_format(final, mod, i - 1);
           ft_bzero(mod, 10);
         }
@@ -119,13 +134,12 @@ void format_final(char *final)
       if ((final[i] == '{') && (final[i + 1] == '{'))
         delete_bracket(final, i);
     i++;
-  //  printf("final[%d] is %c\n",i, final[i]);
   }
 }
 
-void	compose_str(const char *fmt, va_list ap, t_block *blks)
+int	compose_str(const char *fmt, va_list ap, t_block *blks)
 {
-  char final[50000];
+  char *final;
   unsigned int i;
   unsigned int k;
   unsigned int len;
@@ -133,8 +147,7 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
   i = 0;
   len = 0;
   k = 0;
-  ft_bzero(final, 50000);
-  (void)blks;
+  final = ft_strnew(FLEN);
   while (*fmt)
   {
     len = 0;
@@ -143,11 +156,11 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
       fmt++;
       len++;
     }
-    ft_strncat(final, fmt - len, len);
+    //ft_strncat(final, fmt - len, len);
+    check_buff(final, (char *)fmt - len, len);
     if (!(*fmt))
       break;
     treat_arg(final, ap, &blks[k]);
-    // Treat '%' and ft_strncpy the result into final
     k++;
     fmt++;
     if (!(*fmt))
@@ -155,10 +168,8 @@ void	compose_str(const char *fmt, va_list ap, t_block *blks)
     while (!(ft_strchr("cdixXpeEfFgGousbrk%", *fmt)))
       fmt++;
     fmt++;
-  //  printf("and finally fmt is %s\n", fmt);
-
   }
   format_final(final);
-  //printf("FIANL is \n%s\n", final);
-  write(1, &final, ft_strlen(final));
+  output_final(final);
+  return (0);
 }

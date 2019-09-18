@@ -96,4 +96,5 @@ t_list				*ft_elem_upper(t_list *elem);
 int					ft_lstlength(t_list *lst);
 int					ft_lsqrt(int nb);
 char	      *ft_strrev(char *str);
+int					ft_free(void *var);
 #endif
