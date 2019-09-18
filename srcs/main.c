@@ -56,9 +56,9 @@ int		main()
 		ft_printf("Because {BBLUE}{WHITE}everything{RESETTEXT}{RESETFONT}{GREEN} is {RESETTEXT}{BWHITE}{RED}AWESOME{RESETTEXT}{RESETFONT} {BORANGE}{BLACK}{IT}!!!{RESETTEXT}{RESETFONT}\n");
 		ft_printf("{BGREY}{BLUE}I feel {RESETTEXT}{RESETFONT}{BOLD}{BYELLOW}{BROWN}MORE{RESETTEXT}{RESETFONT}{BPURPLE}{WHITE} AWESOME {RESETTEXT}{RESETFONT}{BBLACK}{MAGNETA}than an {RESETTEXT}{RESETFONT}{ULINE}{BPINK}{CYAN}awesome possum{RESETTEXT}{RESETFONT}\n");
 		ft_printf("You know what's {BGREEN}{STHRO}{GRAY}%s{RESETTEXT}{RESETFONT}? Everything 😎 ✊ ! {RED}✽{GREEN}✼{MAGNETA}❉{CYAN}✲{BLUE}🃑{BPINK}{BLACK}🃒{WHITE}☺︎{BPURPLE}{CYAN}♠︎{RED}♣︎{BROWN}♥︎{GREEN}♦︎{BYELLOW}{BLACK}☂{RESETTEXT}{RESETFONT}☀︎\n", "awesome");*/
-	/*	ft_printf("And below we test errors:\n{BYELLOW}{BLACK}Invalid colour {RESETTEXT}{RESETFONT} shall print as text :{YELLOW}\n");
+	//	ft_printf("And below we test errors:\n{BYELLOW}{BLACK}Invalid colour {RESETTEXT}{RESETFONT} shall print as text :{YELLOW}\n");
 		ft_printf("{STHRO}And so many bad spellings:{RESETTEXT}{RESETFONT}\n{BLACKK}{BBLACK}{{BLACK}}{RED}<--double brackets are printed as single ones{RESETTEXT}{RESETFONT}\n");
-		ft_printf("Here's a bunch of random brackets\n{{{{}}}}{{}{}{{{}}}}{MAGNETA}{{more %s}}{BLUE} and invalid formats{{IT}}{U_LINE}{RESETTEXT}{RESETFONT}\n", "brackets");
+	/*	ft_printf("Here's a bunch of random brackets\n{{{{}}}}{{}{}{{{}}}}{MAGNETA}{{more %s}}{BLUE} and invalid formats{{IT}}{U_LINE}{RESETTEXT}{RESETFONT}\n", "brackets");
 		ft_printf("We want to {CYAN}say {{%s}} to {RED}the{RESETTEXT}%.*s and {GREEEN}{GREEN}then\n", "hello", 3, "{{world}}");
 		ft_printf("{BORANGE}{BLACK}And now we print first 5 chracters of the string \"0123456789\": %.*s{RESETTEXT}{RESETFONT}\n", 5, "0123456789");*/
 	//		ft_printf("Testing \t");

@@ -27,7 +27,7 @@
 # define ULINE "\e[4m"
 # define STHRO "\e[9m"
 # define RESETFONT "\e[0m"
-# define FLEN 5
+# define FLEN 50
 # define SLEN 4294967300
 # include "libft.h"
 # include <stdarg.h>

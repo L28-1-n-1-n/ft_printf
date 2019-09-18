@@ -18,17 +18,18 @@ int cat_format(char *final, char *adj, int pos, char *mod)
 {
   int len;
   int total;
-
+  printf("pos is %d\n", pos);
   total = 0;
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
   if (len > 0)
     {
-      if (len + ft_strlen(final) >=FLEN)
+    /*  if (len + ft_strlen(final) >=FLEN)
         // the idea is to print the first bracket {} as colour first, the rest of the string in another iteration
-
+        // while pos is not zero, write whatever is in front of the pos first; if {} is at the beginning of final
+        // then copy whatever that is in {} into a char declared on stack, then memmove whatever that was in final after the {} into final[0]
         output_final(final);
       else
-      //check_buff(final, str, len);
+      //check_buff(final, str, len);*/
       ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
     }
   if (len < 0) // no problem with this part since we will not overflow final
