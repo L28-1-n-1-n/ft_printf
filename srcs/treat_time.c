@@ -81,7 +81,7 @@ void treat_time(char *final, t_block *blksk)
 	char **result;
 	char iso[26];
 	int i;
-
+  
 	i = 0;
 	ft_bzero(str, 25);
 	ft_bzero(iso, 26);

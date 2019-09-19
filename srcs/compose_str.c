@@ -1,7 +1,7 @@
 #include "printf.h"
 #include <stdio.h>
 #include <unistd.h>
-void output_final(char *final)
+void output_final(char *final, size_t length)
 {
   unsigned int i;
 
@@ -11,18 +11,30 @@ void output_final(char *final)
     write(1, &final[i], 1);
     i++;
   }
-  ft_bzero(final, FLEN);
+  ft_bzero(final, length);
 }
 
 int cat_format(char *final, char *adj, int pos, char *mod)
 {
   int len;
   int total;
+  char tmp[20];
   printf("pos is %d\n", pos);
   total = 0;
+  ft_bzero(tmp, 20);
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
   if (len > 0)
     {
+      if (pos == 0)
+      {
+        ft_strcpy(tmp, adj);
+        ft_memmove(&final[pos], &final[pos + mod + 1], ft_strlen(&final[pos + mod + 1]));
+        output_final(tmp, ft_strlen(tmp));
+      }
+      else
+        // split it into 2 and then 
+      //  ft_strncpy(tmp, &final, ft_strchr_pos(&final[pos], '}');
+
     /*  if (len + ft_strlen(final) >=FLEN)
         // the idea is to print the first bracket {} as colour first, the rest of the string in another iteration
         // while pos is not zero, write whatever is in front of the pos first; if {} is at the beginning of final
@@ -132,8 +144,6 @@ void format_final(char *final)
         }
         k = 0;
       }
-      if ((final[i] == '{') && (final[i + 1] == '{'))
-        delete_bracket(final, i);
     i++;
   }
 }
@@ -149,6 +159,7 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   len = 0;
   k = 0;
   final = ft_strnew(FLEN);
+
   while (*fmt)
   {
     len = 0;
@@ -158,7 +169,8 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
       len++;
     }
     //ft_strncat(final, fmt - len, len);
-    check_buff(final, (char *)fmt - len, len);
+//    printf("final is %s, str is %s and and len is %u\n", final, (char *)(fmt - len), len);
+    check_buff(final, (char *)(fmt - len), len);
     if (!(*fmt))
       break;
     treat_arg(final, ap, &blks[k]);
@@ -171,6 +183,6 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
   }
   format_final(final);
-  output_final(final);
+  output_final(final, FLEN);
   return (0);
 }

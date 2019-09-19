@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr_arg.c                                    :+:      :+:    :+:   */
+/*   ft_strchr_pos.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-size_t	ft_strchr_arg(const char *str, int c)
+size_t	ft_strchr_pos(const char *str, int c)
 {
 	int i;
 
 	i = 0;
 	while (str[++i] != (char)c)
-		if ((str[i] == '\0') || (str[i] == '%'))
+		if (str[i] == '\0')
 			return (0);
 	return (i);
 }

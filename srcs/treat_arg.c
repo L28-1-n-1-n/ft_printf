@@ -48,7 +48,6 @@ void    treat_bin (char *final, va_list ap, t_block *blksk) // needs to be teste
 void    treat_hex(char *final, va_list ap, t_block *blksk)
 {
   uintmax_t n;
-
   n = add_unsigned_modifier(ap, blksk);
   string_hex(n, final, blksk);
 }

@@ -41,6 +41,7 @@ char				*ft_strpcat_char(char *dest, const char c);
 size_t				ft_strlcat(char *dest, const char *src, size_t n);
 char				*ft_strchr(const char *str, int c);
 size_t			ft_strchr_arg(const char *str, int c);
+size_t			ft_strchr_pos(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
 char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_strnstr(const char *hay, const char *ndle, size_t len);

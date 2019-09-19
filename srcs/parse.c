@@ -71,6 +71,7 @@ int   parse(const char *fmt, va_list ap)
           i++; /*skip until you find the next argument*/
       }
   }
+
   compose_str(fmt, ap, blks);
   return (1);
 }
