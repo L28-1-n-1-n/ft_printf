@@ -3,14 +3,7 @@
 #include <unistd.h>
 void output_final(char *final, size_t length)
 {
-  unsigned int i;
-
-  i = 0;
-  while (i < ft_strlen(final))
-  {
-    write(1, &final[i], 1);
-    i++;
-  }
+  write(1, &final[0], ft_strlen(final));
   ft_bzero(final, length);
 }
 
@@ -19,20 +12,30 @@ int cat_format(char *final, char *adj, int pos, char *mod)
   int len;
   int total;
   char tmp[20];
+  unsigned int k;
+
+  k = 0;
   printf("pos is %d\n", pos);
   total = 0;
   ft_bzero(tmp, 20);
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
   if (len > 0)
     {
-      if (pos == 0)
+      if (ft_strlen(final) + len > FLEN)
       {
-        ft_strcpy(tmp, adj);
-        ft_memmove(&final[pos], &final[pos + mod + 1], ft_strlen(&final[pos + mod + 1]));
-        output_final(tmp, ft_strlen(tmp));
+        if (pos == 0)
+        {
+          ft_strcpy(tmp, adj);
+          ft_memmove(&final[pos], &final[pos + mod + 1], ft_strlen(&final[pos + mod + 1]));
+          output_final(tmp, ft_strlen(tmp));
+        }
+        else
+        {
+          write(1, &final[0], pos - 1);
+          ft_memmove(&final[0], &final[pos], ft_strlen(&final[pos]));
+        }
       }
-      else
-        // split it into 2 and then 
+        // split it into 2 and then
       //  ft_strncpy(tmp, &final, ft_strchr_pos(&final[pos], '}');
 
     /*  if (len + ft_strlen(final) >=FLEN)
