@@ -40,6 +40,8 @@ void  print_bits(uint64_t *data, char *message, unsigned int number, unsigned in
   unsigned int bit_number;
   char str[79]; // 64 + 14 + 1
 
+  (void)message;
+  (void)number;
   ft_bzero(str, 79);
   bit_number = 64;
   mask = 0x8000000000000000;
@@ -65,9 +67,9 @@ void  print_bits(uint64_t *data, char *message, unsigned int number, unsigned in
     mask = mask >> 1;
     bit_number--;
   }
-  if (strcmp(message, "(add 3)"))
-    printf("-------------------------------------------     %u    ---------------------------------\n", row_no);
-  printf("%s %s %d\n\n", str, message, number);
+//  if (strcmp(message, "(add 3)"))
+//    printf("-------------------------------------------     %u    ---------------------------------\n", row_no);
+//  printf("%s %s %d\n\n", str, message, number);
 }
 
 void compare_blocks(uint64_t*raw, unsigned int row_no, uint64_t origin_mask)

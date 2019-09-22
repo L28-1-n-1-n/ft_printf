@@ -108,9 +108,9 @@ else
     ft_memcpy(&word, &long_n, sizeof(word));
   }
 
-  printf("word[0] is %llu\n", word[0]);
-  printf("word[1] is %hu\n", (uint16_t)word[1]);
-  printf("word[1] is %llu\n", word[1]);
+  //printf("word[0] is %llu\n", word[0]);
+  //printf("word[1] is %hu\n", (uint16_t)word[1]);
+  //printf("word[1] is %llu\n", word[1]);
   decode_float(word, final, blksk);
 }
 void    treat_arg(char *final, va_list ap, t_block *blksk)

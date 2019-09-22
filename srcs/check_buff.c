@@ -5,21 +5,22 @@ void check_buff(char *final, char *str, size_t len)
 {
   unsigned int final_len;
   unsigned int loop;
+  unsigned int limit;
 
+  limit = (unsigned int)(FLEN / (unsigned int)5 * (unsigned int)4);
   final_len = ft_strlen(final);
   loop = 0;
-
-  printf("we got here\n");
-    if (len + final_len >= FLEN) // check if buffer is full, then cat whatever you can into remaining space in buuffer
+// new idea : never overflow final, check buff set at 80% of buffer, hence impossible to overflow
+    if (len + final_len >= limit) // check if buffer is full, then cat whatever you can into remaining space in buuffer
     {
-      while ((loop < len) && (len + final_len >= FLEN))
+      while ((loop < len) && (len + final_len >= limit))
       {
-        ft_strncat(final, &str[loop], FLEN - final_len);
-        loop += FLEN - final_len;
+        ft_strncat(final, &str[loop], limit - final_len);
+        loop += limit - final_len;
         output_final(final, FLEN);
         final_len = ft_strlen(final);
       }
-      if (len + final_len < FLEN)
+      if (len + final_len < limit)
         ft_strncat(final, &str[loop], len);
     }
     else

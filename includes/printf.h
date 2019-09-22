@@ -27,7 +27,7 @@
 # define ULINE "\e[4m"
 # define STHRO "\e[9m"
 # define RESETFONT "\e[0m"
-# define FLEN 10
+# define FLEN 50000
 # define SLEN 4294967300
 # include "libft.h"
 # include <stdarg.h>
@@ -70,7 +70,7 @@ typedef struct s_float
   char big_str[20000];
 }              t_float;
 
-void		ft_printf(const char *fmt, ...);
+int		ft_printf(const char *fmt, ...);
 int			count_arg(const char *str);
 int 		parse(const char *fmt, va_list ap);
 void 		parse_remain(const char *fmt, int i, va_list ap);

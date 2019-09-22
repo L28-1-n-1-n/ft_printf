@@ -12,50 +12,10 @@ int cat_format(char *final, char *adj, int pos, char *mod)
 {
   int len;
   int total;
-  char tmp[20];
-  unsigned int k;
-
-  k = 0;
-  printf("pos is %d\n", pos);
   total = 0;
-  ft_bzero(tmp, 20);
   len = ft_strlen(adj) - ft_strlen(mod) - 2; // 2 is for brackets{}
   if (len > 0)
-    {
-      if (ft_strlen(final) + len > FLEN)
-      {
-        if (pos == 0)
-        {
-          ft_strcpy(tmp, adj);
-          printf("pos + mod + 1 is %lu\n", pos + ft_strlen(mod) + 1);
-          printf("at this pos, final is %s\n", &final[pos + ft_strlen(mod) + 2]);
-          total = ft_strlen(final);
-          ft_memmove(&final[pos], &final[pos + ft_strlen(mod) + 2], ft_strlen(&final[pos + ft_strlen(mod) + 2]));
-          printf("then final is %s\n", final);
-          len = ft_strlen(mod) + 3;
-          while (len--)
-            final[total - len] = '\0';
-          output_final(tmp, ft_strlen(tmp));
-        }
-        else
-        {
-          write(1, &final[0], pos - 1);
-          ft_memmove(&final[0], &final[pos], ft_strlen(&final[pos]));
-        }
-      }
-      else
-        // split it into 2 and then
-      //  ft_strncpy(tmp, &final, ft_strchr_pos(&final[pos], '}');
-
-    /*  if (len + ft_strlen(final) >=FLEN)
-        // the idea is to print the first bracket {} as colour first, the rest of the string in another iteration
-        // while pos is not zero, write whatever is in front of the pos first; if {} is at the beginning of final
-        // then copy whatever that is in {} into a char declared on stack, then memmove whatever that was in final after the {} into final[0]
-        output_final(final);
-      else
-      //check_buff(final, str, len);*/
       ft_memmove(&final[pos + len], &final[pos], ft_strlen(&final[pos]));
-    }
   if (len < 0) // no problem with this part since we will not overflow final
     {
       ft_memmove(&final[pos + len + ft_strlen(mod) + 2], &final[pos + ft_strlen(mod)+ 2], ft_strlen(&final[pos + ft_strlen(mod) + 2]));
@@ -180,9 +140,6 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
       fmt++;
       len++;
     }
-    //ft_strncat(final, fmt - len, len);
-//    printf("final is %s, str is %s and and len is %u\n", final, (char *)(fmt - len), len);
-    printf("we got here\n");
     check_buff(final, (char *)(fmt - len), len);
     if (!(*fmt))
       break;
@@ -196,5 +153,5 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
   }
   output_final(final, FLEN);
-  return (0);
+  return (ft_strlen(final));
 }

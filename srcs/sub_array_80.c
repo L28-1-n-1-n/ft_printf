@@ -184,5 +184,4 @@ aggregate_80(product);
   }*/
 //  printf("last char is %s\n", &fnum->big_str[16425]);
 //  printf("big_str is %s\n", fnum->big_str);
-  printf("\nwe got to the end\n");
 }

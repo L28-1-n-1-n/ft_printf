@@ -35,7 +35,7 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
   char *tmp;
   int i;
   int j;
-printf("n is %jd\n", n);
+//printf("n is %jd\n", n);
 
   if ((blksk->flag & 4) && (n >= 0)) // '+' flag
   {
@@ -101,7 +101,7 @@ printf("n is %jd\n", n);
             }
       }
     }
-  printf("str is %s and length is %zu\n", str, ft_strlen(str));
+  //printf("str is %s and length is %zu\n", str, ft_strlen(str));
   return (str);
 }
 
@@ -112,5 +112,5 @@ void string_digit(intmax_t n, char *final, t_block *blksk)
 
   ft_bzero(str, 2048);
   ft_strcat(final, compose_digit(str, n, blksk));
-  printf("str is %s\n", str);
+  //printf("str is %s\n", str);
 }

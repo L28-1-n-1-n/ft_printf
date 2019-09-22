@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
+NAME = libftprintf.a
 
 FLAGS = -Wall -Werror -Wextra -g
 
@@ -20,7 +20,7 @@ SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes
 
-SRCS = main.c ft_printf.c count_arg.c parse.c parse_arg.c big_int.c\
+SRCS = ft_printf.c count_arg.c parse.c parse_arg.c big_int.c\
 			compose_str.c treat_arg.c string_hex.c string_digit.c decode_float.c \
 			add_modifier.c add_unsigned_modifier.c print_n.c ft_itoamax.c \
 			big_int_80.c print_float_str.c float_special.c sub_array.c sub_array_80.c\
@@ -72,5 +72,8 @@ fclean:
 	@echo "$(YELLOW)All object and binary files in ft_printf are now deleted\n$(RESET)"
 
 $(NAME): $(LIBFT) $(OBJP)
-	$(CC) $(FLAGS) -o $@ $^ -I$(LIBFT)
-	@echo "$(RED)ft_printf has now been built.\n$(RESET)"
+#	$(CC) $(FLAGS) -o $@ $^ -I$(LIBFT)
+	cp libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJP)
+	ranlib $(NAME)
+	@echo "$(PURPLE)ft_printf has now been built.\n$(RESET)"

@@ -72,8 +72,8 @@ int   parse(const char *fmt, va_list ap)
       }
   }
 
-  compose_str(fmt, ap, blks);
-  return (1);
+  m = compose_str(fmt, ap, blks);
+  return (m);
 }
 /*  k = 0;
   while (k < m)

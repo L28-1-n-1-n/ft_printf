@@ -1,6 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
-void	ft_printf(const char *fmt, ...)
+int	ft_printf(const char *fmt, ...)
 {
 	va_list ap;
 	int success;
@@ -9,4 +9,5 @@ void	ft_printf(const char *fmt, ...)
 	va_start(ap,fmt);
 	success = parse(fmt, ap);
 	va_end(ap);
+	return (success);
 }

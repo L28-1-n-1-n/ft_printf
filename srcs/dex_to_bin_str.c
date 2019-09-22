@@ -24,7 +24,7 @@ char *dex_to_bin_str(char *result, unsigned long long n)
   return (result);
 }
 
-
+/*
 int main()
 {
   char result[64];
@@ -32,4 +32,4 @@ int main()
   dex_to_bin_str(result, -62);
   printf("result is %s\n", result);
   return (0);
-}
+}*/

@@ -1,4 +1,5 @@
-#include "printf.h"
+#include "./includes/printf.h"
+#include "./includes/libft.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <math.h>
@@ -27,6 +28,16 @@ void	vafunc(char *fmt, ...)
 
 int		main()
 {
+/*	ft_printf("%llu\n", 4999999999);
+	printf("%llu\n", 4999999999); 
+	ft_printf("%0+5d\n", -42);
+	printf("%0+5d\n", -42);
+	ft_printf("%u\n", -1);
+	printf("%u\n", -1);
+	ft_printf("@moulitest: %.5u", 42);
+	printf("@moulitest: %.5u", 42);*/
+	ft_printf("%5%");
+	printf("%5%");
 	/*char s[400];
 
 	ft_strcpy(s, "hello");
@@ -52,10 +63,10 @@ int		main()
 		ft_printf("flaot=%*.*f\n", 50, -23, 123.544);
 		   printf("flaot=%*.*f\n", 50, -23, 123.544);*/
 		//	 ft_printf("string=%2$.*s and then %%%% %3$d\n", 3, "hello", 23);
-	//	ft_printf("♞  🐤🙊 {BBLUE}{WHITE}⏎{RESETTEXT}{RESETFONT}");
-	//	ft_printf("Because {BBLUE}{WHITE}everything{RESETTEXT}{RESETFONT}{GREEN} is {RESETTEXT}{BWHITE}{RED}AWESOME{RESETTEXT}{RESETFONT} {BORANGE}{BLACK}{IT}!!!{RESETTEXT}{RESETFONT}\n");
+	/*	ft_printf("♞  🐤🙊 {BBLUE}{WHITE}⏎{RESETTEXT}{RESETFONT}");
+		ft_printf("Because {BBLUE}{WHITE}everything{RESETTEXT}{RESETFONT}{GREEN} is {RESETTEXT}{BWHITE}{RED}AWESOME{RESETTEXT}{RESETFONT} {BORANGE}{BLACK}{IT}!!!{RESETTEXT}{RESETFONT}\n");
 		ft_printf("{BGREY}{BLUE}I feel {RESETTEXT}{RESETFONT}{BOLD}{BYELLOW}{BROWN}MORE{RESETTEXT}{RESETFONT}{BPURPLE}{WHITE} AWESOME {RESETTEXT}{RESETFONT}{BBLACK}{MAGNETA}than an {RESETTEXT}{RESETFONT}{ULINE}{BPINK}{CYAN}awesome possum{RESETTEXT}{RESETFONT}\n");
-	/*	ft_printf("You know what's {BGREEN}{STHRO}{GRAY}%s{RESETTEXT}{RESETFONT}? Everything 😎 ✊ ! {RED}✽{GREEN}✼{MAGNETA}❉{CYAN}✲{BLUE}🃑{BPINK}{BLACK}🃒{WHITE}☺︎{BPURPLE}{CYAN}♠︎{RED}♣︎{BROWN}♥︎{GREEN}♦︎{BYELLOW}{BLACK}☂{RESETTEXT}{RESETFONT}☀︎\n", "awesome");
+		ft_printf("You know what's {BGREEN}{STHRO}{GRAY}%s{RESETTEXT}{RESETFONT}? Everything 😎 ✊ ! {RED}✽{GREEN}✼{MAGNETA}❉{CYAN}✲{BLUE}🃑{BPINK}{BLACK}🃒{WHITE}☺︎{BPURPLE}{CYAN}♠︎{RED}♣︎{BROWN}♥︎{GREEN}♦︎{BYELLOW}{BLACK}☂{RESETTEXT}{RESETFONT}☀︎\n", "awesome");
 		ft_printf("And below we test errors:\n{BYELLOW}{BLACK}Invalid colour {RESETTEXT}{RESETFONT} shall print as text :{YELLOW}\n");
 		ft_printf("{STHRO}And so many bad spellings:{RESETTEXT}{RESETFONT}\n{BLACKK}{BBLACK}{{BLACK}}{RED}<--double brackets are printed as single ones{RESETTEXT}{RESETFONT}\n");
 		ft_printf("Here's a bunch of random brackets\n{{{{}}}}{{}{}{{{}}}}{MAGNETA}{{more %s}}{BLUE} and invalid formats{{IT}}{U_LINE}{RESETTEXT}{RESETFONT}\n", "brackets");
@@ -65,7 +76,8 @@ int		main()
 		ft_printf("\\x%02x\n", '\t');
 		ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 		ft_printf("time is %k\n");
-		ft_printf("%s", "dorem12345hello");*/
+		ft_printf("%s", "dorem12345hello");
+		ft_putnbr(ft_strlen("yolo"));*/
 	//	ft_printf("{RED}Hola!!\n");
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
