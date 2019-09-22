@@ -30,6 +30,7 @@ mon  = (int)(seconds / 86400) - 365 *(seconds / 31556926);
 
 char *find_month(char *iso, char *month)
 {
+	(void)iso;
 	//const char *months[12];
 	 //{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "August", "September", "October", "November", "December"};
 	printf("this month is %s\n", month);
@@ -81,7 +82,7 @@ void treat_time(char *final, t_block *blksk)
 	char **result;
 	char iso[26];
 	int i;
-  
+	(void)blksk;
 	i = 0;
 	ft_bzero(str, 25);
 	ft_bzero(iso, 26);

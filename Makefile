@@ -12,7 +12,7 @@
 
 NAME = ft_printf
 
-#FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 CC = gcc
 

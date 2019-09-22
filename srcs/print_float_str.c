@@ -141,7 +141,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strcat_char(final, '-');
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
     ft_strcat_char(final, '+');
-  if (blksk->width > ft_strlen(str))
+  if ((size_t)blksk->width > ft_strlen(str))
   {
       if (blksk->flag & 8)// '-' flag , 0 ignored
       {

@@ -9,7 +9,7 @@ void check_buff(char *final, char *str, size_t len)
   final_len = ft_strlen(final);
   loop = 0;
 
-
+  printf("we got here\n");
     if (len + final_len >= FLEN) // check if buffer is full, then cat whatever you can into remaining space in buuffer
     {
       while ((loop < len) && (len + final_len >= FLEN))

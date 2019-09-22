@@ -27,7 +27,7 @@
 # define ULINE "\e[4m"
 # define STHRO "\e[9m"
 # define RESETFONT "\e[0m"
-# define FLEN 50000
+# define FLEN 10
 # define SLEN 4294967300
 # include "libft.h"
 # include <stdarg.h>
@@ -101,6 +101,7 @@ void string_bin(intmax_t n, char *final, t_block *blksk);
 void treat_time(char *final, t_block *blksk);
 void output_final(char *final, size_t length);
 void check_buff(char *final, char *str, size_t len);
+void format_final(char *final);
 #endif
 
 

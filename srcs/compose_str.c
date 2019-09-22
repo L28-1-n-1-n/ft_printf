@@ -3,6 +3,7 @@
 #include <unistd.h>
 void output_final(char *final, size_t length)
 {
+  format_final(final);
   write(1, &final[0], ft_strlen(final));
   ft_bzero(final, length);
 }
@@ -26,7 +27,14 @@ int cat_format(char *final, char *adj, int pos, char *mod)
         if (pos == 0)
         {
           ft_strcpy(tmp, adj);
-          ft_memmove(&final[pos], &final[pos + mod + 1], ft_strlen(&final[pos + mod + 1]));
+          printf("pos + mod + 1 is %lu\n", pos + ft_strlen(mod) + 1);
+          printf("at this pos, final is %s\n", &final[pos + ft_strlen(mod) + 2]);
+          total = ft_strlen(final);
+          ft_memmove(&final[pos], &final[pos + ft_strlen(mod) + 2], ft_strlen(&final[pos + ft_strlen(mod) + 2]));
+          printf("then final is %s\n", final);
+          len = ft_strlen(mod) + 3;
+          while (len--)
+            final[total - len] = '\0';
           output_final(tmp, ft_strlen(tmp));
         }
         else
@@ -35,6 +43,7 @@ int cat_format(char *final, char *adj, int pos, char *mod)
           ft_memmove(&final[0], &final[pos], ft_strlen(&final[pos]));
         }
       }
+      else
         // split it into 2 and then
       //  ft_strncpy(tmp, &final, ft_strchr_pos(&final[pos], '}');
 
@@ -173,6 +182,7 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     }
     //ft_strncat(final, fmt - len, len);
 //    printf("final is %s, str is %s and and len is %u\n", final, (char *)(fmt - len), len);
+    printf("we got here\n");
     check_buff(final, (char *)(fmt - len), len);
     if (!(*fmt))
       break;
@@ -185,7 +195,6 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
       fmt++;
     fmt++;
   }
-  format_final(final);
   output_final(final, FLEN);
   return (0);
 }
