@@ -143,7 +143,7 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     check_buff(final, (char *)(fmt - len), len);
     if (!(*fmt))
       break;
-    treat_arg(final, ap, &blks[k]);
+    treat_arg(fmt, final, ap, &blks[k]);
     k++;
     fmt++;
     if (!(*fmt))

@@ -16,5 +16,6 @@ char	*ft_strpcat_char(char *dest, const char c)
 {
 	ft_memmove(&dest[1], &dest[0], ft_strlen(dest));
 	dest[0] = c;
+	ft_strcat(dest, "\0");
 	return (dest);
 }

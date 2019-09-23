@@ -75,17 +75,18 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
     while (--blksk->width)
       ft_strcat_char(str, ' ');
   }
-  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
+  treat_string_helper(str, string, blksk);
+  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > ft_strlen(str))) // '0' flag and not '-' flag
   {
+    blksk->width -= ft_strlen(str);
     while (--blksk->width)
-      ft_strcat_char(str, '0');
-    treat_string_helper(str, string, blksk);
+      ft_strpcat_char(str, '0'); // cat before
   }
-  if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
+  if ((!(blksk->flag & 8)) && (blksk->width > ft_strlen(str))) // not '-' flag, but width > 1
   {
+    blksk->width -= ft_strlen(str);
     while (--blksk->width)
-      ft_strcat_char(str, ' ');
-    treat_string_helper(str, string, blksk);
+      ft_strpcat_char(str, ' '); // cat before
   }
   ft_strcat(final, str);
   free(str);
@@ -167,7 +168,17 @@ else
   //printf("word[1] is %llu\n", word[1]);
   decode_float(word, final, blksk);
 }
-void    treat_arg(char *final, va_list ap, t_block *blksk)
+
+void    treat_plain_text(const char *fmt, char *final, va_list ap, t_block *blksk)
+{
+  unsigned int n;
+
+  n = ft_strchr(&fmt[blksk->pos + 1], '%') - blksk->pos;
+  ft_strncat(final, &fmt[blksk->pos + 1], n);
+}
+
+
+void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
 {
   if (blksk->str)
     if ((blksk->str[0] == '%') && (blksk->type == NA))
@@ -175,6 +186,8 @@ void    treat_arg(char *final, va_list ap, t_block *blksk)
 
   if (blksk->type == 'c')
     treat_char(final, ap, blksk);
+  if (blksk->type == 'T')
+    treat_plain_text(fmt, final, ap, blksk);
   if (blksk->type == 's')
     treat_string(final, ap, blksk);
   if ((blksk->type == 'x') || (blksk->type == 'X') ||

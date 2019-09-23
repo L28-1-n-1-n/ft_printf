@@ -68,7 +68,10 @@ int   parse(const char *fmt, va_list ap)
       if (fmt[i] == '%')
       {
         blks[k].pos = i;
-        parse_arg(fmt, k, blks);
+        if ((blks[k - 1].str) && (blks[k - 1].type == 'c'))
+          blks[k].type = 'T';
+        else
+          parse_arg(fmt, k, blks);
         k++;
         i++;
         while (fmt[i] && (fmt[i] != '%'))
