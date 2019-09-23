@@ -40,5 +40,6 @@ int		count_arg(const char *str)
 				count++;
 		i++;
 	}
+	printf("count is %d\n", count);
 	return (count);
 }

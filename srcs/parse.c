@@ -41,13 +41,16 @@ int   parse(const char *fmt, va_list ap)
 	unsigned int i;
   unsigned int k;
   unsigned int m; // to delete later
-
   t_block *blks;
 	i = 0;
   k = 0; /*keep track on argument or blk number */
   m = count_arg(fmt);
-  if(!(blks = (t_block *)malloc(sizeof(t_block) * count_arg(fmt))))
+ printf("m is %d\n", m);
+  if(!(blks = (t_block *)malloc(sizeof(t_block) * m)))
+  {
+    printf("malloc fail\n");
     return (ft_free(blks));
+  }
   init_blocks(blks, m);
   while (fmt[i])
   {
@@ -56,9 +59,10 @@ int   parse(const char *fmt, va_list ap)
     if ((fmt[i] == '%') && (fmt[i + 1] == '%'))
     {
       blks[k].str = "%";
+    //  blks[k].type = 'c';
       blks[k].pos = i; // i is pos of '%', ft_strchr_arg has 0 at '%'
       k++;
-      i += 2; /*skip till next argument*/
+      i += 2; //skip till next argument
     }
     else
       if (fmt[i] == '%')
@@ -68,14 +72,26 @@ int   parse(const char *fmt, va_list ap)
         k++;
         i++;
         while (fmt[i] && (fmt[i] != '%'))
-          i++; /*skip until you find the next argument*/
+          i++; //skip until you find the next argument
       }
   }
-
+  k = 0;
+   while (k < m)
+   {
+    printf("blks[%d].order is %u\n", k, blks[k].order);
+    printf("blks[%d].flag is %u\n", k, blks[k].flag);
+    printf("blks[%d].width is %d\n", k, blks[k].width);
+    printf("blks[%d].modifier is %d\n", k, blks[k].modifier);
+    printf("blks[%d].precision is %d\n", k, blks[k].precision);
+    printf("blks[%d].type is %c\n", k, blks[k].type);
+    printf("blks[%d].str is %s\n", k, blks[k].str);
+    printf("blks[%d].pos is %d\n", k, blks[k].pos);
+     k++;
+   }
   m = compose_str(fmt, ap, blks);
   return (m);
 }
-/*  k = 0;
+/* k = 0;
   while (k < m)
   {
    printf("blks[%d].str is %s\n", k, blks[k].str);

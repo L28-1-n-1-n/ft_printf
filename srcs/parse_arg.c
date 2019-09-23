@@ -1,6 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
-void check_type(char *str, unsigned int k, t_block *blks)
+int check_type(char *str, unsigned int k, t_block *blks)
 {
   while (*str && !(ft_strchr("cdixXpeEfFgGousbrk%", *str)))
     str++;
@@ -42,8 +42,14 @@ void check_type(char *str, unsigned int k, t_block *blks)
       blks[k].type = 'r';
     if (*str == 'k')
       blks[k].type = 'k';
-
+    if (*str == '%')
+    {
+      blks[k].str = "%";
+      blks[k].type = 'c';
+    }
   }
+  printf("type complete\n");
+  return(0);
 }
 
 char *check_length(char *str, unsigned int k, t_block *blks)
@@ -99,9 +105,9 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
       str++;
     }
   // now we arrive at either * .  or letter or digit
+  printf("next *str is %c\n", *str);
   if ((*str > '0') && (*str <= '9'))
-      blks[k].width = ft_atoi(str);
-
+    blks[k].width = ft_atoi(str);
   if (*str == '*')
     blks[k].width = -1;
   if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
@@ -122,8 +128,8 @@ void check_order(const char *fmt, unsigned int k, t_block *blks)
     blks[k].order = ft_atoi(fmt + blks[k].pos + 1);
 }
 
-void    parse_arg(const char *fmt, unsigned int k, t_block *blks)
+int    parse_arg(const char *fmt, unsigned int k, t_block *blks)
 {
   check_order(fmt, k, blks);
-  check_type(check_length(check_flags_width_pres(fmt, k, blks), k , blks), k, blks);
+  return(check_type(check_length(check_flags_width_pres(fmt, k, blks), k , blks), k, blks));
 }

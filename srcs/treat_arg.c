@@ -1,40 +1,94 @@
 #include "printf.h"
 #include <stdio.h>
 #include <stdint.h>
-void    treat_char(char *final, va_list ap)
+#include <stdlib.h>
+void    treat_char(char *final, va_list ap, t_block *blksk)
 {
-  char str[2];
+  char *str;
 
-  ft_bzero(str, 2);
-  str[0] = va_arg(ap, int);
+  str = ft_strnew(FLEN);
+  if (blksk->flag & 8) // '-' flag
+  {
+    str[0] = (blksk->str) ? '%' : va_arg(ap, int);
+    while (--blksk->width)
+      ft_strcat_char(str, ' ');
+  }
+  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
+  {
+    while (--blksk->width)
+      ft_strcat_char(str, '0');
+    if (blksk->str)
+      ft_strcat_char(str, '%');
+    else
+      ft_strcat_char(str, (char)va_arg(ap, int));
+  }
+  if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
+  {
+    while (--blksk->width)
+      ft_strcat_char(str, ' ');
+    if (blksk->str)
+      ft_strcat_char(str, '%');
+    else
+      ft_strcat_char(str, (char)va_arg(ap, int));
+  }
   ft_strcat(final, str);
+  free(str);
+}
+
+void treat_string_helper(char *str, char *string, t_block *blksk)
+{
+  int j;
+  int i;
+
+  j = 0;
+  i = 0;
+  if (blksk->precision)
+  {
+    j = ft_strlen(string);
+    if (blksk->precision > j)
+      blksk->precision = j;
+    while ( i < blksk->precision)
+      ft_strcat_char(str, string[i++]);
+  }
+  else // 0 precision
+    ft_strcat(str, string);
 }
 
 void    treat_string(char *final, va_list ap, t_block *blksk)
 {
   char *string;
-  int i;
-  int j;
+  char *str;
 
-  i = 0;
-  j = 0;
+  str = ft_strnew(FLEN);
   if (blksk->precision == 6)
     blksk->precision = 0;
   if (blksk->precision == -1)
     blksk->precision = va_arg(ap, int);
   if (blksk->precision < 0)
     blksk->precision = 0;
+
   string = va_arg(ap, char *);
-  if (blksk->precision)
+
+  if (blksk->flag & 8) // '-' flag
   {
-    j = ft_strlen(string);
-    if (blksk->precision > j)
-      blksk->precision = j;
-    while ( i< blksk->precision)
-      ft_strcat_char(final, string[i++]);
+    treat_string_helper(str, string, blksk);
+    while (--blksk->width)
+      ft_strcat_char(str, ' ');
   }
-  else // 0 precision
-    ft_strcat(final, string);
+  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
+  {
+    while (--blksk->width)
+      ft_strcat_char(str, '0');
+    treat_string_helper(str, string, blksk);
+  }
+  if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
+  {
+    while (--blksk->width)
+      ft_strcat_char(str, ' ');
+    treat_string_helper(str, string, blksk);
+  }
+  ft_strcat(final, str);
+  free(str);
 }
 
 void    treat_bin (char *final, va_list ap, t_block *blksk) // needs to be tested, also needs to deal with '+' and '-'
@@ -116,11 +170,11 @@ else
 void    treat_arg(char *final, va_list ap, t_block *blksk)
 {
   if (blksk->str)
-    if (blksk->str[0] == '%')
+    if ((blksk->str[0] == '%') && (blksk->type == NA))
       ft_strcat(final, "%");
 
   if (blksk->type == 'c')
-    treat_char(final, ap);
+    treat_char(final, ap, blksk);
   if (blksk->type == 's')
     treat_string(final, ap, blksk);
   if ((blksk->type == 'x') || (blksk->type == 'X') ||

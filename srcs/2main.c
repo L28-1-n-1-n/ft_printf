@@ -28,6 +28,18 @@ void	vafunc(char *fmt, ...)
 
 int		main()
 {
+//	printf("%d", printf("%5%"));
+	ft_printf("%+-0    5% s  %+-0    5%\n");
+	printf("%+-0    5% s  %+-0    5%\n");
+
+	//NEED to DO : deal with s between two arguments
+	// idea : when you have %   %, need to delete whatever type that comes in the next %
+	// and then make everything between the next 2 % as plain string
+	// also need to deal with difference between %% and %    % (type NA)?
+
+//	ft_printf("%5%  %\n");
+//	printf("%5%  %\n");
+//	printf("%d", printf("%5"));
 	/*char s[400];
 
 	ft_strcpy(s, "hello");
@@ -53,7 +65,7 @@ int		main()
 		ft_printf("flaot=%*.*f\n", 50, -23, 123.544);
 		   printf("flaot=%*.*f\n", 50, -23, 123.544);*/
 		//	 ft_printf("string=%2$.*s and then %%%% %3$d\n", 3, "hello", 23);
-		ft_printf("♞  🐤🙊 {BBLUE}{WHITE}⏎{RESETTEXT}{RESETFONT}");
+	/*	ft_printf("♞  🐤🙊 {BBLUE}{WHITE}⏎{RESETTEXT}{RESETFONT}");
 		ft_printf("Because {BBLUE}{WHITE}everything{RESETTEXT}{RESETFONT}{GREEN} is {RESETTEXT}{BWHITE}{RED}AWESOME{RESETTEXT}{RESETFONT} {BORANGE}{BLACK}{IT}!!!{RESETTEXT}{RESETFONT}\n");
 		ft_printf("{BGREY}{BLUE}I feel {RESETTEXT}{RESETFONT}{BOLD}{BYELLOW}{BROWN}MORE{RESETTEXT}{RESETFONT}{BPURPLE}{WHITE} AWESOME {RESETTEXT}{RESETFONT}{BBLACK}{MAGNETA}than an {RESETTEXT}{RESETFONT}{ULINE}{BPINK}{CYAN}awesome possum{RESETTEXT}{RESETFONT}\n");
 		ft_printf("You know what's {BGREEN}{STHRO}{GRAY}%s{RESETTEXT}{RESETFONT}? Everything 😎 ✊ ! {RED}✽{GREEN}✼{MAGNETA}❉{CYAN}✲{BLUE}🃑{BPINK}{BLACK}🃒{WHITE}☺︎{BPURPLE}{CYAN}♠︎{RED}♣︎{BROWN}♥︎{GREEN}♦︎{BYELLOW}{BLACK}☂{RESETTEXT}{RESETFONT}☀︎\n", "awesome");
@@ -66,7 +78,7 @@ int		main()
 		ft_printf("\\x%02x\n", '\t');
 		ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 		ft_printf("time is %k\n");
-		ft_printf("%s", "dorem12345hello");
+		ft_printf("%s", "dorem12345hello");*/
 	//	ft_printf("{RED}Hola!!\n");
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
