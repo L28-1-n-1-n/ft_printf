@@ -76,6 +76,7 @@ char *check_length(char *str, unsigned int k, t_block *blks)
     else
       blks[k].modifier = l; //4
   }
+  printf("check length complete\n");
   return(str);
 }
 
@@ -83,7 +84,7 @@ char *check_length(char *str, unsigned int k, t_block *blks)
 char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
 {
   char *str;
-
+  printf("we got here\n");
   if(blks[k].order > 0)
     str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
   else
@@ -126,10 +127,12 @@ void check_order(const char *fmt, unsigned int k, t_block *blks)
 {
   if (ft_strchr_arg(fmt + blks[k].pos, '$'))
     blks[k].order = ft_atoi(fmt + blks[k].pos + 1);
+  printf("order complete");
 }
 
 int    parse_arg(const char *fmt, unsigned int k, t_block *blks)
 {
   check_order(fmt, k, blks);
+  printf("we got there");
   return(check_type(check_length(check_flags_width_pres(fmt, k, blks), k , blks), k, blks));
 }

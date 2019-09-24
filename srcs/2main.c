@@ -29,8 +29,8 @@ void	vafunc(char *fmt, ...)
 int		main()
 {
 //	printf("%d", printf("%5%"));
-	ft_printf("%+-0    5% s  %+-0    5%\n");
-	printf("%+-0    5% s  %+-0    5%\n");
+	ft_printf("%+-0    5% s  %+-0    5%roar\n");
+//	printf("%+-0    5% s  %+-0    5%roar\n");
 
 	//NEED to DO : deal with s between two arguments
 	// idea : when you have %   %, need to delete whatever type that comes in the next %

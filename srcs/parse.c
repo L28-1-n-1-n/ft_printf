@@ -68,12 +68,13 @@ int   parse(const char *fmt, va_list ap)
       if (fmt[i] == '%')
       {
         blks[k].pos = i;
-        if ((blks[k - 1].str) && (blks[k - 1].type == 'c'))
+        if ((k > 0) && (blks[k - 1].str) && (blks[k - 1].type == 'c'))
           blks[k].type = 'T';
         else
           parse_arg(fmt, k, blks);
         k++;
         i++;
+        printf("k is %d\n", k);
         while (fmt[i] && (fmt[i] != '%'))
           i++; //skip until you find the next argument
       }
@@ -101,7 +102,6 @@ int   parse(const char *fmt, va_list ap)
     k++;
   }*/
 /*
-
 Initial ideas:
 1. Scan for '%'
 2. For '%%', pass to function "treat %%"

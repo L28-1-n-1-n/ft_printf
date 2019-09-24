@@ -4,6 +4,8 @@
 void output_final(char *final, size_t length)
 {
   format_final(final);
+  printf("final is %s\n", final);
+  printf("final complete\n");
   write(1, &final[0], ft_strlen(final));
   ft_bzero(final, length);
 }
@@ -131,10 +133,11 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   len = 0;
   k = 0;
   final = ft_strnew(FLEN);
-
+  printf("we are at beginning of compose_str\n");
   while (*fmt)
   {
     len = 0;
+    printf("fmt begins with %s\n", fmt);
     while (*fmt && (*fmt != '%'))
     {
       fmt++;
@@ -144,13 +147,16 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     if (!(*fmt))
       break;
     treat_arg(fmt, final, ap, &blks[k]);
+
     k++;
     fmt++;
+      printf("k is %d and fmt is %s\n", k, fmt);
     if (!(*fmt))
       break;
     while (!(ft_strchr("cdixXpeEfFgGousbrk%", *fmt)))
       fmt++;
-    fmt++;
+    if ((k > 1) && (blks[k - 1].type != 'T'))
+      fmt++;
   }
   output_final(final, FLEN);
   return (ft_strlen(final));

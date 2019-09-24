@@ -5,7 +5,7 @@
 void    treat_char(char *final, va_list ap, t_block *blksk)
 {
   char *str;
-
+  printf("treat_char called\n");
   str = ft_strnew(FLEN);
   if (blksk->flag & 8) // '-' flag
   {
@@ -76,13 +76,13 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
       ft_strcat_char(str, ' ');
   }
   treat_string_helper(str, string, blksk);
-  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > ft_strlen(str))) // '0' flag and not '-' flag
+  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // '0' flag and not '-' flag
   {
     blksk->width -= ft_strlen(str);
     while (--blksk->width)
       ft_strpcat_char(str, '0'); // cat before
   }
-  if ((!(blksk->flag & 8)) && (blksk->width > ft_strlen(str))) // not '-' flag, but width > 1
+  if ((!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // not '-' flag, but width > 1
   {
     blksk->width -= ft_strlen(str);
     while (--blksk->width)
@@ -169,17 +169,19 @@ else
   decode_float(word, final, blksk);
 }
 
-void    treat_plain_text(const char *fmt, char *final, va_list ap, t_block *blksk)
+void    treat_plain_text(const char *fmt, char *final, t_block *blksk)
 {
   unsigned int n;
 
-  n = ft_strchr(&fmt[blksk->pos + 1], '%') - blksk->pos;
+  n = ft_strchr_pos(&fmt[blksk->pos + 1], '%') - blksk->pos;
   ft_strncat(final, &fmt[blksk->pos + 1], n);
+    printf("treat_plain_text called\n");
 }
 
 
 void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
 {
+  printf("treat_arg called\n");
   if (blksk->str)
     if ((blksk->str[0] == '%') && (blksk->type == NA))
       ft_strcat(final, "%");
@@ -187,7 +189,7 @@ void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
   if (blksk->type == 'c')
     treat_char(final, ap, blksk);
   if (blksk->type == 'T')
-    treat_plain_text(fmt, final, ap, blksk);
+    treat_plain_text(fmt, final, blksk);
   if (blksk->type == 's')
     treat_string(final, ap, blksk);
   if ((blksk->type == 'x') || (blksk->type == 'X') ||
