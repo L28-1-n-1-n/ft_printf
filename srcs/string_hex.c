@@ -69,8 +69,8 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk)
           // first move content of str backwards, then pad with zero between 0x and content
         if ((blksk->flag & 16) && (blksk->type != 'u')) //'#'
         {
-          ft_memmove(&str[j], &str[2], i - 2);
-          j -= 1;
+          ft_memmove(&str[j + 2], &str[2], i - 2);
+          j += 1;
           while (j >= 2)
             str[j--] = '0';
         }
@@ -94,7 +94,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk)
 //  printf("str is %s and length is %zu\n", str, ft_strlen(str));
   return (str);
 }
-
 
 void string_hex(uintmax_t n, char *final, t_block *blksk)
 {

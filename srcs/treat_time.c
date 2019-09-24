@@ -33,7 +33,6 @@ char *find_month(char *iso, char *month)
 	(void)iso;
 	//const char *months[12];
 	 //{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "August", "September", "October", "November", "December"};
-	printf("this month is %s\n", month);
 	if (!(ft_strcmp(month, "Jan")))
 		return ("01");
 	if (!(ft_strcmp(month, "Feb")))

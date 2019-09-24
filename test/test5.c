@@ -36,6 +36,8 @@ int main()
 //	printf("%.*s\n", -3, "hello");
 	num = printf("% 5%");
 	printf("num is %d\n", num);
+	num = printf("%.0%");
+	printf("num is %d\n", num);
 //	num = printf("lacking arg %d\n");
 //	printf("%0+-x\n", num);
 	return (0);

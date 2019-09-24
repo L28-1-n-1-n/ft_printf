@@ -1,13 +1,15 @@
 #include "printf.h"
 #include <stdio.h>
 #include <unistd.h>
-void output_final(char *final, size_t length)
+int output_final(char *final, size_t length)
 {
+  static int print_count = 0;
+
   format_final(final);
-  printf("final is %s\n", final);
-  printf("final complete\n");
+  print_count += ft_strlen(final);
   write(1, &final[0], ft_strlen(final));
   ft_bzero(final, length);
+  return (print_count);
 }
 
 int cat_format(char *final, char *adj, int pos, char *mod)
@@ -133,31 +135,35 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   len = 0;
   k = 0;
   final = ft_strnew(FLEN);
-  printf("we are at beginning of compose_str\n");
+/*  while (*fmt && (*fmt != '%'))
+  {
+    fmt++;
+    len++;
+  }*/
   while (*fmt)
   {
     len = 0;
-    printf("fmt begins with %s\n", fmt);
     while (*fmt && (*fmt != '%'))
     {
       fmt++;
       len++;
     }
     check_buff(final, (char *)(fmt - len), len);
+    if (blks[k].type == 'T')
+      k++;
     if (!(*fmt))
       break;
     treat_arg(fmt, final, ap, &blks[k]);
 
     k++;
     fmt++;
-      printf("k is %d and fmt is %s\n", k, fmt);
     if (!(*fmt))
       break;
     while (!(ft_strchr("cdixXpeEfFgGousbrk%", *fmt)))
       fmt++;
-    if ((k > 1) && (blks[k - 1].type != 'T'))
-      fmt++;
+  //  if ((k > 1) && (blks[k - 1].type != 'T'))
+    fmt++;
   }
-  output_final(final, FLEN);
-  return (ft_strlen(final));
+//  output_final(final, FLEN);
+  return (output_final(final, FLEN));
 }

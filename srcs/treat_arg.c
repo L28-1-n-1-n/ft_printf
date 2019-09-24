@@ -5,32 +5,24 @@
 void    treat_char(char *final, va_list ap, t_block *blksk)
 {
   char *str;
-  printf("treat_char called\n");
   str = ft_strnew(FLEN);
+  str[0] = (blksk->str) ? '%' : (char)va_arg(ap, int);
   if (blksk->flag & 8) // '-' flag
   {
-    str[0] = (blksk->str) ? '%' : va_arg(ap, int);
     while (--blksk->width)
       ft_strcat_char(str, ' ');
   }
   if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
   {
     while (--blksk->width)
-      ft_strcat_char(str, '0');
-    if (blksk->str)
-      ft_strcat_char(str, '%');
-    else
-      ft_strcat_char(str, (char)va_arg(ap, int));
+      ft_strpcat_char(str, '0');
   }
   if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
   {
     while (--blksk->width)
-      ft_strcat_char(str, ' ');
-    if (blksk->str)
-      ft_strcat_char(str, '%');
-    else
-      ft_strcat_char(str, (char)va_arg(ap, int));
+      ft_strpcat_char(str, ' ');
   }
+
   ft_strcat(final, str);
   free(str);
 }
@@ -174,14 +166,13 @@ void    treat_plain_text(const char *fmt, char *final, t_block *blksk)
   unsigned int n;
 
   n = ft_strchr_pos(&fmt[blksk->pos + 1], '%') - blksk->pos;
-  ft_strncat(final, &fmt[blksk->pos + 1], n);
-    printf("treat_plain_text called\n");
+//  ft_strncat(final, &fmt[blksk->pos + 1], n);
+(void)final;
 }
 
 
 void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
 {
-  printf("treat_arg called\n");
   if (blksk->str)
     if ((blksk->str[0] == '%') && (blksk->type == NA))
       ft_strcat(final, "%");

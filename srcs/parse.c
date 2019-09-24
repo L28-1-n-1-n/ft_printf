@@ -45,12 +45,8 @@ int   parse(const char *fmt, va_list ap)
 	i = 0;
   k = 0; /*keep track on argument or blk number */
   m = count_arg(fmt);
- printf("m is %d\n", m);
   if(!(blks = (t_block *)malloc(sizeof(t_block) * m)))
-  {
-    printf("malloc fail\n");
     return (ft_free(blks));
-  }
   init_blocks(blks, m);
   while (fmt[i])
   {
@@ -74,7 +70,6 @@ int   parse(const char *fmt, va_list ap)
           parse_arg(fmt, k, blks);
         k++;
         i++;
-        printf("k is %d\n", k);
         while (fmt[i] && (fmt[i] != '%'))
           i++; //skip until you find the next argument
       }

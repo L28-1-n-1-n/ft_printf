@@ -29,9 +29,12 @@ void	vafunc(char *fmt, ...)
 int		main()
 {
 //	printf("%d", printf("%5%"));
-	ft_printf("%+-0    5% s  %+-0    5%roar\n");
-//	printf("%+-0    5% s  %+-0    5%roar\n");
-
+	//ft_printf("%+-0    5% s%%  c  %%%+-0    5%roar%kkk\n");
+	//printf("%+-0    5% s%%  c  %%%+-0    5%roar%kkk\n");
+ft_printf("@moulitest: %#.x %#.0x", 0, 0);
+//printf("@moulitest: %#.x %#.0x", 0, 0);
+//ft_printf("%5%");
+//printf("%.0%");
 	//NEED to DO : deal with s between two arguments
 	// idea : when you have %   %, need to delete whatever type that comes in the next %
 	// and then make everything between the next 2 % as plain string
