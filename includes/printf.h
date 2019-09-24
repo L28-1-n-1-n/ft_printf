@@ -77,7 +77,7 @@ void 		parse_remain(const char *fmt, int i, va_list ap);
 int    parse_arg(const char *fmt, unsigned int i, t_block *blks);
 int     compose_str(const char *fmt, va_list ap, t_block *blks);
 void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blks);
-void    string_hex(uintmax_t n, char *final, t_block *blksk);
+void    string_hex(uintmax_t n, char *final, t_block *blksk, const char *fmt);
 void    string_digit(intmax_t n, char *final, t_block *blksk);
 char     *dex_to_bin_str(char *result, unsigned long long n);
 uintmax_t  add_unsigned_modifier(va_list ap, t_block *blksk);

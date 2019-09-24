@@ -74,7 +74,7 @@ int   parse(const char *fmt, va_list ap)
           i++; //skip until you find the next argument
       }
   }
-  k = 0;
+/*  k = 0;
    while (k < m)
    {
     printf("blks[%d].order is %u\n", k, blks[k].order);
@@ -86,7 +86,7 @@ int   parse(const char *fmt, va_list ap)
     printf("blks[%d].str is %s\n", k, blks[k].str);
     printf("blks[%d].pos is %d\n", k, blks[k].pos);
      k++;
-   }
+   }*/
   m = compose_str(fmt, ap, blks);
   return (m);
 }

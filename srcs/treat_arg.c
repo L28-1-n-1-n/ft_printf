@@ -92,14 +92,14 @@ void    treat_bin (char *final, va_list ap, t_block *blksk) // needs to be teste
   string_bin(n, final, blksk);
 }
 
-void    treat_hex(char *final, va_list ap, t_block *blksk)
+void    treat_hex(const char *fmt, char *final, va_list ap, t_block *blksk)
 {
   uintmax_t n;
   n = add_unsigned_modifier(ap, blksk);
-  string_hex(n, final, blksk);
+  string_hex(n, final, blksk, fmt);
 }
 
-void    treat_non_print(char *final, va_list ap, t_block *blksk)
+void    treat_non_print(char *final, va_list ap, t_block *blksk, const char *fmt)
 {
   uintmax_t n;
 
@@ -109,7 +109,7 @@ void    treat_non_print(char *final, va_list ap, t_block *blksk)
   blksk->precision = 0;
   blksk->type = 'x';
   ft_strcat(final, "\\x");
-  string_hex(n, final, blksk);
+  string_hex(n, final, blksk, fmt);
 }
 
 void    treat_num(char *final, va_list ap, t_block *blksk)
@@ -130,19 +130,16 @@ void    treat_float(char *final, va_list ap, t_block *blksk)
   long_n = 0;
   if (blksk->width == -1)
     blksk->width = va_arg(ap, int);
-  printf("width is %d\n", blksk->width);
   if (blksk->precision == -1)
     blksk->precision = va_arg(ap, int);
   if (blksk->width < 0)
   {
-    printf("we got here\n");
     blksk->flag |= 8;
     blksk->width *= -1;
   }
   if (blksk->precision < 0)
     blksk->precision = 6;
 
-  printf("width is %d\n", blksk->width);
   if ((blksk->modifier == l) || (blksk->modifier == 0))
   {
     n = va_arg(ap, double);
@@ -166,7 +163,7 @@ void    treat_plain_text(const char *fmt, char *final, t_block *blksk)
   unsigned int n;
 
   n = ft_strchr_pos(&fmt[blksk->pos + 1], '%') - blksk->pos;
-//  ft_strncat(final, &fmt[blksk->pos + 1], n);
+  ft_strncat(final, &fmt[blksk->pos + 1], n);
 (void)final;
 }
 
@@ -185,7 +182,7 @@ void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
     treat_string(final, ap, blksk);
   if ((blksk->type == 'x') || (blksk->type == 'X') ||
       (blksk->type == 'o') || (blksk->type == 'u') || (blksk->type == 'p'))
-    treat_hex(final, ap, blksk);
+    treat_hex(fmt, final, ap, blksk);
   if((blksk->type == 'd') || (blksk->type == 'i'))
     treat_num(final, ap, blksk);
   if ((blksk->type == 'f') || (blksk->type == 'F') || (blksk->type == 'e') ||
@@ -194,7 +191,7 @@ void    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
   if (blksk->type == 'b')
     treat_bin(final, ap, blksk);
   if (blksk->type == 'r')
-    treat_non_print(final, ap, blksk);
+    treat_non_print(final, ap, blksk, fmt);
   if (blksk->type == 'k')
     treat_time(final, blksk);
 }

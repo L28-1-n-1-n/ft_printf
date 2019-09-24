@@ -29,9 +29,21 @@ void	vafunc(char *fmt, ...)
 int		main()
 {
 //	printf("%d", printf("%5%"));
-	//ft_printf("%+-0    5% s%%  c  %%%+-0    5%roar%kkk\n");
-	//printf("%+-0    5% s%%  c  %%%+-0    5%roar%kkk\n");
-ft_printf("@moulitest: %#.x %#.0x", 0, 0);
+//	ft_printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
+//	printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
+//ft_printf("@moulitest: %#.x %#.3x", 0, 0);
+//printf("@moulitest: %#.x %#.3x", 0, 0);
+//ft_printf("%5%");
+//printf("%5%");
+//ft_printf("@moulitest: %5.x %5.0x", 0, 0);
+//printf("@moulitest: %5.x %5.0x", 0, 0);
+ft_printf("@moulitest: %5.3x", 82);
+printf("@moulitest: %5.3x", 82);
+//ft_printf("@moulitest: %#.x %#.0x", 0, 0);
+//printf("@moulitest: %#.x %#.0x", 0, 0);
+//ft_printf("@moulitest: %#.x", 0);
+//printf("@moulitest: %#.x", 0);
+
 //printf("@moulitest: %#.x %#.0x", 0, 0);
 //ft_printf("%5%");
 //printf("%.0%");

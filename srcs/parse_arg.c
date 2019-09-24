@@ -2,10 +2,8 @@
 #include <stdio.h>
 int check_type(char *str, unsigned int k, t_block *blks)
 {
-    printf("str in type is %s\n", str);
   while (*str && !(ft_strchr("cdixXpeEfFgGousbrk%", *str)))
     str++;
-    printf("str in type is %c\n", *str);
   if (*str)
   {
     if (*str == 'c')
@@ -46,11 +44,10 @@ int check_type(char *str, unsigned int k, t_block *blks)
       blks[k].type = 'k';
     if (*str == '%')
     {
-      printf("previous type is %c\n",blks[k].type);
-      printf("k is %d\n", k);
+    //  printf("previous type is %c\n",blks[k].type);
+    //  printf("k is %d\n", k);
       blks[k].str = "%";
       blks[k].type = 'c';
-      printf("we are Here TOTO\n");
     }
   }
   return(0);
@@ -58,10 +55,8 @@ int check_type(char *str, unsigned int k, t_block *blks)
 
 char *check_length(char *str, unsigned int k, t_block *blks)
 {
-  printf("str in len is %s\n", str);
   while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousbrk%", *str)))
     str++;
-  printf("str in len is %s\n", str);
   if (*str == 'L')
     blks[k].modifier = L; //5
   if (*str == 'z')
@@ -82,7 +77,6 @@ char *check_length(char *str, unsigned int k, t_block *blks)
     else
       blks[k].modifier = l; //4
   }
-  printf("str in len is %s\n", str);
   return(str);
 }
 
@@ -94,7 +88,6 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
   else
     str = (char *)(fmt + blks[k].pos + 1);
-  printf("in flags, str is %s\n", str);
   while (*str && !(ft_strchr("*.cdixXpeEfFgGousbrk%hlLz123456789", *str)))
     {
       if (*str == '+')
@@ -111,13 +104,13 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
         blks[k].flag |= 64;
       str++;
     }
-  printf("in flags, str is %s\n", str);
   // now we arrive at either * .  or letter or digit
   if ((*str > '0') && (*str <= '9'))
     blks[k].width = ft_atoi(str);
   if (*str == '*')
     blks[k].width = -1;
-  if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
+//  if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
+  if (ft_strchr_arg(str, '.'))
   {
     str += 1 + ft_strchr_arg(str, '.');
     if (*str == '*')
@@ -125,8 +118,7 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     else
       blks[k].precision = ft_atoi((char *)str);
   }
-  str++;
-  printf("in flags, str is %s\n", str);
+//  str++;
   return (str);
 }
 

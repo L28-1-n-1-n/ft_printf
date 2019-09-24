@@ -135,11 +135,12 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   len = 0;
   k = 0;
   final = ft_strnew(FLEN);
-/*  while (*fmt && (*fmt != '%'))
+  while (*fmt && (*fmt != '%'))
   {
     fmt++;
     len++;
-  }*/
+  }
+  check_buff(final, (char *)(fmt - len), len);
   while (*fmt)
   {
     len = 0;
