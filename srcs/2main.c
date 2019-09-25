@@ -59,8 +59,14 @@ printf("@moulitest: %15.6x\n", 82);*/
 //	  printf("%-10s is a string\n", "this");
 	 // ft_printf("%5.2s is a string\n", "");
 		//  printf("%5.2s is a string\n", "");
-ft_printf("%#-08x\n", 42);
-printf("%#-08x\n", 42);
+//ft_printf("%#-08x\n", 42);
+//printf("%#-08x\n", 42);
+ft_printf("%.5d|%-.5d|%+.5d|% .5d|% +.5d\n", 0, 0, 0, 0, 22);
+printf("%.5d|%-.5d|%+.5d|% .5d|% +.5d\n", 0, 0, 0, 0, 22);
+//	ft_printf("%10.5d\n", 0);
+//	ft_printf("%10.5d\n", 0);
+//ft_printf("|% 020d|\n", 12);
+//printf("|% 020d|\n", 12);
 //ft_printf("@moulitest6: %#.x %#.0x", 0, 0);
 //printf("@moulitest6: %#.x %#.0x", 0, 0);
 //ft_printf("@moulitest7: %#.x", 0);

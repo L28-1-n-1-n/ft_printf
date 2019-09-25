@@ -35,18 +35,30 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
   char *tmp;
   int i;
   int j;
-//printf("n is %jd\n", n);
 
+  i = 0;
   if ((blksk->flag & 4) && (n >= 0)) // '+' flag
   {
     str[0] = '+';
-    tmp = group_digit(ft_itoamax(n, &str[1]), blksk);
+    if (!((n == 0) && (blksk->flag & 128)))
+      tmp = group_digit(ft_itoamax(n, &str[1]), blksk);
     i = ft_strlen(str);
-
   }
   else
-    i = ft_strlen(group_digit(ft_itoamax(n, str), blksk));
-
+  {
+    if (!((n == 0) && (blksk->flag & 128)))
+      i = ft_strlen(group_digit(ft_itoamax(n, str), blksk));
+  }
+  blksk->precision -= i - 1;
+  if (blksk->flag & 4)
+    {
+      ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
+      while (blksk->precision--)
+        str[1 + blksk->precision] = '0';
+    }
+  else
+    while (blksk->precision--)
+      ft_strpcat_char(str, '0');
   j = blksk->width - i;
   if (j > 0)
     {
@@ -78,12 +90,17 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
           str[j--] = ' ';
       }
     }
+
     if (blksk->flag & 32) // ' ' flag
     {
       if ((n == 0) && (!(blksk->width)))
         str[1] = '0';
       if (str[0] == '0') // '0' flag, but n != 0
+      {
         str[0] = ' ';
+        if (n == 0)
+          str[1] = '0';
+      }
       else
       {
         if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
@@ -99,6 +116,8 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
               str[0] = ' ';
               str[ft_strlen(str)] = '\0';
             }
+        if ((n == 0) && (blksk->flag & 128))
+          ft_strcat_char(str, ' ');
       }
     }
   //printf("str is %s and length is %zu\n", str, ft_strlen(str));
