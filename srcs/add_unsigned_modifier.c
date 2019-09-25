@@ -24,6 +24,7 @@ uintmax_t add_unsigned_modifier(va_list ap, t_block *blksk)
       n = va_arg(ap, unsigned int);
     if (blksk->modifier == hh)
       n = (unsigned char)n;
+      //n = (uintmax_t)n;
     if (blksk->modifier == h)
       n = (unsigned short)n;
   return (n);

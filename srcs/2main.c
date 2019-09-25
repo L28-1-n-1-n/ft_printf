@@ -29,20 +29,42 @@ void	vafunc(char *fmt, ...)
 int		main()
 {
 //	printf("%d", printf("%5%"));
-//	ft_printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
-//	printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
-//ft_printf("@moulitest: %#.x %#.3x", 0, 0);
-//printf("@moulitest: %#.x %#.3x", 0, 0);
-//ft_printf("%5%");
-//printf("%5%");
-//ft_printf("@moulitest: %5.x %5.0x", 0, 0);
-//printf("@moulitest: %5.x %5.0x", 0, 0);
-ft_printf("@moulitest: %5.3x", 82);
-printf("@moulitest: %5.3x", 82);
-//ft_printf("@moulitest: %#.x %#.0x", 0, 0);
-//printf("@moulitest: %#.x %#.0x", 0, 0);
-//ft_printf("@moulitest: %#.x", 0);
-//printf("@moulitest: %#.x", 0);
+/*	ft_printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
+	printf("%+-0    5% s%%  c  %%%+-0    5%roar%k\n");
+ft_printf("@moulitest1: %x", 0);
+printf("@moulitest1: %x", 0);
+ft_printf("@moulitest2: %.x", 0);
+printf("@moulitest2: %.x", 0);
+ft_printf("@moulitest3: %#.3x", 0);
+printf("@moulitest3: %#.3x", 0);
+ft_printf("@moulitest4: %.x %#.3x", 0, 0);
+printf("@moulitest4: %.x %#.3x", 0, 0);
+ft_printf("%5%");
+printf("%5%");
+ft_printf("@moulitest5: %5.x %5.0x", 0, 0);
+printf("@moulitest5: %5.x %5.0x", 0, 0);
+ft_printf("@moulitest: %15.6x\n", 82);
+printf("@moulitest: %15.6x\n", 82);*/
+//ft_printf("%lX\n", 4294967296);
+//printf("%lX\n", 4294967296);
+//ft_printf("%10s is a string\n", "this");
+//printf("%10s is a string\n", "this");
+//ft_printf("%.2s is a string\n", "this");
+//printf("%.2s is a string\n", "this");
+//ft_printf("%5.2s is a string", "this");
+//printf("%5.2s is a string", "this");
+//ft_printf("%10s is a string\n", "");
+//printf("%10s is a string\n", "");
+//  ft_printf("%-10s is a string\n", "this");
+//	  printf("%-10s is a string\n", "this");
+	 // ft_printf("%5.2s is a string\n", "");
+		//  printf("%5.2s is a string\n", "");
+ft_printf("%#-08x\n", 42);
+printf("%#-08x\n", 42);
+//ft_printf("@moulitest6: %#.x %#.0x", 0, 0);
+//printf("@moulitest6: %#.x %#.0x", 0, 0);
+//ft_printf("@moulitest7: %#.x", 0);
+//printf("@moulitest7: %#.x", 0);
 
 //printf("@moulitest: %#.x %#.0x", 0, 0);
 //ft_printf("%5%");

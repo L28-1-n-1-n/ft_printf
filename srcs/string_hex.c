@@ -7,25 +7,19 @@ char *convert_base(uintmax_t n, char *tmp, char *base)
   unsigned int i;
   unsigned int mask;
   unsigned int step;
-
   i = 0;
   k = 0;
   tmp[0] = '0'; // preset '0' for case n = 0
   if (ft_strlen(base) == 10) // case unsigned 0123456789 has length 10
   {
-  //  printf("we are base 10\n");
     while (n > 0)
     {
-    //  printf("n is %ju\n", n);
-    //  printf("and n mod 10 is %ju\n", n);
       tmp[i] = base[n % 10];
-    //  printf("we have put %d into tmp[%d]\n", base[n%10], i);
       n /= 10;
       i++;
     }
     return (tmp);
   }
-
   mask = 15;
   step = 4;
   if (ft_strlen(base) < 10) // case octal 012345678 has length 9
@@ -33,7 +27,6 @@ char *convert_base(uintmax_t n, char *tmp, char *base)
     mask = 7;
     step = 3;
   }
-
   while (n > 0) // this is a logical problem, after 32 bits, will need to be
   {
     k = n & mask; // 7 for octal
@@ -51,33 +44,60 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   int i;
   int j;
   ft_bzero(tmp, 23);
-  blksk->precision = 0;
   if ((n == 0) && ((blksk->type == 'x') || (blksk->type == 'X')))
   {
-    printf("we got here\n");
     fmt += 1;
     while (*fmt && !(ft_strchr(".xX%", *fmt)))
       fmt++;
-    if (*fmt == '.')
-    {
+    //if (*fmt == '.')
+  //  {
       fmt++;
       blksk->precision = ft_atoi(fmt);
-    }
-    printf("width is %d\n", blksk->width);
-      printf("precision is %d\n", blksk->precision);
+  //  }
+    if (!(blksk->flag & 128))
+      ft_strcat_char(str, '0');
+
     while (blksk->precision--)
       ft_strcat_char(str, '0');
     while (blksk->width--)
       ft_strcat_char(str, ' ');
     return(str);
   }
+  if (blksk->precision == 6)
+  {
+    fmt += 1;
+    while (*fmt && !(ft_strchr(".xX%", *fmt)))
+      fmt++;
+    fmt++;
+    if (ft_atoi(fmt) != 6)
+      blksk->precision = 0;
+  }
+
   if (blksk->type == 'p') // to skip all flags for pointer
     return (ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)));
   if (blksk->flag & 64) // apostrophe flag
-    i = ft_strlen(ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)));
+    ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk));
   else
-    i = ft_strlen(ft_strcat(str, ft_strrev(convert_base(n, tmp, base))));
-  //redo precision, then calculate width difference
+    ft_strcat(str, ft_strrev(convert_base(n, tmp, base)));
+
+  if (blksk->flag & 16)
+  {
+    blksk->precision = blksk->precision - (ft_strlen(str) - 2);
+    if(blksk->precision > 0)
+    {
+      ft_memmove(&str[2 + blksk->precision], &str[2], ft_strlen(&str[2]));
+      while (blksk->precision--)
+        str[2 + blksk->precision] = '0';
+    }
+  }
+  else
+  {
+    blksk->precision = blksk->precision - ft_strlen(str);
+    if(blksk->precision > 0)
+      while (blksk->precision--)
+        ft_strpcat_char(str, '0');
+  }
+  i = ft_strlen(str);
   j = blksk->width - i;
   if (j > 0)
     {
@@ -111,7 +131,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
           str[j--] = ' ';
       }
     }
-//  printf("str is %s and length is %zu\n", str, ft_strlen(str));
   return (str);
 }
 

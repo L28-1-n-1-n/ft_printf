@@ -48,7 +48,7 @@ typedef enum		e_modifier
 typedef struct	s_block
 {
 	unsigned int      order; // n in n $, where n cannot be negative or 0, n must be valid order, e.g. 1 and 2, not 1 and 3
-	unsigned int      flag; // '0'   '+'   '-'   '#', default '^' means NULL
+	unsigned int      flag; // '0'   '+'   '-'   '#', '.', default '^' means NULL
 	int			          width; // -1 means '*'
 	int			          precision; // -1 means '*'
  	t_modifier        modifier;

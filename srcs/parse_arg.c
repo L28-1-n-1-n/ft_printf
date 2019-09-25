@@ -109,16 +109,25 @@ char *check_flags_width_pres(const char *fmt, unsigned int k, t_block *blks)
     blks[k].width = ft_atoi(str);
   if (*str == '*')
     blks[k].width = -1;
-//  if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
-  if (ft_strchr_arg(str, '.'))
+//printf("during parse, str is %s\n", str);
+/*if(blks[k].order > 0)
+  str = (char *)(fmt + blks[k].pos + ft_strchr_arg(fmt + blks[k].pos, '$'));
+else
+  str = (char *)(fmt + blks[k].pos);*/
+
+//  if (ft_strchr_arg(str, '.'))
+  if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
   {
+    blks[k].flag |= 128;
     str += 1 + ft_strchr_arg(str, '.');
     if (*str == '*')
       blks[k].precision = -1;
     else
       blks[k].precision = ft_atoi((char *)str);
   }
-//  str++;
+  //str++;
+  if (*str == '%')
+    str++;
   return (str);
 }
 

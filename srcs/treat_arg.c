@@ -60,14 +60,13 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
     blksk->precision = 0;
 
   string = va_arg(ap, char *);
-
+  treat_string_helper(str, string, blksk);
   if (blksk->flag & 8) // '-' flag
   {
-    treat_string_helper(str, string, blksk);
-    while (--blksk->width)
+    blksk->width -= ft_strlen(str);
+    while (blksk->width--)
       ft_strcat_char(str, ' ');
   }
-  treat_string_helper(str, string, blksk);
   if ((blksk->flag & 2) && (!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // '0' flag and not '-' flag
   {
     blksk->width -= ft_strlen(str);
@@ -77,7 +76,7 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
   if ((!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // not '-' flag, but width > 1
   {
     blksk->width -= ft_strlen(str);
-    while (--blksk->width)
+    while (blksk->width--)
       ft_strpcat_char(str, ' '); // cat before
   }
   ft_strcat(final, str);
