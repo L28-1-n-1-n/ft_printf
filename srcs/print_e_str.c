@@ -177,6 +177,8 @@ void print_e_str(char *final, t_block *blksk, t_float *fnum)
   int pres_holder;
   int final_len;
 
+  if (blksk->precision == -2)
+    blksk->precision = 6;
   if (((fnum->integer == 0) && (fnum->decimal != 0)) || ((*(fnum->big_str)) && (fnum->exponent < 0)))
   {
     blksk->precision++;

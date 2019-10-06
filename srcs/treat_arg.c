@@ -52,11 +52,11 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
   char *str;
 
   str = ft_strnew(FLEN);
-  if (blksk->precision == 6)
+  if (blksk->precision == -2)
     blksk->precision = 0;
   if (blksk->precision == -1)
     blksk->precision = va_arg(ap, int);
-  if (blksk->precision < 0)
+  if (blksk->precision < 0) // Try it with %.*s, negative numbers supplied to * results in zero precision
     blksk->precision = 0;
 
   string = va_arg(ap, char *);

@@ -30,6 +30,8 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   i = 0;
   if (!(str = ft_memalloc(SLEN)))
     return(ft_free(str));
+  if (blksk->precision == -2)
+    blksk->precision = 6;
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;

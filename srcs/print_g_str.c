@@ -152,6 +152,8 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
     return ;
   if(!(blkse = (t_block *)malloc(sizeof(t_block))))
     return ;
+  if (blksk->precision == -2)
+    blksk->precision = 6;
   init_float(fnume);
   copy_float(fnum, fnume);
   init_blocks(blkse, 1);

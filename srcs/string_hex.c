@@ -43,6 +43,9 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   char tmp[23]; // Max octal digits = 64/3
   int i;
   int j;
+
+  if (blksk->precision == -2)
+    blksk->precision = 0;
   ft_bzero(tmp, 23);
   if ((n == 0) && ((blksk->type == 'x') || (blksk->type == 'X')))
   {
