@@ -96,11 +96,11 @@ printf("%.d|%-.d|%+.d|% .d|%0.d\n", -0, -0, -0, -0, -0);
 
 ft_printf("%.5d|%-.5d|%+.5d|% .5d|%0.5d\n", -0, -0, -0, -0, -0);
 printf("%.5d|%-.5d|%+.5d|% .5d|%0.5d\n", -0, -0, -0, -0, -0);
+
 */
-
 //passed above
-
 /*
+
 ft_printf("%11.5d|%-11.5d|%+11.5d|% 11.5d|%011.5d\n", 23, 23, 23, 23, 23);
 printf("%11.5d|%-11.5d|%+11.5d|% 11.5d|%011.5d\n", 23, 23, 23, 23, 23);
 
@@ -124,8 +124,8 @@ printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", 0, 
 
 ft_printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", -0, -0, -0, -0, -0, -0, -0);
 printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", -0, -0, -0, -0, -0, -0, -0);
-*/
-/*
+
+
 ft_printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", 0, 0, 0, 0, 0, 0, 0);
    printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", 0, 0, 0, 0, 0, 0, 0);
 
@@ -164,32 +164,48 @@ printf("%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d\n", -0, -0, -0
 ft_printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 
-
-ft_printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", -0, -0, -0, -0, -0, -0, -0);
-printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", -0, -0, -0, -0, -0, -0, -0);
 */
-//passed above
+ test: "%.u|%-.u|%0.u", 0U, 0U, 0U
 
 /*
-ft_printf("%1d|%-1d|%+1d|% 1d|%01d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%1d|%-1d|%+1d|% 1d|%01d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-// last 2 not fine
-ft_printf("|% 23d|%023.5d|%023d|\n", INT_MAX, INT_MAX, INT_MAX);
-printf("|% 23d|%023.5d|%023d|\n", INT_MAX, INT_MAX, INT_MAX);
+ft_printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
 
-ft_printf("%23d|%-23d|%+23d|% 23d|%023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%23d|%-23d|%+23d|% 23d|%023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+ft_printf("%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
 
-ft_printf("%1.d|%-1.d|%+1.d|% 1.d|%01.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%1.d|%-1.d|%+1.d|% 1.d|%01.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+ft_printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+*/
+/*
+test: "%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX
+test: "%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX
+test: "%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX
+test: "%.5d|%-.5d|%+.5d|% .5d|%0.5d", INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN
+test: "%1.5d|%-1.5d|%+1.5d|% 1.5d|%01.5d", INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN
+test: "%23.5d|%-23.5d|%+23.5d|% 23.5d|%023.5d", INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN
+test: "%-+.5d|%- .5d|%-0.5d|%+ .5d|%+0.5d|% 0.5d|%-+ 0.5d", INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN
 
 */
-
-ft_printf("|%02.d|\n", 7);
-printf("|%02.d|\n", 7);
+/*
+ft_printf("%-+d|%- d|%-0d|%+ d|%+0d|% 0d|%-+ 023.2d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, -INT_MAX);
+printf("%-+d|%- d|%-0d|%+ d|%+0d|% 0d|%-+ 023.2d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, -INT_MAX);
 
 ft_printf("%23.d|%-23.d|%+23.d|% 23.d|%023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
 printf("%23.d|%-23.d|%+23.d|% 23.d|%023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+
+ft_printf("%-+d|%- d|%-0d|%+ d|%+0d|% 0d|%-+ 0d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+d|%- d|%-0d|%+ d|%+0d|% 0d|%-+ 0d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+
+ft_printf("%-+1d|%- 1d|%-01d|%+ 1d|%+01d|% 01d|%-+ 01d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+1d|%- 1d|%-01d|%+ 1d|%+01d|% 01d|%-+ 01d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+
+ft_printf("%-+.d|%- .d|%-0.d|%+ .d|%+0.d|% 0.d|%-+ 0.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+.d|%- .d|%-0.d|%+ .d|%+0.d|% 0.d|%-+ 0.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+
+ft_printf("%-+.5d|%- .5d|%-0.5d|%+ .5d|%+0.5d|% 0.5d|%-+ 0.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+printf("%-+.5d|%- .5d|%-0.5d|%+ .5d|%+0.5d|% 0.5d|%-+ 0.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+*/
 
 /*
 test: "%23.d|%-23.d|%+23.d|% 23.d|%023.d", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX

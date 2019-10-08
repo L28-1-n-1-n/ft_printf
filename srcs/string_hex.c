@@ -82,7 +82,7 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
     ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk));
   else
     ft_strcat(str, ft_strrev(convert_base(n, tmp, base)));
-
+    printf("here we are\n");
   if (blksk->flag & 16)
   {
     blksk->precision = blksk->precision - (ft_strlen(str) - 2);

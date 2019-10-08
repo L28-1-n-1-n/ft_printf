@@ -57,13 +57,14 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
     else
       i = ft_strlen(str);
   }
+
   if ((blksk->precision > 0) && (i > 0))
     blksk->precision -= (i - 1);
+
   if (blksk->flag & 4)
     {
       if (n > 0)
         blksk->precision -= 1;
-      //ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
       if (blksk->precision > 0)
       {
         ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
@@ -73,17 +74,19 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
     }
   else
   {
+
     if (n > 0)
       blksk->precision -= 1;
-
     if (str[0] == '-')
     {
-      ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
+
       if (blksk->precision > 0)
       {
+        ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
         while (blksk->precision--)
           str[1 + blksk->precision] = '0';
       }
+
     }
     else
     {
@@ -94,7 +97,6 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
       }
     }
   }
-
   i = ft_strlen(str);
   j = blksk->width - i;
   if (j > 0)
@@ -106,13 +108,12 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
       if ((blksk->flag & 2) && (!(blksk->flag & 8))) // '0' flag without '-'
       {
           // first move content of str backwards, then pad with zero between 0x and content
-
         if ((blksk->flag & 4) || (str[0] == '-'))// + or -
         {
           if (n != 0)
           {
             //ft_memmove(&str[j+1], &str[1], i - 1);
-            if ((blksk->flag & 4) && (blksk->flag & 2))
+            if (((blksk->flag & 4) || (str[0] == '-')) && (blksk->flag & 2) && (!(blksk->flag & 128)))
             {
               ft_memmove(&str[j+1], &str[1], ft_strlen(str));
               //j-=1;
@@ -120,12 +121,12 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
                 str[j--] = '0';
             }
             else
-            {
-            ft_memmove(&str[j], &str[0], ft_strlen(str));
-            j-=1;
-            while (j >= 0)
-              str[j--] = ' ';
-            }
+              {
+                  ft_memmove(&str[j], &str[0], ft_strlen(str));
+                  j-=1;
+                  while (j >= 0)
+                    str[j--] = ' ';
+              }
           }
           else
           {
@@ -149,17 +150,14 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
           {
             ft_memmove(&str[j], &str[0], i);
             j -= 1;
-            if ((blksk->flag & 2) && (blksk->flag & 32))
+            if ((blksk->flag & 2) && (blksk->flag & 32) && (!(blksk->flag & 128)))
             {
               while (j > 0)
                 str[j--] = '0';
               str[0] = ' ';
-            printf("we are here\n");
             }
             else
             {
-              printf("str is %s\n", str);
-
             //  if ((pres) || (ft_strlen(str) < (size_t)width))
               if ((pres) || (blksk->flag & 128))
                 while (j >= 0)
@@ -169,7 +167,6 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
                 while (j >= 0)
                   str[j--] = '0';
             }
-            printf("str is %s\n", str);
 
           }
           else // case n == 0
@@ -192,7 +189,7 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
                     while (j > 0)
                       str[j--] = '0';
                 str[0] = ' ';
-              }
+                }
               }
               else
               {
@@ -235,6 +232,7 @@ j = blksk->width - ft_strlen(str);
             str[j--] = ' ';
       }
     }
+
     if (blksk->flag & 32) // ' ' flag
     {
       if ((n == 0) && (!(blksk->width)))
@@ -244,6 +242,7 @@ j = blksk->width - ft_strlen(str);
         else
           if (ft_strlen(str) == 0)
             ft_strpcat_char(str, ' ');
+
       }
       if (str[0] == '0')
       {
@@ -264,9 +263,15 @@ j = blksk->width - ft_strlen(str);
       {
         if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
         {
-          ft_memmove(&str[1], &str[0], ft_strlen(str));
-          str[0] = ' ';
-          str[ft_strlen(str) - 1] = '\0';
+          if ((str[0] != '+') && (str[0] != '-'))
+          {
+            ft_memmove(&str[1], &str[0], ft_strlen(str));
+            str[0] = ' ';
+            if (str[ft_strlen(str) - 1] == ' ')
+            {
+              str[ft_strlen(str) - 1] = '\0';
+            }
+          }
         }
         else
         {
@@ -278,8 +283,9 @@ j = blksk->width - ft_strlen(str);
             }
           else
           {
-            if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+')))
+            if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+') && (str[0] != '-')))
               ft_strpcat_char(str, ' ');
+
           }
         }
       //  if ((n == 0) && (blksk->flag & 128) && (pres > 1))
