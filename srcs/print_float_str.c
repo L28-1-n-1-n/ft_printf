@@ -135,7 +135,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
     ft_strcat(str, fnum->big_str);
   carry = blksk->width - ft_strlen(str);
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
-      (!((fnum->sign == '-') && (blksk->flag & 2)))) // space flag
+      (!((fnum->sign == '-') && (blksk->flag & 2)))) // 32 is space flag
     ft_strcat_char(final, ' ');
   if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
     ft_strcat_char(final, ' ');
@@ -163,6 +163,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
         carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
         while (carry--)
           ft_strcat_char(final, ' ');
+
       }
   }
   printf("dot is at pos %zu\n", ft_strchr_arg(str, '.'));

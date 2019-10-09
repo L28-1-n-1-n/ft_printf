@@ -165,8 +165,29 @@ ft_printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 
 */
- test: "%.u|%-.u|%0.u", 0U, 0U, 0U
 
+ft_printf("%23u|%-23u|%023u|%-023u|\n", 0U, 0U, 0U, 0U);
+printf("%23u|%-23u|%023u|%-023u|\n", 0U, 0U, 0U, 0U);
+ft_printf("%-023.5u\n", 0U);
+printf("%-023.5u\n", 0U);
+
+ft_printf("%1.u|%-1.u|%01.u\n", 0U, 0U, 0U);
+printf("%1.u|%-1.u|%01.u\n", 0U, 0U, 0U);
+
+ft_printf("%23.5u|%-23.5u|%023.5u\n", 0U, 0U, 0U);
+printf("%23.5u|%-23.5u|%023.5u\n", 0U, 0U, 0U);
+
+/*
+ "%1.u|%-1.u|%01.u", 0U, 0U, 0U:
+"%23.u|%-23.u|%023.u", 0U, 0U, 0U: [KO]
+"%23.5u|%-23.5u|%023.5u", 0U, 0U, 0U: [KO]
+*/
+/*
+test: "%23u|%-23u|%023u", 0U, 0U, 0U
+test: "%-023u", 0U
+test: "%-023.5u", 0U
+test: "%23o|%-23o|%#o|%023o", 0U, 0U, 0U, 0U
+*/
 /*
 ft_printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
 printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);

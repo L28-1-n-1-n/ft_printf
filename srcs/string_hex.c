@@ -62,18 +62,26 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
 
     while (blksk->precision--)
       ft_strcat_char(str, '0');
-    while (blksk->width--)
-      ft_strcat_char(str, ' ');
+  //  if (!(blksk->flag & 2))
+  //  {
+      while (blksk->width--)
+        ft_strcat_char(str, ' ');
+    //}
+  //  else
+  //  {
+      while (blksk->width--)
+        ft_strpcat_char(str, '0');
+  //  }
     return(str);
   }
-  if (blksk->precision == 6)
+
+  if (blksk->precision == 0)
   {
     fmt += 1;
-    while (*fmt && !(ft_strchr(".xX%", *fmt)))
+    while (*fmt && !(ft_strchr(".xXuo%", *fmt)))
       fmt++;
     fmt++;
-    if (ft_atoi(fmt) != 6)
-      blksk->precision = 0;
+    blksk->precision = ft_atoi(fmt);
   }
 
   if (blksk->type == 'p') // to skip all flags for pointer
@@ -82,7 +90,8 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
     ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk));
   else
     ft_strcat(str, ft_strrev(convert_base(n, tmp, base)));
-    printf("here we are\n");
+    if ((n == 0) && (blksk->flag & 128))
+      str[0] = '\0';
   if (blksk->flag & 16)
   {
     blksk->precision = blksk->precision - (ft_strlen(str) - 2);
@@ -95,6 +104,7 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   }
   else
   {
+
     blksk->precision = blksk->precision - ft_strlen(str);
     if(blksk->precision > 0)
       while (blksk->precision--)
@@ -102,11 +112,14 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   }
   i = ft_strlen(str);
   j = blksk->width - i;
+
   if (j > 0)
     {
       if (blksk->flag & 8) // '-' flag, trumps '0' flag
+      {
           while (j--)
             str[i++] = ' ';
+        }
       if ((blksk->flag & 2) && (!(blksk->flag & 8))) // '0' flag without '-'
       {
           // first move content of str backwards, then pad with zero between 0x and content
@@ -119,16 +132,45 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
         }
         else
         {
-          ft_memmove(&str[j], &str[0], i);
-          j -= 1;
-          while (j >= 0)
-            str[j--] = '0';
+          if (n != 0)
+          {
+            ft_memmove(&str[j], &str[0], i);
+            j -= 1;
+            if (!(blksk->flag & 128))
+            {
+              while (j >= 0)
+                str[j--] = '0';
+            }
+            else
+            {
+              while (j >= 0)
+                str[j--] = ' ';
+            }
+          }
+          else
+          {
+            if (!(blksk->flag & 128))
+              while (j >= 0)
+                str[j--] = '0';
+
+          }
         }
       }
+
       if ((!(blksk->flag & 2)) && (!(blksk->flag & 8))) // no '0' flag, no '-' flag
       {
           // first move content of str backwards, then pad with zero
         ft_memmove(&str[j], &str[0], i);
+        j -= 1;
+        while (j >= 0)
+          str[j--] = ' ';
+      }
+      if (j && (n == 0) &&(!((blksk->flag & 16) && (blksk->type != 'u'))))
+      {
+       if (ft_strlen(str) && (blksk->flag & 2) && (!(blksk->flag & 8)))
+         ft_memmove(&str[j], &str[0], ft_strlen(str));// why is this not working ?
+  //    if (ft_strlen(str) && (blksk->flag & 8))
+
         j -= 1;
         while (j >= 0)
           str[j--] = ' ';
