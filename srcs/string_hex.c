@@ -43,7 +43,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   char tmp[23]; // Max octal digits = 64/3
   int i;
   int j;
-
   if (blksk->precision == -2)
     blksk->precision = 0;
   ft_bzero(tmp, 23);
@@ -74,7 +73,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   //  }
     return(str);
   }
-
   if (blksk->precision == 0)
   {
     fmt += 1;
@@ -90,21 +88,35 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
     ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk));
   else
     ft_strcat(str, ft_strrev(convert_base(n, tmp, base)));
-    if ((n == 0) && (blksk->flag & 128))
+    if ((n == 0) && (blksk->flag & 128) && (!(blksk->flag & 16)))
       str[0] = '\0';
   if (blksk->flag & 16)
   {
-    blksk->precision = blksk->precision - (ft_strlen(str) - 2);
+    if ((blksk->type == 'x') || (blksk->type == 'X'))
+    {
+      blksk->precision = blksk->precision - (ft_strlen(str) - 2);
+      if(blksk->precision > 0)
+      {
+        blksk->precision -= 2;
+        ft_memmove(&str[2 + blksk->precision], &str[2], ft_strlen(&str[2]));
+        while (blksk->precision--)
+          str[2 + blksk->precision] = '0';
+      }
+    }
+    if (blksk->type == 'o')
+    {
+      blksk->precision = blksk->precision - (ft_strlen(str) - 1);
     if(blksk->precision > 0)
     {
-      ft_memmove(&str[2 + blksk->precision], &str[2], ft_strlen(&str[2]));
+      blksk->precision -= 1;
+      ft_memmove(&str[1+blksk->precision], &str[1], ft_strlen(&str[1]));
       while (blksk->precision--)
-        str[2 + blksk->precision] = '0';
+        str[1 + blksk->precision] = '0';
+      }
     }
   }
   else
   {
-
     blksk->precision = blksk->precision - ft_strlen(str);
     if(blksk->precision > 0)
       while (blksk->precision--)
@@ -112,7 +124,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   }
   i = ft_strlen(str);
   j = blksk->width - i;
-
   if (j > 0)
     {
       if (blksk->flag & 8) // '-' flag, trumps '0' flag
@@ -125,10 +136,30 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
           // first move content of str backwards, then pad with zero between 0x and content
         if ((blksk->flag & 16) && (blksk->type != 'u')) //'#'
         {
-          ft_memmove(&str[j + 2], &str[2], i - 2);
-          j += 1;
-          while (j >= 2)
-            str[j--] = '0';
+          if ((blksk->type == 'x') || (blksk->type == 'X'))
+          {
+            ft_memmove(&str[j + 2], &str[2], i - 2);
+            j += 1;
+            while (j >= 2)
+              str[j--] = '0';
+          }
+          if (blksk->type == 'o')
+          {
+        //    ft_memmove(&str[j+1], &str[1], ft_strlen(&str[1]));
+            if (!(blksk->flag & 128))
+            {
+            ft_memmove(&str[j+1], &str[1], ft_strlen(&str[1]));
+            while (j >= 1)
+              str[j--] = '0';
+            }
+            else
+            {
+              ft_memmove(&str[j], &str[0], ft_strlen(&str[0]));
+              j-=1;
+              while (j >= 0)
+                str[j--] = ' ';
+            }
+          }
         }
         else
         {
@@ -170,7 +201,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
        if (ft_strlen(str) && (blksk->flag & 2) && (!(blksk->flag & 8)))
          ft_memmove(&str[j], &str[0], ft_strlen(str));// why is this not working ?
   //    if (ft_strlen(str) && (blksk->flag & 8))
-
         j -= 1;
         while (j >= 0)
           str[j--] = ' ';
