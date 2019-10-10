@@ -166,47 +166,9 @@ printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 
 */
 
-//ft_printf("%.5o|%-.5o|%#.5o|%0.5o\n", 0U, 0U, 0U, 0U);
-//printf("%.5o|%-.5o|%#.5o|%0.5o\n", 0U, 0U, 0U, 0U);
+ft_printf("%x|%-x|%#x|%0x\n", 0U, 0U, 0U, 0U);
+printf("%x|%-x|%#x|%0x\n", 0U, 0U, 0U, 0U);
 
-//ft_printf("%23.5o|%-23.5o|%#23.5o|%023.5o\n", 0U, 0U, 0U, 0U);
-//printf("%23.5o|%-23.5o|%#23.5o|%023.5o\n", 0U, 0U, 0U, 0U);
-ft_printf("%-#23o|%-023o|%#023o|%-#023o\n", ULLONG_MAX, ULLONG_MAX, ULLONG_MAX, ULLONG_MAX);
-ft_printf("%-#23o|%-023o|%#023o|%-#023o\n", ULLONG_MAX, ULLONG_MAX, ULLONG_MAX, ULLONG_MAX);
-
-//ft_printf("%-#23.5o|%-023.5o|%#023.5o|%-#023.5o\n", 0U, 0U, 0U, 0U);
-//printf("%-#23.5o|%-023.5o|%#023.5o|%-#023.5o\n", 0U, 0U, 0U, 0U);
-/*
-test: "%-#23.5o|%-023.5o|%#023.5o|%-#023.5o", 0U, 0U, 0U, 0U
-test: "%-#23o|%-023o|%#023o|%-#023o", UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX
-test: "%-#23.o|%-023.o|%#023.o|%-#023.o", UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX
-test: "%-#23.5o|%-023.5o|%#023.5o|%-#023.5o", UINT_MAX, UINT_MAX, UINT_MAX, UINT_MAX
-test: "%-#23o|%-023o|%#023o|%-#023o", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX
-test: "%-#23.o|%-023.o|%#023.o|%-#023.o", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX
-test: "%-#23.5o|%-023.5o|%#023.5o|%-#023.5o", ULONG_MAX, ULONG_MAX, ULONG_MAX, ULONG_MAX
-test: "%-#23o|%-023o|%#023o|%-#023o", ULLONG_MAX, ULLONG_MAX, ULLONG_MAX, ULLONG_MAX
-test: "%-#23.o|%-023.o|%#023.o|%-#023.o", ULLONG_MAX, ULLONG_MAX, ULLONG_MAX, ULLONG_MAX
-test: "%-#23.5o|%-023.5o|%#023.5o|%-#023.5o", ULLONG_MAX, ULLONG_MAX, ULLONG_MAX, ULLONG_MAX
-*/
-
-//ft_printf("%.o|%-.o|%#.o|%0.o\n", 0U, 0U, 0U, 0U);
-//printf("%.o|%-.o|%#.o|%0.o\n", 0U, 0U, 0U, 0U);
-
-/*
-test: "%.o|%-.o|%#.o|%0.o", 0U, 0U, 0U, 0U
-test: "%.5o|%-.5o|%#.5o|%0.5o", 0U, 0U, 0U, 0U
-test: "%1.o|%-1.o|%#1.o|%01.o", 0U, 0U, 0U, 0U
-test: "%23.o|%-23.o|%#23.o|%023.o", 0U, 0U, 0U, 0U
-test: "%1.5o|%-1.5o|%#1.5o|%01.5o", 0U, 0U, 0U, 0U
-test: "%23.5o|%-23.5o|%#23.5o|%023.5o", 0U, 0U, 0U, 0U
-*/
-
-/*
-test: "%23u|%-23u|%023u", 0U, 0U, 0U
-test: "%-023u", 0U
-test: "%-023.5u", 0U
-test: "%23o|%-23o|%#o|%023o", 0U, 0U, 0U, 0U
-*/
 /*
 ft_printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
 printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);

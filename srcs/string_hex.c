@@ -61,16 +61,19 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
 
     while (blksk->precision--)
       ft_strcat_char(str, '0');
-  //  if (!(blksk->flag & 2))
-  //  {
+
+    if (!(blksk->flag & 2))
+    {
       while (blksk->width--)
         ft_strcat_char(str, ' ');
-    //}
-  //  else
-  //  {
+    }
+    else
+    {
+
       while (blksk->width--)
         ft_strpcat_char(str, '0');
-  //  }
+    }
+
     return(str);
   }
   if (blksk->precision == 0)
@@ -94,14 +97,21 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   {
     if ((blksk->type == 'x') || (blksk->type == 'X'))
     {
-      blksk->precision = blksk->precision - (ft_strlen(str) - 2);
-      if(blksk->precision > 0)
-      {
-        blksk->precision -= 2;
-        ft_memmove(&str[2 + blksk->precision], &str[2], ft_strlen(&str[2]));
-        while (blksk->precision--)
-          str[2 + blksk->precision] = '0';
-      }
+  //    if (!(blksk->flag & 128))
+    //  {
+        blksk->precision = blksk->precision - (ft_strlen(str) - 2);
+        if(blksk->precision > 0)
+        {
+          //blksk->precision -= 2;
+          ft_memmove(&str[2 + blksk->precision], &str[2], ft_strlen(&str[2]));
+          while (blksk->precision--)
+            str[2 + blksk->precision] = '0';
+        }
+    //  }
+  //    else
+  //    {
+
+    //  }
     }
     if (blksk->type == 'o')
     {
@@ -138,10 +148,20 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
         {
           if ((blksk->type == 'x') || (blksk->type == 'X'))
           {
-            ft_memmove(&str[j + 2], &str[2], i - 2);
-            j += 1;
-            while (j >= 2)
-              str[j--] = '0';
+            if (!(blksk->flag & 128))
+            {
+              ft_memmove(&str[j + 2], &str[2], i - 2);
+              j += 1;
+              while (j >= 2)
+                str[j--] = '0';
+            }
+            else
+            {
+              ft_memmove(&str[j], &str[0], ft_strlen(str));
+              j-=1;
+              while (j >= 0)
+                str[j--] = ' ';
+            }
           }
           if (blksk->type == 'o')
           {
@@ -187,7 +207,6 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
           }
         }
       }
-
       if ((!(blksk->flag & 2)) && (!(blksk->flag & 8))) // no '0' flag, no '-' flag
       {
           // first move content of str backwards, then pad with zero
