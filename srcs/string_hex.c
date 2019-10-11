@@ -37,6 +37,25 @@ char *convert_base(uintmax_t n, char *tmp, char *base)
   return (tmp);
 }
 
+char *compose_pointer(char *str, t_block *blksk)
+{
+  blksk->width -= ft_strlen(str);
+  if (blksk->width > 0)
+  {
+    if (blksk->flag & 8)
+    {
+      while (blksk->width--)
+        ft_strcat_char(str, ' ');
+    }
+    else
+    {
+      ft_memmove(&str[blksk->width], &str[0], ft_strlen(&str[0]));
+      while (blksk->width--)
+        str[blksk->width] = ' ';
+    }
+  }
+  return (str);
+}
 
 char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const char *fmt)
 {
@@ -61,17 +80,51 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
 
     while (blksk->precision--)
       ft_strcat_char(str, '0');
-
     if (!(blksk->flag & 2))
     {
-      while (blksk->width--)
-        ft_strcat_char(str, ' ');
+
+      blksk->width -= ft_strlen(str);
+     if (blksk->width > 0)
+      {
+        if (blksk->flag & 8)
+        {
+          while (blksk->width--)
+            ft_strcat_char(str, ' ');
+        }
+        else
+        {
+          ft_memmove(&str[blksk->width], &str[0], ft_strlen(&str[0]));
+          while (blksk->width--)
+            str[blksk->width] = ' ';
+        }
+      }
     }
     else
     {
+  blksk->width -= ft_strlen(str);
 
+  if ((blksk->width > 0) && (!(blksk->flag & 128)) && (!(blksk->flag & 8)))
+    {
       while (blksk->width--)
         ft_strpcat_char(str, '0');
+    }
+    else
+    {
+      if (blksk->width > 0)
+      {
+        if (!(blksk->flag & 8))
+        {
+          while (blksk->width--)
+            ft_strpcat_char(str, ' ');
+        }
+        else
+        {
+        while (blksk->width--)
+          ft_strcat_char(str, ' ');
+        }
+      }
+
+    }
     }
 
     return(str);
@@ -86,7 +139,7 @@ char *compose_snippet(char *str, char *base, uintmax_t n, t_block *blksk, const 
   }
 
   if (blksk->type == 'p') // to skip all flags for pointer
-    return (ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)));
+    return (compose_pointer(ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk)), blksk));
   if (blksk->flag & 64) // apostrophe flag
     ft_strcat(str, group_digit(ft_strrev(convert_base(n, tmp, base)), blksk));
   else

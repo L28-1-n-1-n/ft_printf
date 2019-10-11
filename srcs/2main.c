@@ -99,7 +99,13 @@ printf("%.5d|%-.5d|%+.5d|% .5d|%0.5d\n", -0, -0, -0, -0, -0);
 
 */
 //passed above
+ft_printf("%12p\n", "Random string");
+printf("%12p\n", "Random string");
+
 /*
+"%-#23.5x|%-023.5x|%#023.5x|%-#023.5x", 0U, 0U, 0U, 0U:
+"%-#23X|%-023X|%#023X|%-#023X", 0U, 0U, 0U, 0U:
+"%-#23.5X|%-023.5X|%#023.5X|%-#023.5X", 0U, 0U, 0U, 0U:
 
 ft_printf("%11.5d|%-11.5d|%+11.5d|% 11.5d|%011.5d\n", 23, 23, 23, 23, 23);
 printf("%11.5d|%-11.5d|%+11.5d|% 11.5d|%011.5d\n", 23, 23, 23, 23, 23);
@@ -165,19 +171,18 @@ ft_printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 printf("|%+023.d|%+023.d|%023.5d|%023.5d|\n", -0, 0, -0, 0);
 
 */
+//ft_printf("%1.x|%-1.x|%#1.x|%01.x\n", 0U, 0U, 0U, 0U);
+//printf("%1.x|%-1.x|%#1.x|%01.x\n", 0U, 0U, 0U, 0U);
 
-ft_printf("%x|%-x|%#x|%0x\n", 0U, 0U, 0U, 0U);
-printf("%x|%-x|%#x|%0x\n", 0U, 0U, 0U, 0U);
+//ft_printf("%023.x|\n", 0U);
+//printf("%023.x|\n", 0U);
 
+//ft_printf("%1x|%-1x|%#x|%01x\n", 0U, 0U, 0U, 0U);
+//printf("%1x|%-1x|%#x|%01x\n", 0U, 0U, 0U, 0U);
 /*
-ft_printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-
-ft_printf("%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%-+23.d|%- 23.d|%-023.d|%+ 23.d|%+023.d|% 023.d|%-+ 023.d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-
-ft_printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
-printf("%-+23.5d|%- 23.5d|%-023.5d|%+ 23.5d|%+023.5d|% 023.5d|%-+ 023.5d\n", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX);
+test: "%1x|%-1x|%#x|%01x", 0U, 0U, 0U, 0U
+test: "%23x|%-23x|%#x|%023x", 0U, 0U, 0U, 0U
+test: "%1.x|%-1.x|%#1.x|%01.x", 0U, 0U, 0U, 0U
 */
 /*
 test: "%-+23d|%- 23d|%-023d|%+ 23d|%+023d|% 023d|%-+ 023d", INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX
