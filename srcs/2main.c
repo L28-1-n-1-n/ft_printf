@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <limits.h>
+#include <float.h>
 /*
 void	vafunc(char *fmt, ...)
 {
@@ -99,8 +100,26 @@ printf("%.5d|%-.5d|%+.5d|% .5d|%0.5d\n", -0, -0, -0, -0, -0);
 
 */
 //passed above
-ft_printf("%12p\n", "Random string");
-printf("%12p\n", "Random string");
+ft_printf("%f|%-f|%+f|% f|%#f|%0f\n", DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX);
+printf("%f|%-f|%+f|% f|%#f|%0f\n", DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX, DBL_MAX);
+
+//ft_printf("%f|%-f|%+f|% f|%#f|%0f\n", 0. / 0., 0. / 0., 0. / 0., 0. / 0., 0. / 0., 0. / 0.);
+//printf("%f|%-f|%+f|% f|%#f|%0f\n", 0. / 0., 0. / 0., 0. / 0., 0. / 0., 0. / 0., 0. / 0.);
+
+//ft_printf("%f|%-f|%+f|% f|%#f|%0f\n", -0., -0., -0., -0., -0., -0.);
+//printf("%f|%-f|%+f|% f|%#f|%0f\n", -0., -0., -0., -0., -0., -0.);
+
+//ft_printf("%f|%-f|%+f|% f|%#f|%0f\n", 0., 0., 0., 0., 0., 0.);
+//printf("%f|%-f|%+f|% f|%#f|%0f\n", 0., 0., 0., 0., 0., 0.);
+
+//ft_printf("%f|%-f|%+f|% 9f|%#f|%0f\n", -0., -0., -0., -0., -0., -0.);
+//printf("%f|%-f|%+f|% 9f|%#f|%0f\n", -0., -0., -0., -0., -0., -0.);
+
+//ft_printf("%-+8.14f|%- 8.14f|%-#8.14f|%-08.14f|%-+#8.14f|%-+ #08.14f\n", 0., 0., 0., 0., 0., 0.);
+//printf("%-+8.14f|%- 8.14f|%-#8.14f|%-08.14f|%-+#8.14f|%-+ #08.14f\n", 0., 0., 0., 0., 0., 0.);
+
+//ft_printf("%c|%-c|%12c|%-12c\n", 0, 0, 0, 0);
+//printf("%c|%-c|%12c|%-12c\n", 0, 0, 0, 0);
 
 /*
 "%-#23.5x|%-023.5x|%#023.5x|%-#023.5x", 0U, 0U, 0U, 0U:

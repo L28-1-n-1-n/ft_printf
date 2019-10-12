@@ -2,27 +2,50 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 void    treat_char(char *final, va_list ap, t_block *blksk)
 {
   char *str;
-  str = ft_strnew(FLEN);
-  str[0] = (blksk->str) ? '%' : (char)va_arg(ap, int);
-  if (blksk->flag & 8) // '-' flag
-  {
-    while (--blksk->width)
-      ft_strcat_char(str, ' ');
-  }
-  if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
-  {
-    while (--blksk->width)
-      ft_strpcat_char(str, '0');
-  }
-  if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
-  {
-    while (--blksk->width)
-      ft_strpcat_char(str, ' ');
-  }
+  char c;
 
+  if (blksk->width > 2048)
+    str = ft_strnew(blksk->width);
+  else
+    str = ft_strnew(2048);
+
+  if (blksk->str)
+    str[0] = '%';
+  else
+  {
+    if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (blksk->width > 1)) // '0' flag and not '-' flag
+    {
+      while (--blksk->width)
+        ft_strpcat_char(str, '0');
+    }
+    if ((!(blksk->flag & 8)) && (blksk->width > 1)) // not '-' flag, but width > 1
+    {
+      while (--blksk->width)
+        ft_strpcat_char(str, ' ');
+    }
+    c = (char)(va_arg(ap, int));
+  //  ft_strcat_char(str, (char)(va_arg(ap, int)));
+    //if (str[ft_strlen(str) - 1] == '\0')
+    if (c == '\0')
+    {
+      ft_strcat(final, str);
+      output_final(final, ft_strlen(str), 1);
+      write(1, "\0", 1);
+      ft_bzero(str, ft_strlen(str));
+    }
+    else
+      ft_strcat_char(str, c);
+    if ((blksk->flag & 8) && (blksk->width > 0))// '-' flag
+    {
+      while (--blksk->width)
+        ft_strcat_char(str, ' ');
+    }
+  }
   ft_strcat(final, str);
   free(str);
 }
@@ -34,16 +57,32 @@ void treat_string_helper(char *str, char *string, t_block *blksk)
 
   j = 0;
   i = 0;
-  if (blksk->precision)
+  if (blksk->precision > 0)
   {
-    j = ft_strlen(string);
+    if (string == NULL)
+      j = 6;
+    else
+      j = ft_strlen(string);
     if (blksk->precision > j)
       blksk->precision = j;
-    while ( i < blksk->precision)
-      ft_strcat_char(str, string[i++]);
+    if (string == NULL)
+    {
+      ft_strcat(str, "(null)");
+      j = ft_strlen(str);
+      while (j > blksk->precision)
+        str[--j] = '\0';
+    }
+    else
+      while ( i < blksk->precision)
+        ft_strcat_char(str, string[i++]);
   }
   else // 0 precision
-    ft_strcat(str, string);
+  {
+    if (string == NULL)
+      ft_strcat(str, "(null)");
+    else
+      ft_strcat(str, string);
+  }
 }
 
 void    treat_string(char *final, va_list ap, t_block *blksk)
@@ -51,33 +90,39 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
   char *string;
   char *str;
 
-  str = ft_strnew(FLEN);
+//  str = ft_strnew(FLEN);
   if (blksk->precision == -2)
     blksk->precision = 0;
   if (blksk->precision == -1)
     blksk->precision = va_arg(ap, int);
   if (blksk->precision < 0) // Try it with %.*s, negative numbers supplied to * results in zero precision
     blksk->precision = 0;
-
+  if (blksk->precision + blksk->width  > 2048)
+    str = ft_strnew(blksk->precision + blksk->width);
+  else
+    str = ft_strnew(2048);
   string = va_arg(ap, char *);
   treat_string_helper(str, string, blksk);
   if (blksk->flag & 8) // '-' flag
   {
     blksk->width -= ft_strlen(str);
-    while (blksk->width--)
-      ft_strcat_char(str, ' ');
+    if (blksk->width > 0)
+      while (blksk->width--)
+        ft_strcat_char(str, ' ');
   }
   if ((blksk->flag & 2) && (!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // '0' flag and not '-' flag
   {
     blksk->width -= ft_strlen(str);
-    while (--blksk->width)
-      ft_strpcat_char(str, '0'); // cat before
+    if (blksk->width > 0)
+      while (--blksk->width)
+        ft_strpcat_char(str, '0'); // cat before
   }
   if ((!(blksk->flag & 8)) && ((size_t)blksk->width > ft_strlen(str))) // not '-' flag, but width > 1
   {
     blksk->width -= ft_strlen(str);
-    while (blksk->width--)
-      ft_strpcat_char(str, ' '); // cat before
+    if (blksk->width > 0)
+      while (blksk->width--)
+        ft_strpcat_char(str, ' '); // cat before
   }
   ft_strcat(final, str);
   free(str);

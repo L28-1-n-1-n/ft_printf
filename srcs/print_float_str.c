@@ -28,14 +28,25 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   int i;
 
   i = 0;
-  if (!(str = ft_memalloc(SLEN)))
-    return(ft_free(str));
+  printf("we got here\n");
   if (blksk->precision == -2)
     blksk->precision = 6;
+  if (blksk->precision + blksk->width > FLEN)
+  {
+    if (!(str = ft_memalloc(blksk->precision + blksk->width )))
+      return(ft_free(str));
+    ft_bzero(str, blksk->precision + blksk->width);
+  }
+  else
+  {
+    if (!(str = ft_memalloc(FLEN)))
+      return(ft_free(str));
+    ft_bzero(str, FLEN);
+  }
+
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
-  ft_bzero(str, SLEN);
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
@@ -93,7 +104,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
               i++;
               blksk->precision--;
             }
-            printf("str is %s\n", str);
             while (blksk->precision > 0)
             {
               ft_strcat_char(str,'0');
@@ -132,19 +142,35 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
     round_float(str, carry, ft_strlen(str) - 1);
   }
   if (fnum->eflag & 4) // only here we add nan or inf
-    ft_strcat(str, fnum->big_str);
+  {
+    if ((ft_strcmp(fnum->big_str, "nan")) && (ft_strcmp(fnum->big_str, "NAN")))
+      ft_strcat(str, fnum->big_str);
+    else
+    {
+      if (str[0] == '+')
+        str[0] = '\0';
+      ft_strcat(str, fnum->big_str);
+    }
+  }
   carry = blksk->width - ft_strlen(str);
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
       (!((fnum->sign == '-') && (blksk->flag & 2)))) // 32 is space flag
     ft_strcat_char(final, ' ');
-  if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
+  if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
     ft_strcat_char(final, ' ');
+
   if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
     ft_strcat_char(final, '-');
+  //  ft_strpcat_char(str, '-');
+
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
     ft_strcat_char(final, '+');
+  //  ft_strpcat_char(str, '+');
+  printf("the interim=%s\n", str);
   if ((size_t)blksk->width > ft_strlen(str))
   {
+    printf("the interim=%s\n", str);
+
       if (blksk->flag & 8)// '-' flag , 0 ignored
       {
       carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
@@ -156,17 +182,81 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
       {
         carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
         while (carry--)
-          ft_strcat_char(final, '0');
+        //  ft_strcat_char(final, '0');
+          ft_strpcat_char(str, '0');
+
       }
       if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
       {
         carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
         while (carry--)
-          ft_strcat_char(final, ' ');
+      //    ft_strcat_char(final, ' ');
+          ft_strpcat_char(str, ' ');
 
       }
   }
-  printf("dot is at pos %zu\n", ft_strchr_arg(str, '.'));
+
+  int j;
+  int k;
+  size_t m;
+
+
+  m = 0;
+  k = 0;
+
+  if (ft_strchr_pos(str, '-') > 0)
+    m = (size_t)(blksk->width);
+  else
+  {
+    if (blksk->width == 0)
+      m = 0;
+    else
+      m = (size_t)(blksk->width - 1);
+  }
+/*  if ((ft_strstr(str, "nan") != NULL) ||(ft_strstr(str, "NAN") != NULL))
+  {
+    if (final[j - 1] == '+')
+      final[j - 1] = '\0';
+  }
+  else
+  {*/
+/*  if (ft_strstr(str, "+") != NULL)
+    {
+      k = ft_strchr_pos(str, '+');
+      printf("k is %d\n", k);
+      ft_memmove(&str[k], &str[k + 1], ft_strlen(&str[k + 1]));
+      str[ft_strlen(str - 2)] = '\0';
+    }*/
+    j = ft_strlen(final);
+    if (blksk->flag & 32)
+      if ((blksk->flag & 32) && (fnum->sign == '-') && (ft_strlen(str) > m))
+      {
+        if (final[j - 1] == ' ')
+          final[j - 1] = '\0';
+        else
+          if ((final[j - 1] == '-') && (final[j - 2] == ' '))
+          {
+            final[j - 1] = '\0';
+            final[j - 2] = '-';
+          }
+      }
+  //}
+  /*  if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
+    //  ft_strcat_char(final, '-');
+      ft_strpcat_char(str, '-');
+
+    if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
+    //  ft_strcat_char(final, '+');
+      ft_strpcat_char(str, '+');
+
+  if (((size_t)blksk->width > ft_strlen(str))  && ((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
+      (!((fnum->sign == '-') && (blksk->flag & 2)))) // 32 is space flag
+    ft_strpcat_char(str, ' ');
+  if (((size_t)blksk->width > ft_strlen(str)) && ((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
+    ft_strpcat_char(str, ' ');*/
+//  printf("width is still %d\n", blksk->width);
+  printf("str is now=%s\n", str);
   ft_strcat(final, str);
+
   return (1);
 }

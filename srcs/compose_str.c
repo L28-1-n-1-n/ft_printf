@@ -1,14 +1,16 @@
 #include "printf.h"
 #include <stdio.h>
 #include <unistd.h>
-int output_final(char *final, size_t length)
+int output_final(char *final, size_t length, int add)
 {
   static int print_count = 0;
 
+  (void)length;
   format_final(final);
   print_count += ft_strlen(final);
+  print_count += add;
   write(1, &final[0], ft_strlen(final));
-  ft_bzero(final, length);
+  ft_bzero(final, ft_strlen(final));
   return (print_count);
 }
 
@@ -166,5 +168,5 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
   }
 //  output_final(final, FLEN);
-  return (output_final(final, FLEN));
+  return (output_final(final, FLEN, 0));
 }

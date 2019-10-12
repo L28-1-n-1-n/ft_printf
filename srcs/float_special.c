@@ -2,7 +2,6 @@
 #include <stdio.h>
 int  float_special(t_float *fnum, unsigned int bit_value, char type)
 {
-  printf("exponent is %d\n", fnum->exponent);
   if (bit_value == 64)
   {
     if (fnum->exponent == 1024) // full 1 for 11 digits = 2047, 2047 - bias of 1023 = 1024

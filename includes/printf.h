@@ -99,7 +99,7 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
 void string_bin(intmax_t n, char *final, t_block *blksk);
 void treat_time(char *final, t_block *blksk);
-int output_final(char *final, size_t length);
+int output_final(char *final, size_t length, int add);
 void check_buff(char *final, char *str, size_t len);
 void format_final(char *final);
 #endif

@@ -7,6 +7,7 @@ void  print_result(uint64_t *raw, t_float *fnum)
   int digit;
   uint64_t block;
   char str[340]; // max digit = 1 + 309 + 2 = 312 + 20 * \n, where 20 = 320 / 16
+  printf("we are here65\n");
 
   ft_bzero(str, 340);
   digit = 0;
