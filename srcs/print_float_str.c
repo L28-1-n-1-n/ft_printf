@@ -5,7 +5,15 @@ void round_float(char *str, int carry, size_t i)
 {
   if (!carry)
     return ;
+    if ((str[i] == '9') && (i == 0))
+    {
+      ft_memmove(&str[1], &str[0], ft_strlen(&str[0]));
+      str[0] = '0';
+      i += 1;
+    }
+
   if (str[i] == '9') // i.e. carry is 1
+  {
     if (str[i - 1] == '9')
     {
       str[i] = '0';
@@ -13,9 +21,18 @@ void round_float(char *str, int carry, size_t i)
     }
     else
     {
-      str[i - 1]++;
-      str[i] = '0';
+      if (str[i - 1] == '.')
+      {
+        str[i] = '0';
+        round_float(str, 1, i - 2);
+      }
+      else
+      {
+        str[i - 1]++;
+        str[i] = '0';
+      }
     }
+  }
   else
     str[i]++;
   return ;

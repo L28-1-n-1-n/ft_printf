@@ -87,6 +87,7 @@ void bit_power(long double *fraction)
 
 void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
 {
+  printf("we are here\n");
   while (i > 0)
   {
     if (fnum->remain & 1)
@@ -106,6 +107,8 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
 //    printf("decimal=%Lf\n", test_deci);
     i++;
   }
+  printf("decimal is %Lf\n", fnum->decimal);
+
 }
 
 void   compose_float_80(t_float *fnum, long double *fraction)
