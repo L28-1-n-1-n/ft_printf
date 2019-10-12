@@ -6,14 +6,17 @@ void  print_result(uint64_t *raw, t_float *fnum)
   uint64_t mask;
   int digit;
   uint64_t block;
-  char str[340]; // max digit = 1 + 309 + 2 = 312 + 20 * \n, where 20 = 320 / 16
-  printf("we are here65\n");
+//  char str[340]; // max digit = 1 + 309 + 2 = 312 + 20 * \n, where 20 = 320 / 16
+    char str[640]; // max digit = 1 + 309 + 2 = 312 + 20 * \n, where 20 = 320 / 16
+//  ft_bzero(str, 340);
+  ft_bzero(str, 640);
 
-  ft_bzero(str, 340);
   digit = 0;
   mask = 0xF000000000000000;
   i = 0;
-  while (i < 20)
+//  while (i < 20)
+  while (i < 30)
+
   {
     block = 0;
     while (block < 16) // (64 - 8) / 4 = 14, #0 - #13 = total 14 blocks
@@ -31,7 +34,9 @@ void  print_result(uint64_t *raw, t_float *fnum)
     i++;
   digit = ft_strlen(&str[i]) - 2;
   ft_memmove(&str[0], &str[i], digit);
-  ft_memset(&str[digit], '\0', 340 - digit);
+//  ft_memset(&str[digit], '\0', 340 - digit);
+  ft_memset(&str[digit], '\0', 640 - digit);
+
   ft_strcpy(fnum->big_str, str);
 }
 
@@ -80,16 +85,21 @@ void compare_blocks(uint64_t*raw, unsigned int row_no, uint64_t origin_mask)
   uint64_t extra_shift;
   unsigned int digit;
   uint64_t mask;
-
 //  print_bits(raw, "(init)", row_no, row_no);
   digit = 0;
   block = 0;
-  b_limit = (row_no == 19) ? 14 : 16;
-  extra_shift = (row_no == 19) ? 8 : 0;
+//  b_limit = (row_no == 19) ? 14 : 16;
+  b_limit = (row_no == 29) ? 14 : 16;
+
+//  extra_shift = (row_no == 19) ? 8 : 0;
+  extra_shift = (row_no == 29) ? 8 : 0;
+
   mask = origin_mask;
+
   while (block < b_limit) // (64 - 8) / 4 = 14, #0 - #13 = total 14 blocks
   {
     digit = (raw[row_no] & mask) >> (extra_shift + block * 4);
+
     if (digit > 4)
     {
       raw[row_no] += ((uint64_t)3 << (extra_shift + block * 4));
@@ -97,9 +107,13 @@ void compare_blocks(uint64_t*raw, unsigned int row_no, uint64_t origin_mask)
     }
     block++;
     mask = (block == b_limit) ? origin_mask : mask << 4; //reset mask to block 1 before exit loop at block == 14
+
   }
-  if((raw[row_no - 1]) && (row_no != 0))
+  if((raw[row_no - 1] > 0) && (row_no != 0))
+  {
     compare_blocks(raw, row_no - 1, 0xF);
+  }
+
 }
 
 void carry_bit(uint64_t *raw, unsigned int row_no, unsigned int carry)
@@ -130,14 +144,19 @@ void  within_row(uint64_t *raw, unsigned int shift)
   block = 0;
   mask = 0xF00; // start at 9th bit
   digit = 0;
-  while (shift) // loop until copied number is shifted 8 times
+  while (shift > 0) // loop until copied number is shifted 8 times
   {
-    carry_bit(raw, 19, (raw[19] & 0x8000000000000000) >> 63);
-    raw[19] <<= 1;
+  //  carry_bit(raw, 19, (raw[19] & 0x8000000000000000) >> 63);
+    carry_bit(raw, 29, (raw[29] & 0x8000000000000000) >> 63);
+
+  //  raw[19] <<= 1;
+    raw[29] <<= 1;
+
     shift_count++;
     block = 0;
   //  print_bits(raw, "(shift)", shift, 19);
-    compare_blocks(raw, 19, 0xF00);
+  //  compare_blocks(raw, 19, 0xF00);
+    compare_blocks(raw, 29, 0xF00);
     shift--;
   }
 //  print_bits(raw, "RESULT", 0, 19);
@@ -146,21 +165,29 @@ void  within_row(uint64_t *raw, unsigned int shift)
 
 void  big_int(t_float *fnum)
 {
-  uint64_t raw[21]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
+  //uint64_t raw[21]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
+  uint64_t raw[31]; //max no. of bits required = [(308 * 4) + 1 (1 bit for integer force add) + 8] / 64, where (2-2^-52) * 2^1023 = 10^308
+
   uint64_t man_mask;
   int z;
 
   z = 45;
   man_mask = 0x1FE00000000000; // this value >> 8 gives the 8 bits right after the first 7 bits
-  ft_bzero(&raw[0], 21 * sizeof(uint64_t));
-  raw[19] |= (((fnum->mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+//  ft_bzero(&raw[0], 21 * sizeof(uint64_t));
+  ft_bzero(&raw[0], 31 * sizeof(uint64_t));
+
+//  raw[19] |= (((fnum->mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+  raw[29] |= (((fnum->mantissa & 0xFE00000000000) >> z) + 0x80); // add most significant 7 bits of mantissa to raw , then put 1 in froht of most sig. bit
+
   while (z >= 5)
   {
   //  print_bits(raw, "(init)", 19, 19);
     within_row(raw, 8);
     man_mask >>= 8;
     z -= 8;
-    raw[19] = (z > 0)? raw[19] | ((fnum->mantissa & man_mask) >> z) : raw[19] | ((fnum->mantissa & man_mask) << (-1 * z));
+  //  raw[19] = (z > 0)? raw[19] | ((fnum->mantissa & man_mask) >> z) : raw[19] | ((fnum->mantissa & man_mask) << (-1 * z));
+    raw[29] = (z > 0)? raw[29] | ((fnum->mantissa & man_mask) >> z) : raw[29] | ((fnum->mantissa & man_mask) << (-1 * z));
+
   }
   //print_bits(raw, "(hola)", 19, 19);
   within_row(raw, 8);
@@ -174,9 +201,12 @@ void  big_int(t_float *fnum)
   }
   within_row(raw, z - 1); //1 less zero, since we will shift one last time just after this
 //  printf("-------------------------------------------     ONE LAST SHIFT    ---------------------------------\n");
-  carry_bit(raw, 20, 0); // if we put 19, row[19] will not be shifted for one last shift
+//  carry_bit(raw, 20, 0); // if we put 19, row[19] will not be shifted for one last shift
+  carry_bit(raw, 30, 0); // if we put 19, row[19] will not be shifted for one last shift
+
 //  print_bits(raw, "RESULT", 17, 17);
 //  print_bits(raw, "RESULT", 18, 18);
 //  print_bits(raw, "RESULT", 19, 19);
+
   print_result(raw, fnum);
 }

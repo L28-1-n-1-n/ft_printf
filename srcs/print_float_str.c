@@ -28,7 +28,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   int i;
 
   i = 0;
-  printf("we got here\n");
   if (blksk->precision == -2)
     blksk->precision = 6;
   if (blksk->precision + blksk->width > FLEN)
@@ -166,10 +165,8 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
     ft_strcat_char(final, '+');
   //  ft_strpcat_char(str, '+');
-  printf("the interim=%s\n", str);
   if ((size_t)blksk->width > ft_strlen(str))
   {
-    printf("the interim=%s\n", str);
 
       if (blksk->flag & 8)// '-' flag , 0 ignored
       {
@@ -255,7 +252,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (((size_t)blksk->width > ft_strlen(str)) && ((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
     ft_strpcat_char(str, ' ');*/
 //  printf("width is still %d\n", blksk->width);
-  printf("str is now=%s\n", str);
   ft_strcat(final, str);
 
   return (1);

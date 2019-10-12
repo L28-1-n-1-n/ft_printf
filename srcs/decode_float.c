@@ -111,7 +111,6 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
 void   compose_float_80(t_float *fnum, long double *fraction)
 {
   unsigned int i;
-  printf("we are here\n");
 
   i = 63 - fnum->exponent;
   if ((fnum->exponent > 0) && (fnum->exponent < 65)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
@@ -133,8 +132,6 @@ void   compose_float_80(t_float *fnum, long double *fraction)
 void   compose_float_64(t_float *fnum, long double *fraction)
 {
   unsigned int i;
-  printf("we are here64\n");
-
 
   fnum->decimal = 0;
   if ((fnum->exponent > 0) && (fnum->exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
@@ -144,7 +141,6 @@ void   compose_float_64(t_float *fnum, long double *fraction)
     fnum->remain = (fnum->mantissa << (12 + fnum->exponent)) >> (12 + fnum->exponent);
     print_small_range(i, fnum, fraction);
   }
-  printf("we are here642\n");
 
   if ((fnum->exponent >= 53) && (fnum->exponent <= 63)) // i.e.total bits is 64, including the 1 we forcefully add in front
   {
@@ -153,7 +149,6 @@ void   compose_float_64(t_float *fnum, long double *fraction)
     fnum->remain = 0;
     print_small_range(i, fnum, fraction);
   }
-  printf("we are here63\n");
 
   if ((fnum->exponent >= -12) && (fnum->exponent < 0))
   {
@@ -162,15 +157,12 @@ void   compose_float_64(t_float *fnum, long double *fraction)
     i = 52 + (-1 * fnum->exponent);
     print_small_range(i, fnum, fraction);
   }
-  printf("we are here64\n");
 
   if (fnum->exponent > 63)
     big_int(fnum);
-    printf("we are here65\n");
 
   if (fnum->exponent < -12)
     underflow_exponent(fnum, fraction, 64);
-    printf("we are here65\n");
 
 //  print_float_str(final, blksk, fnum);
 }
@@ -194,39 +186,29 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
   long double fraction[64];
   if (!(fnum = (t_float *)malloc(sizeof(t_float))))
     return (0);
-    printf("yoyo\n");
 
   init_float(fnum);
   bit_power(fraction);
-      printf("yoyo\n");
   if ((blksk->modifier == 0) || (blksk->modifier == l)) // 1, 11, 52
     {
-          printf("yoyo\n");
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
 //      printf("fnum->sign is %c\n", fnum->sign);
   //    printf("fnum->exponent is %hd\n", fnum->exponent);
   //    printf("fnum->mantissa is %llu\n", fnum->mantissa);
-  printf("pouf\n");
       if (!(float_special(fnum, 64, blksk->type)))
         compose_float_64(fnum, fraction);
     }
   else // case L, 80 bit, 1, 15, 1 (integer part), 63
     {
-          printf("yoyo1\n");
       fnum->exponent = ((uint16_t)word[1] & 0x7FFF) - 16383; // 2^31 - 2^16 junk values, 16 bits are 2^15 to 2^0
-      printf("yoyo2\n");
 
       fnum->sign = (word[1] & 0x8000) ? '-' : '+';
-      printf("yoyo3\n");
       fnum->mantissa = word[0];
-      printf("haha\n");
-
       if (!(float_special(fnum, 80, blksk->type)))
         compose_float_80(fnum, fraction);
     }
-    printf("yoyo\n");
   if ((blksk->type == 'f') || (blksk->type == 'F'))
     print_float_str(final, blksk, fnum);
   else
