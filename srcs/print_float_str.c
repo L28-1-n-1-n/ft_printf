@@ -35,6 +35,7 @@ void round_float(char *str, int carry, size_t i)
   }
   else
     str[i]++;
+
   return ;
 }
 
@@ -43,8 +44,11 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   char *str;
   int carry;
   int i;
+  uint64_t int_copy;
 
   i = 0;
+  int_copy = 0;
+
   if (blksk->precision == -2)
     blksk->precision = 6;
   if (blksk->precision + blksk->width > FLEN)
@@ -63,12 +67,31 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
+  if (fnum->decimal > 0.5)
+    printf("hola\n");
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
     str[0] = '+';
   if (blksk->precision == 0) // Absolutely no need to worry about big_int or sub_array in this one, since in both cases first digit of decimal must always be zero
-    fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
+  {
+    int_copy = fnum->integer % 10;
+  //  while ((int_copy % 10) > 0)
+  //      int_copy = int_copy % 10;
+  /*  if (int_copy % 2)
+      fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
+    else
+      fnum->integer = ((int)(fnum->decimal * 10) >= 6) ? fnum->integer + 1 : fnum->integer;*/
+      if (int_copy % 2)
+      {
+        fnum->integer = (fnum->decimal >= 0.5) ? fnum->integer + 1 : fnum->integer;
+  //    fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
+
+        printf("done 5\n");
+      }
+      else
+        fnum->integer = (fnum->decimal <= 0.5) ? fnum->integer  : fnum->integer + 1;
+  }
 
   if (!(*(fnum->big_str)))
   {
@@ -79,6 +102,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
         fnum->integer = fnum->integer / 10;
       }
       ft_strcat_char(str, fnum->integer + '0'); // this is the case where rounding to precision 0 is dealt with, or if integer is less than 10 to begin with
+
     if (( str[0] == '-') || (str[0] == '+'))
       ft_strrev(&str[1]);
     else

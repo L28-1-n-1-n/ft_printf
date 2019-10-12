@@ -132,11 +132,18 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   unsigned int i;
   unsigned int k;
   unsigned int len;
+  int return_value;
 
   i = 0;
   len = 0;
   k = 0;
+  return_value = 0;
   final = ft_strnew(FLEN);
+  if (final == NULL)
+  {
+    free(final);
+    return (-1);
+  }
   while (*fmt && (*fmt != '%'))
   {
     fmt++;
@@ -168,5 +175,9 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
   }
 //  output_final(final, FLEN);
-  return (output_final(final, FLEN, 0));
+  return_value = output_final(final, FLEN, 0);
+  free(final);
+  return (return_value);
+
+  //To do list: need to make a ft_free that returns the passed on value, and then free some variables
 }

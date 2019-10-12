@@ -61,7 +61,7 @@ void    sum_power(char product[1080][1000], t_float *fnum)
     fnum->remain >>= 1;
     power--;
   }
-  printf("printing subnorminal number=%s\n",fnum->big_str);
+  //printf("printing subnorminal number=%s\n",fnum->big_str);
 
 }
 

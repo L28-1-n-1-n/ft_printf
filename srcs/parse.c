@@ -1,24 +1,7 @@
 #include "printf.h"
 #include <stdlib.h>
 #include <stdio.h>
-/*
-void shift_position(unsigned int m, t_block *blks)
-{
-  unsigned int order;
-  unsigned int i;
-  unsigned int copy
 
-  i = 0;
-  order = 1;
-  while (i < m)
-  {
-    while (!(ft_strcmp(blks[i].str, "%")))
-      i++;
-    blk[i].order = blk[i - 1].order + 1;
-
-  }
-}
-*/
 void init_blocks(t_block *blks, int total)
 {
   total = total - 1; /*For example, if 3 blocks to initialize, we will have blk[2], blk[1], blk[0]*/
@@ -55,7 +38,6 @@ int   parse(const char *fmt, va_list ap)
     if ((fmt[i] == '%') && (fmt[i + 1] == '%'))
     {
       blks[k].str = "%";
-    //  blks[k].type = 'c';
       blks[k].pos = i; // i is pos of '%', ft_strchr_arg has 0 at '%'
       k++;
       i += 2; //skip till next argument
@@ -88,6 +70,7 @@ int   parse(const char *fmt, va_list ap)
      k++;
    }*/
   m = compose_str(fmt, ap, blks);
+  free(blks);
   return (m);
 }
 /* k = 0;

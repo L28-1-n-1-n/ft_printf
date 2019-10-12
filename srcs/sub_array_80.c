@@ -62,7 +62,7 @@ void    sum_power_80(char **product, t_float *fnum)
     fnum->remain >>= 1;
     power--;
   }
-  printf("printing subnorminal number=%s\n",fnum->big_str);
+//  printf("printing subnorminal number=%s\n",fnum->big_str);
 /*  i = 0;
   while (i < 20000)
   {

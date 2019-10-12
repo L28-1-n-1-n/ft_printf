@@ -101,6 +101,7 @@ void    treat_string(char *final, va_list ap, t_block *blksk)
     str = ft_strnew(blksk->precision + blksk->width);
   else
     str = ft_strnew(2048);
+  // The above needs to change since we have freeing problem here
   string = va_arg(ap, char *);
   treat_string_helper(str, string, blksk);
   if (blksk->flag & 8) // '-' flag
