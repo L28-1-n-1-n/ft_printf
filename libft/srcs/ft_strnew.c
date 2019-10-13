@@ -11,13 +11,17 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 char	*ft_strnew(size_t size)
 {
 	char *str;
 
 	if (!(str = (char *)ft_memalloc(size + 1)))
+	{
+		free(str);
 		return (NULL);
+	}
 	str[size] = '\0';
 	return (str);
 }

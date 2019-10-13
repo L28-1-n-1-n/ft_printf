@@ -11,7 +11,6 @@ void round_float(char *str, int carry, size_t i)
       str[0] = '0';
       i += 1;
     }
-
   if (str[i] == '9') // i.e. carry is 1
   {
     if (str[i - 1] == '9')
@@ -35,7 +34,6 @@ void round_float(char *str, int carry, size_t i)
   }
   else
     str[i]++;
-
   return ;
 }
 
@@ -54,21 +52,20 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (blksk->precision + blksk->width > FLEN)
   {
     if (!(str = ft_memalloc(blksk->precision + blksk->width )))
-      return(ft_free(str));
+      return(ft_free(str, -1));
     ft_bzero(str, blksk->precision + blksk->width);
   }
   else
   {
     if (!(str = ft_memalloc(FLEN)))
-      return(ft_free(str));
+      return(ft_free(str, -1));
     ft_bzero(str, FLEN);
   }
 
 // SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
 // algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
-  if (fnum->decimal > 0.5)
-    printf("hola\n");
+
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
@@ -86,8 +83,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
       {
         fnum->integer = (fnum->decimal >= 0.5) ? fnum->integer + 1 : fnum->integer;
   //    fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
-
-        printf("done 5\n");
       }
       else
         fnum->integer = (fnum->decimal <= 0.5) ? fnum->integer  : fnum->integer + 1;
@@ -293,7 +288,16 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (((size_t)blksk->width > ft_strlen(str)) && ((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
     ft_strpcat_char(str, ' ');*/
 //  printf("width is still %d\n", blksk->width);
-  ft_strcat(final, str);
-
-  return (1);
+  if (ft_strlen(final) + ft_strlen(str) > FLEN)
+  {
+    output_final(final, FLEN, 0);
+    if (ft_strlen(str) > FLEN)
+      output_final(str, ft_strlen(str), 0);
+    else
+      ft_strcat(final, str);
+  }
+  else
+    ft_strcat(final, str);
+  free(str);
+  return (0);
 }

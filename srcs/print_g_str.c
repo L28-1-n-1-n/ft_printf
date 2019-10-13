@@ -142,16 +142,22 @@ int find_exponent(t_block *blkse, t_float *fnume)
   free(finalc);
   return (k);
 }
-void print_g_str(char *final, t_block *blksk, t_float *fnum)
+int print_g_str(char *final, t_block *blksk, t_float *fnum)
 {
   t_float *fnume;
   t_block *blkse;
   int     exp;
+  int return_value;
+
+  return_value = 0;
 
   if (!(fnume = (t_float *)malloc(sizeof(t_float))))
-    return ;
+    return (ft_free(fnume, -1));
   if(!(blkse = (t_block *)malloc(sizeof(t_block))))
-    return ;
+  {
+    free(fnume);
+    return (ft_free(blkse, -1));
+  }
   if (blksk->precision == -2)
     blksk->precision = 6;
   init_float(fnume);
@@ -172,14 +178,19 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
       else
         blksk->type = 'E';
       blksk->precision -= 1;
-      print_e_str(final, blksk, fnum);
+      return_value = print_e_str(final, blksk, fnum);
     }
   else
   {
     blksk->type = (blksk->type == 'g') ? 'f' : 'F';
     blksk->precision = blksk->precision - (exp + 1);
-    print_float_str(final, blksk, fnum);
+    return_value = print_float_str(final, blksk, fnum);
   }
+  if (return_value == -1)
+    {
+      free(fnume);
+      return (ft_free(blkse, -1));
+    }
   if (!(blksk->flag & 16)) // if '#' flag is present, nothing changes. Only in its absence trailing zeroes are removed
   {
     exp = ft_strlen(final) - 1;
@@ -196,4 +207,5 @@ void print_g_str(char *final, t_block *blksk, t_float *fnum)
   free(fnume);
   free(blkse);
   printf("finallll is %s\n", final);
+  return (0);
 }

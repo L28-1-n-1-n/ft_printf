@@ -29,7 +29,7 @@ int   parse(const char *fmt, va_list ap)
   k = 0; /*keep track on argument or blk number */
   m = count_arg(fmt);
   if(!(blks = (t_block *)malloc(sizeof(t_block) * m)))
-    return (ft_free(blks));
+    return (ft_free(blks, -1));
   init_blocks(blks, m);
   while (fmt[i])
   {
@@ -69,7 +69,7 @@ int   parse(const char *fmt, va_list ap)
     printf("blks[%d].pos is %d\n", k, blks[k].pos);
      k++;
    }*/
-  m = compose_str(fmt, ap, blks);
+  m = compose_str(fmt, ap, blks, m);
   free(blks);
   return (m);
 }

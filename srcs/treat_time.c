@@ -71,7 +71,7 @@ void find_timezone(char *iso, time_t seconds)
 		strftime(buf, 6, "%z", ptm);
 		ft_strncat(iso, buf, 5);
 }
-void treat_time(char *final, t_block *blksk)
+int treat_time(char *final, t_block *blksk)
 {
 //	int h;
 //	int m;
@@ -97,6 +97,7 @@ void treat_time(char *final, t_block *blksk)
 	ft_strcat(iso, result[3]);
 	find_timezone(iso, seconds);
 	ft_strcat(final, iso);
+	return (0);
 }
 /*
 1994-11-05T08:15:30-05:00

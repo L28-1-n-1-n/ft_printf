@@ -31,7 +31,6 @@ char *group_digit(char *str, t_block *blksk)
 
 char *compose_digit(char *str, intmax_t n, t_block *blksk)
 {
-  //char *tmp;
   int i;
   int j;
   int pres;
@@ -41,7 +40,6 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
   width = blksk->width;
   pres = blksk->precision;
   i = 0;
-
   if ((blksk->flag & 4) && (n >= 0)) // '+' flag
   {
     str[0] = '+';
@@ -302,6 +300,12 @@ void string_digit(intmax_t n, char *final, t_block *blksk)
 {
   char str[2048];
   ft_bzero(str, 2048);
+/*  if (blksk->width + blksk->precision > 2048)
+    str = ft_strnew(blksk->width + blksk->precision);
+  else
+    str = ft_strnew(2048);*/
+  if (ft_strlen(final) + ft_strlen(str) > FLEN)
+    output_final(final, FLEN, 0);
   ft_strcat(final, compose_digit(str, n, blksk));
-  //printf("str is %s\n", str);
+//  free(str);
 }

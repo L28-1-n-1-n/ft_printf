@@ -58,5 +58,5 @@ void string_bin(intmax_t n, char *final, t_block *blksk)
   }
   ft_strrev(str);
   ft_strcat(final, mod_bin(str, blksk));
-  (void)blksk;
+
 }

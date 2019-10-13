@@ -94,7 +94,7 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
     fnum->remain >>= 1;
     i--;
   }
-  long double test_deci;
+/*  long double test_deci;
   int test_int;
   i = 0;
   test_deci = fnum->decimal;
@@ -105,7 +105,7 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
     test_deci = test_deci - (int)(test_deci * 10);
 //    printf("decimal=%Lf\n", test_deci);
     i++;
-  }
+  }*/
 
 }
 
@@ -134,6 +134,7 @@ void   compose_float_64(t_float *fnum, long double *fraction)
 {
   unsigned int i;
 
+  i = 0;
   fnum->decimal = 0;
   if ((fnum->exponent > 0) && (fnum->exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
   {
@@ -185,9 +186,14 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
 {
   t_float *fnum;
   long double fraction[64];
-  if (!(fnum = (t_float *)malloc(sizeof(t_float))))
-    return (0);
+  int return_value;
 
+  return_value = 0;
+  if (!(fnum = (t_float *)malloc(sizeof(t_float))))
+  {
+    free(fnum);
+    return (-1);
+  }
   init_float(fnum);
   bit_power(fraction);
   if ((blksk->modifier == 0) || (blksk->modifier == l)) // 1, 11, 52
@@ -211,22 +217,22 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
         compose_float_80(fnum, fraction);
     }
   if ((blksk->type == 'f') || (blksk->type == 'F'))
-    print_float_str(final, blksk, fnum);
+    return_value = print_float_str(final, blksk, fnum);
   else
   {
     if ((blksk->type == 'e') || (blksk->type == 'E'))
-      print_e_str(final, blksk, fnum);
+      return_value = print_e_str(final, blksk, fnum);
     else // 'g' flag
     {
       if (fnum->eflag & 4)
       {
         blksk->type = (blksk->type == 'g') ? 'g' : 'G';
-        print_float_str(final, blksk, fnum);
+        return_value = print_float_str(final, blksk, fnum);
       }
       else
-        print_g_str(final, blksk, fnum);
+        return_value = print_g_str(final, blksk, fnum);
     }
   }
   free(fnum);
-  return (1);
+  return (return_value);
 }

@@ -1,6 +1,7 @@
 #include "printf.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 int output_final(char *final, size_t length, int add)
 {
   static int print_count = 0;
@@ -126,7 +127,7 @@ void format_final(char *final)
   }
 }
 
-int	compose_str(const char *fmt, va_list ap, t_block *blks)
+int	compose_str(const char *fmt, va_list ap, t_block *blks, unsigned int m)
 {
   char *final;
   unsigned int i;
@@ -140,10 +141,7 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
   return_value = 0;
   final = ft_strnew(FLEN);
   if (final == NULL)
-  {
-    free(final);
-    return (-1);
-  }
+    return(ft_free(final, -1));
   while (*fmt && (*fmt != '%'))
   {
     fmt++;
@@ -159,11 +157,15 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
       len++;
     }
     check_buff(final, (char *)(fmt - len), len);
-    if (blks[k].type == 'T')
+    if ((k < m) && (blks[k].type == 'T'))
       k++;
     if (!(*fmt))
       break;
-    treat_arg(fmt, final, ap, &blks[k]);
+    if (treat_arg(fmt, final, ap, &blks[k]) == -1)
+      {
+        return_value = -1;
+        break ;
+      }
 
     k++;
     fmt++;
@@ -175,7 +177,8 @@ int	compose_str(const char *fmt, va_list ap, t_block *blks)
     fmt++;
   }
 //  output_final(final, FLEN);
-  return_value = output_final(final, FLEN, 0);
+  if (return_value != -1)
+    return_value = output_final(final, FLEN, 0);
   free(final);
   return (return_value);
 

@@ -1,8 +1,8 @@
 #include "libft.h"
 #include <stdlib.h>
 
-int ft_free(void *var)
+int ft_free(void *var, int return_value)
 {
 	free(var);
-	return (0);
+	return (return_value);
 }
