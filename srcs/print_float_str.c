@@ -61,11 +61,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
       return(ft_free(str, -1));
     ft_bzero(str, FLEN);
   }
-
-// SUB_ARRAY_80 WILL HAVE TO BE SPECIALLY PRINTED!!!!!!!!!
-// algo for print sub_array_80 : skip fnumm->big_str until you have 4931 zeros in front of first digit, then start the non-zero parts
   carry = 0;
-
   if ((fnum->sign == '-') && (!(blksk->flag & 2))) // '0' flag not engaged
     str[0] = '-';
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (!(blksk->flag & 2))) // '+' flag, positive number and '0' flag not engaged
@@ -73,17 +69,8 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   if (blksk->precision == 0) // Absolutely no need to worry about big_int or sub_array in this one, since in both cases first digit of decimal must always be zero
   {
     int_copy = fnum->integer % 10;
-  //  while ((int_copy % 10) > 0)
-  //      int_copy = int_copy % 10;
-  /*  if (int_copy % 2)
-      fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
-    else
-      fnum->integer = ((int)(fnum->decimal * 10) >= 6) ? fnum->integer + 1 : fnum->integer;*/
       if (int_copy % 2)
-      {
         fnum->integer = (fnum->decimal >= 0.5) ? fnum->integer + 1 : fnum->integer;
-  //    fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
-      }
       else
         fnum->integer = (fnum->decimal <= 0.5) ? fnum->integer  : fnum->integer + 1;
   }
@@ -96,7 +83,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
 
   if (!(*(fnum->big_str)))
   {
-
     while (fnum->integer / 10)
       {
         ft_strcat_char(str, fnum->integer % 10 + '0');
@@ -252,20 +238,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
     else
       m = (size_t)(blksk->width - 1);
   }
-/*  if ((ft_strstr(str, "nan") != NULL) ||(ft_strstr(str, "NAN") != NULL))
-  {
-    if (final[j - 1] == '+')
-      final[j - 1] = '\0';
-  }
-  else
-  {*/
-/*  if (ft_strstr(str, "+") != NULL)
-    {
-      k = ft_strchr_pos(str, '+');
-      printf("k is %d\n", k);
-      ft_memmove(&str[k], &str[k + 1], ft_strlen(&str[k + 1]));
-      str[ft_strlen(str - 2)] = '\0';
-    }*/
     j = ft_strlen(final);
     if (blksk->flag & 32)
       if ((blksk->flag & 32) && (fnum->sign == '-') && (ft_strlen(str) > m))
@@ -279,21 +251,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
             final[j - 2] = '-';
           }
       }
-  //}
-  /*  if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
-    //  ft_strcat_char(final, '-');
-      ft_strpcat_char(str, '-');
-
-    if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present
-    //  ft_strcat_char(final, '+');
-      ft_strpcat_char(str, '+');
-
-  if (((size_t)blksk->width > ft_strlen(str))  && ((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
-      (!((fnum->sign == '-') && (blksk->flag & 2)))) // 32 is space flag
-    ft_strpcat_char(str, ' ');
-  if (((size_t)blksk->width > ft_strlen(str)) && ((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
-    ft_strpcat_char(str, ' ');*/
-//  printf("width is still %d\n", blksk->width);
   if (ft_strlen(final) + ft_strlen(str) > FLEN)
   {
     output_final(final, FLEN, 0);

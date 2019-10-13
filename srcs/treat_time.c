@@ -5,34 +5,10 @@
 #include <string.h>
 #include <unistd.h>
 
-/*
-void find_date(char *final, time_t seconds)
-{
-	int d;
-	int mon;
-	int y;
-	int rem;
-	y = (int)(seconds / 31556926) + 1970;
-//	mon = (int)((seconds - ((((seconds - (seconds / 31556926) * 31556926) / 2629743) * 2629743))) / 86400);
-//	rem = (int)(seconds - ((seconds / 31556926) * 31556926));
-//		printf("rem is %d\n", rem);
-//	mon = ((seconds / 2629743) - (seconds / 2629743) / 12);
-mon  = (int)(seconds / 86400) - 365 *(seconds / 31556926);
-//	rem = rem % 2629743;
-		//mon = rem - ((rem / 2629743) * 2629743);
-//	mon = (int)((seconds - (seconds / 31556926) * 31556926) / 2629743);
-//	mon = (int)(((seconds % 31556926) % 2629743) / 86400);
-	printf("Year is %d\n", y);
-	//printf("rem is %d\n", rem);
-	printf("Month is %d\n", mon);
-}
-*/
-
 char *find_month(char *iso, char *month)
 {
 	(void)iso;
-	//const char *months[12];
-	 //{"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "August", "September", "October", "November", "December"};
+
 	if (!(ft_strcmp(month, "Jan")))
 		return ("01");
 	if (!(ft_strcmp(month, "Feb")))
@@ -59,6 +35,7 @@ char *find_month(char *iso, char *month)
 		return ("12");
 	return (0);
 }
+
 void find_timezone(char *iso, time_t seconds)
 {
 		char buf[6];
@@ -71,11 +48,9 @@ void find_timezone(char *iso, time_t seconds)
 		strftime(buf, 6, "%z", ptm);
 		ft_strncat(iso, buf, 5);
 }
+
 int treat_time(char *final, t_block *blksk)
 {
-//	int h;
-//	int m;
-//	int s;
 	time_t seconds;
 	char str[25];
 	char **result;

@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 15:53:36 by hlo               #+#    #+#             */
-/*   Updated: 2019/01/26 20:22:43 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/13 12:19:45 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	ft_findlen(intmax_t n)
 {
-	intmax_t num;
-	int i;
+	intmax_t	num;
+	int			i;
 
 	num = n;
 	i = 0;
@@ -31,15 +31,11 @@ static int	ft_findlen(intmax_t n)
 
 char		*ft_itoamax(intmax_t n, char *str)
 {
-//	char	*new_str;
-	int		length;
-	intmax_t		orig_num;
+	int			length;
+	intmax_t	orig_num;
 
 	orig_num = n;
 	length = ft_findlen(n);
-//	new_str = ft_strnew(length);
-//	if (!new_str)
-//		return (0);
 	while (length--)
 	{
 		str[length] = (n < 0) ? (n % 10) * -1 + 48 : (n % 10) + 48;

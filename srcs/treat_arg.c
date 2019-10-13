@@ -8,7 +8,8 @@ int    treat_char(char *final, va_list ap, t_block *blksk)
 {
   char *str;
   char c;
-
+  if (blksk->width == -1)
+    blksk->width = va_arg(ap, int);
   if (blksk->width > 2048)
     str = ft_strnew(blksk->width);
   else
@@ -148,6 +149,7 @@ int    treat_hex(const char *fmt, char *final, va_list ap, t_block *blksk)
 {
   uintmax_t n;
   n = add_unsigned_modifier(ap, blksk);
+
   string_hex(n, final, blksk, fmt);
   return (0);
 }
@@ -170,6 +172,10 @@ int    treat_num(char *final, va_list ap, t_block *blksk)
 {
   intmax_t n;
 
+  if (blksk->width == -1)
+    blksk->width = va_arg(ap, int);
+  if (blksk->precision == -1)
+    blksk->precision = va_arg(ap, int);
   n = add_modifier(ap, blksk);
   string_digit(n, final, blksk);
   return (0);
@@ -214,9 +220,9 @@ int    treat_plain_text(const char *fmt, char *final, t_block *blksk)
 {
   unsigned int n;
 
-  n = ft_strchr_pos(&fmt[blksk->pos + 1], '%') - blksk->pos;
-  ft_strncat(final, &fmt[blksk->pos + 1], n);
-  return (0);
+    n = ft_strchr_pos(&fmt[blksk->pos + 1], '%') - blksk->pos;
+    ft_strncat(final, &fmt[blksk->pos + 1], n);
+    return (0);
 }
 
 
@@ -225,7 +231,6 @@ int    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
   if (blksk->str)
     if ((blksk->str[0] == '%') && (blksk->type == NA))
       ft_strcat(final, "%");
-
   if (blksk->type == 'c')
     return(treat_char(final, ap, blksk));
   if (blksk->type == 'T')

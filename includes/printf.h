@@ -75,7 +75,7 @@ int			count_arg(const char *str);
 int 		parse(const char *fmt, va_list ap);
 void 		parse_remain(const char *fmt, int i, va_list ap);
 int    parse_arg(const char *fmt, unsigned int i, t_block *blks);
-int     compose_str(const char *fmt, va_list ap, t_block *blks, unsigned int m);
+int     coms(const char *fmt, va_list ap, t_block *blks, unsigned int m);
 int    treat_arg(const char *fmt, char *final, va_list ap, t_block *blks);
 void    string_hex(uintmax_t n, char *final, t_block *blksk, const char *fmt);
 void    string_digit(intmax_t n, char *final, t_block *blksk);
@@ -102,6 +102,7 @@ int treat_time(char *final, t_block *blksk);
 int output_final(char *final, size_t length, int add);
 void check_buff(char *final, char *str, size_t len);
 void format_final(char *final);
+int alter_format(char *final, char *mod, int pos);
 #endif
 
 

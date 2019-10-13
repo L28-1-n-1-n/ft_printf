@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   count_arg.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/13 12:17:16 by hlo               #+#    #+#             */
+/*   Updated: 2019/10/13 12:17:58 by hlo              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "printf.h"
-#include <stdio.h>
 
 int		count_percent(const char *str, int i)
 {
@@ -27,7 +38,6 @@ int		count_arg(const char *str)
 	m = 0;
 	while (str[i])
 	{
-
 		if ((str[i] == '%') && (str[i + 1] == '%'))
 		{
 			m = count_percent(str, i);
@@ -35,9 +45,8 @@ int		count_arg(const char *str)
 			i += m * 2;
 			continue;
 		}
-		else
-			if (str[i] == '%')
-				count++;
+		else if (str[i] == '%')
+			count++;
 		i++;
 	}
 	return (count);
