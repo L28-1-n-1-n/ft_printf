@@ -101,7 +101,7 @@ printf("%*c\n",  42, 'a');*/
 		//ft_printf("dec=%llx\n",-9223372036854775808);
 	//printf("dec=%llx\n", -9223372036854775808);
 //	printf("digit=% -5d\n", 12);
-//	ft_printf("bin=% #5b\n", 4);
+	ft_printf("bin=% #5b\n", 4);
 /*	printf("%x%x%x%x%x%x%x%x%x%x%x%x");
 	printf("%x%x%x%x%x%x%x%x%x%x%x%x");*/
 /*
