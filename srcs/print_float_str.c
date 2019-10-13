@@ -87,6 +87,12 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
       else
         fnum->integer = (fnum->decimal <= 0.5) ? fnum->integer  : fnum->integer + 1;
   }
+/*  printf("fnum->exponent is %d\n", fnum->exponent);
+  printf("fnum->mantissa is %lld\n", fnum->mantissa);
+  printf("fnum->integer is %llu\n", fnum->integer);
+  printf("fnum->remain is %llu\n", fnum->remain);
+  printf("fnum->decimal is %Lf\n", fnum->decimal);
+  printf("fnum->eflag is %u\n", fnum->eflag);*/
 
   if (!(*(fnum->big_str)))
   {

@@ -114,7 +114,7 @@ void   compose_float_80(t_float *fnum, long double *fraction)
   unsigned int i;
 
   i = 63 - fnum->exponent;
-  if ((fnum->exponent > 0) && (fnum->exponent < 65)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
+  if ((fnum->exponent >= 0) && (fnum->exponent < 65)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
   {
     fnum->decimal = 0;
     fnum->integer = (uint64_t)fnum->mantissa >> i;
@@ -136,7 +136,7 @@ void   compose_float_64(t_float *fnum, long double *fraction)
 
   i = 0;
   fnum->decimal = 0;
-  if ((fnum->exponent > 0) && (fnum->exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
+  if ((fnum->exponent >= 0) && (fnum->exponent < 53)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
   {
     i = 52 - fnum->exponent; // this is actually 64 - f.e - 1 to take into account that first bit is given to integer 1, if exp is 8, we need to shift 9 bits
     fnum->integer = (0x10000000000000 + fnum->mantissa) >> i; // 1 is manually added superior of the most significant bit as 1 is implied in 64 bit float, but not in 80 bit float
@@ -201,9 +201,9 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
-//      printf("fnum->sign is %c\n", fnum->sign);
-  //    printf("fnum->exponent is %hd\n", fnum->exponent);
-  //    printf("fnum->mantissa is %llu\n", fnum->mantissa);
+    /*  printf("fnum->sign is %c\n", fnum->sign);
+      printf("fnum->exponent is %hd\n", fnum->exponent);
+      printf("fnum->mantissa is %llu\n", fnum->mantissa);*/
       if (!(float_special(fnum, 64, blksk->type)))
         compose_float_64(fnum, fraction);
     }
