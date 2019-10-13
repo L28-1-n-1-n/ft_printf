@@ -71,7 +71,14 @@ fclean:
 	@/bin/rm -rf $(NAME)
 	@echo "$(YELLOW)All object and binary files in ft_printf are now deleted\n$(RESET)"
 
-$(NAME): $(LIBFT) $(OBJP)
+$(NAME): $(LIBFT) $(OBJDIR) $(OBJP)
+#	$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADP)
+	#	    $(CC) $(FLAGS) -c -o $@ $< -I$(LIBFT) $(INCP)
+
+#	$(OBJDIR):
+	#	mkdir -p $(OBJDIR)
+
+
 #	$(CC) $(FLAGS) -o $@ $^ -I$(LIBFT)
 	cp libft/libft.a ./$(NAME)
 	ar rc $(NAME) $(OBJP)
