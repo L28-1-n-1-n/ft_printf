@@ -29,6 +29,11 @@
 # define RESETFONT "\e[0m"
 # define FLEN 50000
 # define SLEN 4294967300
+# define CONST {"hello", "klein", "good1", "01589", "RPAaa"};
+
+
+
+
 # include "libft.h"
 # include <stdarg.h>
 # include <inttypes.h>

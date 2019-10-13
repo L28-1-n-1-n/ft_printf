@@ -12,7 +12,7 @@
 
 #include "printf.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 void	init_blocks(t_block *blks, int total)
 {
 	total = total - 1;
@@ -69,6 +69,7 @@ int		parse(const char *fmt, va_list ap)
 	i = 0;
 	k = 0;
 	m = count_arg(fmt);
+		printf("5th element: %s\n", CONST[4]);
 	if (!(blks = (t_block *)malloc(sizeof(t_block) * m)))
 		return (ft_free(blks, -1));
 	init_blocks(blks, m);

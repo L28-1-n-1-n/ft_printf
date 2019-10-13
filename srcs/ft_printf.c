@@ -21,5 +21,6 @@ int		ft_printf(const char *fmt, ...)
 	va_start(ap, fmt);
 	success = parse(fmt, ap);
 	va_end(ap);
+
 	return (success);
 }
