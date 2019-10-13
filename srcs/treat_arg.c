@@ -36,7 +36,7 @@ int    treat_char(char *final, va_list ap, t_block *blksk)
     if (c == '\0')
     {
       ft_strcat(final, str);
-      output_final(final, ft_strlen(final), 1);
+      output_final(final, 1);
       write(1, "\0", 1);
       ft_bzero(str, ft_strlen(str));
     }
@@ -213,7 +213,6 @@ else
     ft_memcpy(&word, &long_n, sizeof(word));
   }
   return(decode_float(word, final, blksk));
-//  return (0);
 }
 
 int    treat_plain_text(const char *fmt, char *final, t_block *blksk)
@@ -250,7 +249,7 @@ int    treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
   if (blksk->type == 'r')
     return(treat_non_print(final, ap, blksk, fmt));
   if (blksk->type == 'k')
-    return(treat_time(final, blksk));
+    return(treat_time(final));
   return (0);
 }
 // idea on how to generate random number : find the time, use the last digit of no.of seconds as seed

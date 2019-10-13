@@ -48,7 +48,7 @@ unsigned int	increment_fmt(const char *fmt)
 int				return_snippet(int ret, char *final)
 {
 	if (ret != -1)
-		ret = output_final(final, FLEN, 0);
+		ret = output_final(final, 0);
 	free(final);
 	return (ret);
 }

@@ -305,7 +305,7 @@ void string_digit(intmax_t n, char *final, t_block *blksk)
   else
     str = ft_strnew(2048);*/
   if (ft_strlen(final) + ft_strlen(str) > FLEN)
-    output_final(final, FLEN, 0);
+    output_final(final, 0);
   ft_strcat(final, compose_digit(str, n, blksk));
 //  free(str);
 }

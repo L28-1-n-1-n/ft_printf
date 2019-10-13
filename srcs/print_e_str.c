@@ -358,9 +358,9 @@ int print_e_str(char *final, t_block *blksk, t_float *fnum)
 //  ft_strcat(final, str);
 if (ft_strlen(final) + ft_strlen(str) > FLEN)
 {
-  output_final(final, FLEN, 0);
+  output_final(final, 0);
   if (ft_strlen(str) > FLEN)
-    output_final(str, ft_strlen(str), 0);
+    output_final(str, 0);
   else
     ft_strcat(final, str);
 }

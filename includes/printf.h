@@ -98,11 +98,13 @@ t_float   *init_float(t_float *fnum);
 int print_g_str(char *final, t_block *blksk, t_float *fnum);
 void init_blocks(t_block *blks, int total);
 void string_bin(intmax_t n, char *final, t_block *blksk);
-int treat_time(char *final, t_block *blksk);
-int output_final(char *final, size_t length, int add);
+int treat_time(char *final);
+int output_final(char *final, int add);
 void check_buff(char *final, char *str, size_t len);
 void format_final(char *final);
 int alter_format(char *final, char *mod, int pos);
+char *check_len(char *str, unsigned int k, t_block *blks);
+int check_type(char *str, unsigned int k, t_block *blks);
 #endif
 
 

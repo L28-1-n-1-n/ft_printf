@@ -27,7 +27,7 @@ void	check_buff(char *final, char *str, size_t len)
 		{
 			ft_strncat(final, &str[loop], limit - final_len);
 			loop += limit - final_len;
-			output_final(final, FLEN, 0);
+			output_final(final, 0);
 			final_len = ft_strlen(final);
 		}
 		if (len + final_len < limit)
