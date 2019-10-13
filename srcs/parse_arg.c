@@ -2,6 +2,7 @@
 #include <stdio.h>
 int check_type(char *str, unsigned int k, t_block *blks)
 {
+
   while (*str && !(ft_strchr("cdixXpeEfFgGousbrk%", *str)))
     str++;
   if (*str)
@@ -77,6 +78,7 @@ char *check_length(char *str, unsigned int k, t_block *blks)
     else
       blks[k].modifier = l; //4
   }
+
   return(str);
 }
 
@@ -116,6 +118,30 @@ else
   str = (char *)(fmt + blks[k].pos);*/
 
 //  if (ft_strchr_arg(str, '.'))
+if (ft_isalpha(*str))
+{
+  str += 1;
+  if (*str != '.')
+  {
+    str-=1;
+    if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
+    {
+      blks[k].flag |= 128;
+      str += 1 + ft_strchr_arg(str, '.');
+      if (*str == '*')
+        blks[k].precision = -1;
+      else
+        blks[k].precision = ft_atoi((char *)str);
+
+    }
+  }
+  else
+  {
+   str -=1;
+ }
+}
+else
+{
   if (ft_strchr_arg(--str, '.')) // we need the -- before str, becoz if width == 0, strchr_arg skips the dot right away
   {
     blks[k].flag |= 128;
@@ -125,6 +151,7 @@ else
     else
       blks[k].precision = ft_atoi((char *)str);
   }
+}
   //str++;
   if (*str == '%')
     str++;

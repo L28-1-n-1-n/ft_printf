@@ -80,10 +80,11 @@ void treat_string_helper(char *str, char *string, t_block *blksk)
   }
   else // 0 precision
   {
-    if (string == NULL)
+    if ((string == NULL) && (!(blksk->flag & 128)))
       ft_strcat(str, "(null)");
     else
-      ft_strcat(str, string);
+      if (!(blksk->flag & 128))
+        ft_strcat(str, string);
   }
 }
 
@@ -106,6 +107,7 @@ int    treat_string(char *final, va_list ap, t_block *blksk)
     return (-1);
   // The above needs to change since we have freeing problem here
   string = va_arg(ap, char *);
+
   treat_string_helper(str, string, blksk);
   if (blksk->flag & 8) // '-' flag
   {

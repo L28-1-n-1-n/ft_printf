@@ -49,7 +49,11 @@ int   parse(const char *fmt, va_list ap)
         if ((k > 0) && (blks[k - 1].str) && (blks[k - 1].type == 'c'))
           blks[k].type = 'T';
         else
+        {
+
+
           parse_arg(fmt, k, blks);
+        }
         k++;
         i++;
         while (fmt[i] && (fmt[i] != '%'))
