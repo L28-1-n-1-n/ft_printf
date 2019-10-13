@@ -201,9 +201,6 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
-    /*  printf("fnum->sign is %c\n", fnum->sign);
-      printf("fnum->exponent is %hd\n", fnum->exponent);
-      printf("fnum->mantissa is %llu\n", fnum->mantissa);*/
       if (!(float_special(fnum, 64, blksk->type)))
         compose_float_64(fnum, fraction);
     }

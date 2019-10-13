@@ -36,7 +36,6 @@ void    sum_power(char product[1080][1000], t_float *fnum)
   first_shift(product, fnum, power);
   fnum->remain >>= 1;
   power--;
-
   while (power > 0)
   {
     if (fnum->remain & 1)
@@ -61,8 +60,6 @@ void    sum_power(char product[1080][1000], t_float *fnum)
     fnum->remain >>= 1;
     power--;
   }
-  //printf("printing subnorminal number=%s\n",fnum->big_str);
-
 }
 
 
@@ -78,14 +75,10 @@ void    aggregate(char product[1080][1000])
     carry = 0;
     while (i < 1079)
     {
-    //  printf("i is %d\n", i);
-    //  printf("product[%d] is %s\n", i, product[i]);
       while(product[i][j])
       {
         tmp  = (product[i][j] - '0') * 5;
-    //    printf("tmp = %u, i = %d, j = %d\n", tmp, i, j);
         product[i + 1][j] += carry + '0';
-    //    printf("product[%d][%d] = %c\n", i + 1, j, product[i + 1][j]);
         carry = tmp / 10;
         tmp = tmp % 10;
         product[i + 1][j] += tmp;
@@ -94,14 +87,11 @@ void    aggregate(char product[1080][1000])
           product[i + 1][j] -= 10;
           carry += 1;
         }
-    //    printf("%c ", product[i + 1][j]);
         j++;
       }
       if (carry)
         product[i + 1][j] += carry + '0';
       carry = 0;
-    //  printf("\nnext line\n");
-
       j = 0;
       i++;
     }
@@ -114,7 +104,6 @@ void    aggregate(char product[1080][1000])
 }
 void    sub_array(t_float *fnum)
 {
-   // 50 rows, each 1000 characters long, fit till ^ 50
   char product[1080][1000];
   int i;
   long double seed;
@@ -128,7 +117,7 @@ void    sub_array(t_float *fnum)
   ft_strcpy(product[0], "0");
   i = 1;
   seed = 1;
-  while (i < 28) // 2^27, or 5*27 is the last accurate one
+  while (i < 28)
   {
     seed = seed * ((long double)5);
     ft_itoamax(seed, product[i]);
@@ -136,13 +125,5 @@ void    sub_array(t_float *fnum)
   }
   ft_strrev(product[27]);
   aggregate(product);
-/*
-  i = 0;
-  while(i < 1079)
-  {
-    printf("product[%d] is %s\n", i, product[i]);
-    i++;
-  }
-*/
   sum_power(product, fnum);
 }

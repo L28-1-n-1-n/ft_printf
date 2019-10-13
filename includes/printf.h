@@ -55,6 +55,7 @@ typedef struct	s_block
 	char              type; // c d i x X p e E f F g G o u s %
   char              *str; // this is what the result of this block's gonna be
   unsigned int      pos;
+  char              base[17];
 }				        t_block;
 
 typedef struct s_float
@@ -109,8 +110,21 @@ int    treat_string(char *final, va_list ap, t_block *blksk);
 int    treat_char(char *final, va_list ap, t_block *blksk);
 int    treat_nonpri(char *final, va_list ap, t_block *blksk, const char *fmt);
 int    treat_plain_text(const char *fmt, char *final, t_block *blksk);
-int    treat_bin (char *final, va_list ap, t_block *blksk) ;
-
+int    treat_bin (char *final, va_list ap, t_block *blksk);
+char *convert_base(uintmax_t n, char *tmp, t_block *blksk);
+unsigned int snippet_one(const char *fmt, char *str, t_block *blksk);
+void snippet_two(char *str, t_block *blksk);
+void snippet_three(char *str, t_block *blksk);
+unsigned int snippet_four(const char *fmt, t_block *blksk);
+int help_one(char *str, t_block *blksk);
+int help_two(char *str, t_block *blksk);
+int help_three(char *str, t_block *blksk, int i, int j);
+int help_four(char *str, t_block *blksk, int j);
+int help_five(char *str, t_block *blksk, int i, int j);
+int help_six(char *str, t_block *blksk, int j);
+int help_seven(char *str, t_block *blksk, int i, int j);
+int help_eight(char *str, t_block *blksk, uintmax_t n, int j);
+void nest_one(char *str, t_block *blksk, int i, int j);
 #endif
 
 

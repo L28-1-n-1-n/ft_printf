@@ -26,6 +26,7 @@ void	init_blocks(t_block *blks, int total)
 		blks[total].type = NA;
 		blks[total].str = 0;
 		blks[total].pos = 0;
+		ft_bzero(blks[total].base, 16);
 		total--;
 	}
 }
