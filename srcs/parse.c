@@ -66,10 +66,10 @@ int		parse(const char *fmt, va_list ap)
 	unsigned int	k;
 	t_block			*blks;
 
+	printf("test[1] is %s\n", TEST[1]);
 	i = 0;
 	k = 0;
 	m = count_arg(fmt);
-		printf("5th element: %s\n", CONST[4]);
 	if (!(blks = (t_block *)malloc(sizeof(t_block) * m)))
 		return (ft_free(blks, -1));
 	init_blocks(blks, m);

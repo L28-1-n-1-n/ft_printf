@@ -29,7 +29,6 @@
 # define RESETFONT "\e[0m"
 # define FLEN 50000
 # define SLEN 4294967300
-# define CONST {"hello", "klein", "good1", "01589", "RPAaa"};
 
 
 
@@ -75,6 +74,10 @@ typedef struct s_float
 
   char big_str[20000];
 }              t_float;
+
+extern const char TEST[25][80];
+
+
 
 int		ft_printf(const char *fmt, ...);
 int			count_arg(const char *str);
