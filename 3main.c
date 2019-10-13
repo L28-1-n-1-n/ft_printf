@@ -28,9 +28,12 @@ void	vafunc(char *fmt, ...)
 
 int		main()
 {
+//ft_printf("%*d\n", 5, 42);
+//printf("%*d\n", 5, 42);
+//printf("%o, %o, %o\n", -42, -42, -42);
+ft_printf("%s\n", "abc");
 
-ft_printf("this %.7f float\n", 1.5);
-printf("this %.7f float\n", 1.5);
+printf("%s\n", "abc");
 
 //	ft_printf("%1.5i|%-1.5i|%+1.5i|% 1.5i|%01.5i\n", -0, -0, -0, -0, -0);
 //	printf("%1.5i|%-1.5i|%+1.5i|% 1.5i|%01.5i\n", -0, -0, -0, -0, -0);
