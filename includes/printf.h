@@ -105,6 +105,12 @@ void format_final(char *final);
 int alter_format(char *final, char *mod, int pos);
 char *check_len(char *str, unsigned int k, t_block *blks);
 int check_type(char *str, unsigned int k, t_block *blks);
+int    treat_string(char *final, va_list ap, t_block *blksk);
+int    treat_char(char *final, va_list ap, t_block *blksk);
+int    treat_non_print(char *final, va_list ap, t_block *blksk, const char *fmt);
+int    treat_plain_text(const char *fmt, char *final, t_block *blksk);
+int    treat_bin (char *final, va_list ap, t_block *blksk) ;
+
 #endif
 
 

@@ -60,3 +60,12 @@ void string_bin(intmax_t n, char *final, t_block *blksk)
   ft_strcat(final, mod_bin(str, blksk));
 
 }
+
+int    treat_bin (char *final, va_list ap, t_block *blksk) // needs to be tested, also needs to deal with '+' and '-'
+{
+  intmax_t n;
+
+  n = add_modifier(ap, blksk);
+  string_bin(n, final, blksk);
+  return (0);
+}
