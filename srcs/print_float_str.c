@@ -119,10 +119,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
             while (i--)
               ft_strcat_char(str,'0');
             blksk->precision -= 4931;
-          // NEED TO CHANGE BELOW: if flag == f only, precision is same as current method, if not, precision wiil make probram look for
-          //corresponding index in sub_array, and (what?) of sub_array and sub_array_80 respectively?
             i = 0;
-
             while ((fnum->big_str[i] == '0') && (fnum->big_str[i]))
               i++;
             while ((blksk->precision > 0) && (fnum->big_str[i]))

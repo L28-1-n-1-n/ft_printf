@@ -29,17 +29,121 @@ char *group_digit(char *str, t_block *blksk)
   return(str);
 }
 
-char *compose_digit(char *str, intmax_t n, t_block *blksk)
+int di_nosign(char *str, int j, t_block *blksk, int i)
+{
+    ft_memmove(&str[j], &str[0], i);
+    j -= 1;
+    if ((blksk->flag & 2) && (blksk->flag & 32) && (!(blksk->flag & 128)))
+    {
+      while (j > 0)
+        str[j--] = '0';
+      str[0] = ' ';
+    }
+    else
+    {
+      if ((blksk->orig) || (blksk->flag & 128))
+        while (j >= 0)
+          str[j--] = ' ';
+      else
+        while (j >= 0)
+          str[j--] = '0';
+    }
+  return (j);
+}
+
+int zero_di_one(char *str, int j, t_block *blksk, intmax_n n)
+{
+  if ((blksk->flag & 2) && (blksk->flag & 32))
+  {
+    if(n != 0)
+      while (j > 0)
+        str[j--] = '0';
+    else
+    {
+      if(blksk->orig)
+        while (j > 0)
+          str[j--] = ' ';
+      else
+        while (j > 0)
+          str[j--] = '0';
+    str[0] = ' ';
+    }
+  }
+}
+int di_two(char *str, int j, t_block *blksk, intmax_t n)
+{
+  if ((blksk->flag & 4) && (blksk->flag & 2) && !(blksk->flag & 128))
+  {
+    ft_memmove(&str[j+1], &str[1], ft_strlen(str));
+    if ((n != 0) || (blksk->orig == 0))
+      while (j >= 1)
+        str[j--] = '0';
+  }
+  ft_memmove(&str[j], &str[0], ft_strlen(str));
+  j-=1;
+  while (j >= 0)
+    str[j--] = ' ';
+  return (j);
+}
+
+int di_one(char *str, int j, t_block *blksk)
+{
+  if (((blksk->flag & 4) || (str[0] == '-')) && (blksk->flag & 2) && (!(blksk->flag & 128)))
+  {
+    ft_memmove(&str[j+1], &str[1], ft_strlen(str));
+    while (j >= 1)
+      str[j--] = '0';
+  }
+  else
+    {
+        ft_memmove(&str[j], &str[0], ft_strlen(str));
+        j-=1;
+        while (j >= 0)
+          str[j--] = ' ';
+    }
+  return (j);
+}
+
+void digit_two(char *str, intmax_t n, t_block *blksk)
+{
+  if (n > 0)
+    blksk->precision -= 1;
+  if (str[0] == '-')
+  {
+    if (blksk->precision > 0)
+    {
+      ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
+      while (blksk->precision--)
+        str[1 + blksk->precision] = '0';
+    }
+  }
+  else if (blksk->precision > 0)
+      while (blksk->precision--)
+        ft_strpcat_char(str, '0');
+}
+
+int nest(char *str, intmax_t n, t_block *blksk)
+{
+  if (blksk->flag & 4)
+      {
+        if (n > 0)
+          blksk->precision -= 1;
+        if (blksk->precision > 0)
+        {
+          ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
+          while (blksk->precision--)
+            str[1 + blksk->precision] = '0';
+        }
+      }
+    else
+      digit_two(str, n, blksk);
+    return (ft_strlen(str));
+}
+
+int valueofi(char *str, intmax_t n, t_block *blksk)
 {
   int i;
-  int j;
-  int pres;
-  int width;
-  if (blksk->precision == -2)
-    blksk->precision = 0;
-  width = blksk->width;
-  pres = blksk->precision;
-  i = 0;
+
   if ((blksk->flag & 4) && (n >= 0)) // '+' flag
   {
     str[0] = '+';
@@ -48,150 +152,52 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
     else
       i = ft_strlen(str);
   }
-  else
-  {
-    if (!((n == 0) && (blksk->flag & 128)))
+  else if (!((n == 0) && (blksk->flag & 128)))
       i = ft_strlen(group_digit(ft_itoamax(n, str), blksk));
-    else
+      else
       i = ft_strlen(str);
-  }
   if ((blksk->precision > 0) && (i > 0))
     blksk->precision -= (i - 1);
-  if (blksk->flag & 4)
-    {
-      if (n > 0)
-        blksk->precision -= 1;
-      if (blksk->precision > 0)
-      {
-        ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
-        while (blksk->precision--)
-          str[1 + blksk->precision] = '0';
-      }
-    }
-  else
-  {
+  return (i);
+}
 
-    if (n > 0)
-      blksk->precision -= 1;
-    if (str[0] == '-')
-    {
+char *compose_digit(char *str, intmax_t n, t_block *blksk)
+{
+  int i;
+  int j;
+  int width;
 
-      if (blksk->precision > 0)
-      {
-        ft_memmove(&str[1 + blksk->precision], &str[1], ft_strlen(&str[1]));
-        while (blksk->precision--)
-          str[1 + blksk->precision] = '0';
-      }
-
-    }
-    else
-    {
-      if (blksk->precision > 0)
-      {
-        while (blksk->precision--)
-          ft_strpcat_char(str, '0');
-      }
-    }
-  }
-  i = ft_strlen(str);
+  blksk->precision = (blksk->precision == -2) ? 0 : blksk->precision;
+  width = blksk->width;
+  blksk->orig = blksk->precision;
+  i = valueofi(str, n, blksk);
+  i = nest(str, n, blksk);
   j = blksk->width - i;
   if (j > 0)
     {
       if (blksk->flag & 8) // '-' flag, trumps '0' flag
           while (j--)
             str[i++] = ' ';
-
       if ((blksk->flag & 2) && (!(blksk->flag & 8))) // '0' flag without '-'
       {
-          // first move content of str backwards, then pad with zero between 0x and content
         if ((blksk->flag & 4) || (str[0] == '-'))// + or -
-        {
-          if (n != 0)
-          {
-            //ft_memmove(&str[j+1], &str[1], i - 1);
-            if (((blksk->flag & 4) || (str[0] == '-')) && (blksk->flag & 2) && (!(blksk->flag & 128)))
-            {
-              ft_memmove(&str[j+1], &str[1], ft_strlen(str));
-              //j-=1;
-              while (j >= 1)
-                str[j--] = '0';
-            }
-            else
-              {
-                  ft_memmove(&str[j], &str[0], ft_strlen(str));
-                  j-=1;
-                  while (j >= 0)
-                    str[j--] = ' ';
-              }
-          }
-          else
-          {
-              if ((blksk->flag & 4) && (blksk->flag & 2) && !(blksk->flag & 128)) //'+' and '0'
-              {
-                ft_memmove(&str[j+1], &str[1], ft_strlen(str));
-                //j-=1;
-                if ((n != 0) || (pres == 0))
-                  while (j >= 1)
-                    str[j--] = '0';
-              }
-              ft_memmove(&str[j], &str[0], ft_strlen(str));
-              j-=1;
-              while (j >= 0)
-                str[j--] = ' ';
-            }
-        }
+          j = (n == 0) ? di_two(str, j, blksk, n) : di_one(str, j, blksk);
         else //no sign needed
         {
           if (n != 0)
-          {
-            ft_memmove(&str[j], &str[0], i);
-            j -= 1;
-            if ((blksk->flag & 2) && (blksk->flag & 32) && (!(blksk->flag & 128)))
-            {
-              while (j > 0)
-                str[j--] = '0';
-              str[0] = ' ';
-            }
-            else
-            {
-            //  if ((pres) || (ft_strlen(str) < (size_t)width))
-              if ((pres) || (blksk->flag & 128))
-                while (j >= 0)
-                  str[j--] = ' ';
-              //roll
-              else
-                while (j >= 0)
-                  str[j--] = '0';
-            }
-
-          }
+            j = di_nosign(str, j, blksk, i);
           else // case n == 0
           {
             if (str[0])
             {
               ft_memmove(&str[j], &str[0], ft_strlen(str));
               j -= 1;
-              if ((blksk->flag & 2) && (blksk->flag & 32))
-              {
-                if(n != 0)
-                  while (j > 0)
-                    str[j--] = '0';
-                else
-                {
-                  if(pres)
-                    while (j > 0)
-                      str[j--] = ' ';
-                  else
-                    while (j > 0)
-                      str[j--] = '0';
-                str[0] = ' ';
-                }
-              }
-              else
+              j = zero_di_one(str, j, blksk, n);
+            else
               {
                 if ((blksk->flag & 2) && (!(blksk->flag & 32))) //'0' & not ' '
                 {
-                  if ((n == 0) && (pres != 0))
+                  if ((n == 0) && (blksk->orig != 0))
                     while (j >= 0)
                       str[j--] = ' ';
                   else
@@ -209,15 +215,11 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
               {
                 ft_strcat_char(str, ' ');
                 j--;
-
               }
-
           }
         }
       }
-
-j = blksk->width - ft_strlen(str);
-
+      j = blksk->width - ft_strlen(str);
       if ((!(blksk->flag & 2)) && (!(blksk->flag & 8))) // no '0' flag, no '-' flag
       {
 
@@ -228,12 +230,11 @@ j = blksk->width - ft_strlen(str);
             str[j--] = ' ';
       }
     }
-
     if (blksk->flag & 32) // ' ' flag
     {
       if ((n == 0) && (!(blksk->width)))
       {
-        if (pres > 1)
+        if (blksk->orig > 1)
           str[1] = '0';
         else
           if (ft_strlen(str) == 0)

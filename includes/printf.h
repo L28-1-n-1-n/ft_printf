@@ -55,7 +55,8 @@ typedef struct	s_block
 	unsigned int      flag; // '0'   '+'   '-'   '#', '.', default '^' means NULL
 	int			          width; // -1 means '*'
 	int			          precision; // -1 means '*'
- 	t_modifier        modifier;
+  int               orig;
+  t_modifier        modifier;
 	char              type; // c d i x X p e E f F g G o u s %
   char              *str; // this is what the result of this block's gonna be
   unsigned int      pos;
