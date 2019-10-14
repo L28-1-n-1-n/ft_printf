@@ -8,10 +8,10 @@ char *group_digit(char *str, t_block *blksk)
   int count;
   int end;
 
-  if (!(blksk->flag & 64)) // if not apostrophe
+  if (!(blksk->flag & 64))
     return (str);
   count = 2;
-  end = 0; // case '+'
+  end = 0;
   if ((str[0] == '-') || (str[0] == '+'))
     end = 1;
   i = ft_strlen(str) - 1;
@@ -55,10 +55,8 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
     else
       i = ft_strlen(str);
   }
-
   if ((blksk->precision > 0) && (i > 0))
     blksk->precision -= (i - 1);
-
   if (blksk->flag & 4)
     {
       if (n > 0)
@@ -240,7 +238,6 @@ j = blksk->width - ft_strlen(str);
         else
           if (ft_strlen(str) == 0)
             ft_strpcat_char(str, ' ');
-
       }
       if (str[0] == '0')
       {
@@ -249,14 +246,7 @@ j = blksk->width - ft_strlen(str);
           str[ft_strlen(str) - 1] = '\0';
       }
       if ((str[0] == '0') && (n!= 0)) // '0' flag, but n != 0
-      {
         str[0] = ' ';
-      //  if (n == 0)
-        //  ft_strcat_char(str, '0');
-        //if (n == 0) // <-- this is the % .5d bug
-          //str[1] = '0';
-
-      }
       else
       {
         if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
@@ -283,15 +273,10 @@ j = blksk->width - ft_strlen(str);
           {
             if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+') && (str[0] != '-')))
               ft_strpcat_char(str, ' ');
-
           }
         }
-      //  if ((n == 0) && (blksk->flag & 128) && (pres > 1))
-      //    ft_strcat_char(str, ' ');
       }
     }
-
-  //printf("str is %s and length is %zu\n", str, ft_strlen(str));
   return (str);
 }
 

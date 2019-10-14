@@ -112,7 +112,7 @@ void  print_small_range(unsigned int i, t_float *fnum, long double *fraction)
 void   compose_float_80(t_float *fnum, long double *fraction)
 {
   unsigned int i;
-
+  printf("first\n");
   i = 63 - fnum->exponent;
   if ((fnum->exponent >= 0) && (fnum->exponent < 65)) // i.e. <= 52, 1 is added on left most, but shift '.' starts from after this 1
   {
@@ -196,11 +196,14 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
   }
   init_float(fnum);
   bit_power(fraction);
+  printf("what\n");
   if ((blksk->modifier == 0) || (blksk->modifier == l)) // 1, 11, 52
     {
       fnum->sign = (word[0] >> 63) ? '-' : '+';
       fnum->exponent = ((word[0] << 1) >> 53) - 1023;
       fnum->mantissa = (word[0] << 12) >> 12;
+      printf("hmmm\n");
+
       if (!(float_special(fnum, 64, blksk->type)))
         compose_float_64(fnum, fraction);
     }
@@ -210,6 +213,8 @@ int   decode_float(uint64_t *word, char *final, t_block *blksk)
 
       fnum->sign = (word[1] & 0x8000) ? '-' : '+';
       fnum->mantissa = word[0];
+      printf("right\n");
+
       if (!(float_special(fnum, 80, blksk->type)))
         compose_float_80(fnum, fraction);
     }

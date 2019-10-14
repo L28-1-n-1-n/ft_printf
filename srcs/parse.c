@@ -66,14 +66,16 @@ int		parse(const char *fmt, va_list ap)
 	unsigned int	k;
 	t_block			*blks;
 
-	printf("test[1] is %s\n", TEST[1]);
 	i = 0;
 	k = 0;
 	m = count_arg(fmt);
 	if (!(blks = (t_block *)malloc(sizeof(t_block) * m)))
 		return (ft_free(blks, -1));
 	init_blocks(blks, m);
+	printf("we go there\n");
 	p_help(fmt, i, k, blks);
+	printf("we go there\n");
+
 	m = coms(fmt, ap, blks, m);
 	free(blks);
 	return (m);

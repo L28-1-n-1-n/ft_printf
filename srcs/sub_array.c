@@ -58,7 +58,7 @@ void    sum_power(char product[1080][1000], t_float *fnum)
 {
   unsigned int power;
   unsigned int carry;
-  unsigned int i;
+    int i;
   unsigned int offset;
 
   carry = 0;

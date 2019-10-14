@@ -75,7 +75,7 @@ typedef struct s_float
   char big_str[20000];
 }              t_float;
 
-extern const char TEST[25][80];
+extern const char g_test[160][72];
 
 
 

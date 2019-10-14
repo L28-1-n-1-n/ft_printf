@@ -17,9 +17,9 @@ int main()
 		printf("%c", str[i]);
 		i++;
 		count ++;
-		if (!(i % 80))
+		if (!(i % 72))
 			printf("\"\,\n\"");
-		if  (!(i % 2000))
+		if  (!(i % 1800))
 			printf("---------------\n");
 
 	}
