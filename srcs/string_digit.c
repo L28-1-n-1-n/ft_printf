@@ -29,6 +29,63 @@ char *group_digit(char *str, t_block *blksk)
   return(str);
 }
 
+void empty_width_or_zero_start(char *str, t_block *blksk, intmax_t n)
+{
+  if ((n == 0) && (!(blksk->width)))
+  {
+    if (blksk->orig > 1)
+      str[1] = '0';
+    else
+      if (ft_strlen(str) == 0)
+        ft_strpcat_char(str, ' ');
+  }
+  if (str[0] == '0')
+  {
+    ft_strpcat_char(str, ' ');
+    if (str[ft_strlen(str) - 1] == ' ')
+      str[ft_strlen(str) - 1] = '\0';
+  }
+}
+
+void dash_and_non_neg(char *str, t_block *blksk, int width, intmax_t n)
+{
+  if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
+  {
+    if ((str[0] != '+') && (str[0] != '-'))
+    {
+      ft_memmove(&str[1], &str[0], ft_strlen(str));
+      str[0] = ' ';
+      if (str[ft_strlen(str) - 1] == ' ')
+        str[ft_strlen(str) - 1] = '\0';
+    }
+  }
+  else
+  {
+    if ((!(blksk->flag & 4)) && (blksk->width == 0) && (n > 0))//just ' 'flag and no '+' flag, and n is positive, and width = 0
+      {
+        ft_memmove(&str[1], &str[0], ft_strlen(str));
+        str[0] = ' ';
+        str[ft_strlen(str)] = '\0';
+      }
+    else
+      if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+') && (str[0] != '-')))
+        ft_strpcat_char(str, ' ');
+  }
+}
+
+char *digit_space(char *str,int width, t_block *blksk, intmax_t n)
+{
+  if (blksk->flag & 32) // ' ' flag
+  {
+    empty_width_or_zero_start(str, blksk, n);
+    if ((str[0] == '0') && (n!= 0)) // '0' flag, but n != 0
+      str[0] = ' ';
+    else
+      dash_and_non_neg(str, blksk, width, n);
+  }
+  return(str);
+}
+
 int di_nosign(char *str, int j, t_block *blksk, int i)
 {
     ft_memmove(&str[j], &str[0], i);
@@ -51,7 +108,33 @@ int di_nosign(char *str, int j, t_block *blksk, int i)
   return (j);
 }
 
-int zero_di_one(char *str, int j, t_block *blksk, intmax_n n)
+int no_zero_nor_space(char *str, int j)
+{
+  ft_memmove(&str[j], &str[0], ft_strlen(str));// first move content of str backwards, then pad with space
+  j -= 1;
+  while (j >= 0)
+    str[j--] = ' ';
+  return (j);
+}
+
+int zero_not_space(char *str, int j, t_block *blksk, intmax_t n)
+{
+  if ((blksk->flag & 2) && (!(blksk->flag & 32))) //'0' & not ' '
+  {
+    if ((n == 0) && (blksk->orig != 0))
+      while (j >= 0)
+        str[j--] = ' ';
+    else
+      while (j >= 0)
+        str[j--] = '0';
+  }
+  else
+    while (j >= 0)
+      str[j--] = ' ';
+  return (j);
+}
+
+int zero_di_one(char *str, int j, t_block *blksk, intmax_t n)
 {
   if ((blksk->flag & 2) && (blksk->flag & 32))
   {
@@ -69,7 +152,11 @@ int zero_di_one(char *str, int j, t_block *blksk, intmax_n n)
     str[0] = ' ';
     }
   }
+  else
+    j = zero_not_space(str, j, blksk, n);
+  return (j);
 }
+
 int di_two(char *str, int j, t_block *blksk, intmax_t n)
 {
   if ((blksk->flag & 4) && (blksk->flag & 2) && !(blksk->flag & 128))
@@ -161,15 +248,30 @@ int valueofi(char *str, intmax_t n, t_block *blksk)
   return (i);
 }
 
+int case_n_zero(char *str, int j, intmax_t n, t_block *blksk)
+{
+    if (str[0])
+    {
+      ft_memmove(&str[j], &str[0], ft_strlen(str));
+      j -= 1;
+      j = zero_di_one(str, j, blksk, n);
+    }
+    else
+      while (j >= 1)
+      {
+        ft_strcat_char(str, ' ');
+        j--;
+      }
+    return (j);
+}
+
 char *compose_digit(char *str, intmax_t n, t_block *blksk)
 {
   int i;
   int j;
   int width;
 
-  blksk->precision = (blksk->precision == -2) ? 0 : blksk->precision;
   width = blksk->width;
-  blksk->orig = blksk->precision;
   i = valueofi(str, n, blksk);
   i = nest(str, n, blksk);
   j = blksk->width - i;
@@ -183,102 +285,13 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
         if ((blksk->flag & 4) || (str[0] == '-'))// + or -
           j = (n == 0) ? di_two(str, j, blksk, n) : di_one(str, j, blksk);
         else //no sign needed
-        {
-          if (n != 0)
-            j = di_nosign(str, j, blksk, i);
-          else // case n == 0
-          {
-            if (str[0])
-            {
-              ft_memmove(&str[j], &str[0], ft_strlen(str));
-              j -= 1;
-              j = zero_di_one(str, j, blksk, n);
-            else
-              {
-                if ((blksk->flag & 2) && (!(blksk->flag & 32))) //'0' & not ' '
-                {
-                  if ((n == 0) && (blksk->orig != 0))
-                    while (j >= 0)
-                      str[j--] = ' ';
-                  else
-                    while (j >= 0)
-                      str[j--] = '0';
-                }
-                else
-                  while (j >= 0)
-                    str[j--] = ' ';
-
-              }
-            }
-            else
-              while (j >= 1)
-              {
-                ft_strcat_char(str, ' ');
-                j--;
-              }
-          }
-        }
+         j = (n == 0) ? case_n_zero(str, j, n, blksk) : di_nosign(str, j, blksk, i);
       }
       j = blksk->width - ft_strlen(str);
       if ((!(blksk->flag & 2)) && (!(blksk->flag & 8))) // no '0' flag, no '-' flag
-      {
-
-          ft_memmove(&str[j], &str[0], ft_strlen(str));// first move content of str backwards, then pad with space
-          j -= 1;
-          while (j >= 0)
-        //  while (j > 0)
-            str[j--] = ' ';
-      }
+        no_zero_nor_space(str, j);
     }
-    if (blksk->flag & 32) // ' ' flag
-    {
-      if ((n == 0) && (!(blksk->width)))
-      {
-        if (blksk->orig > 1)
-          str[1] = '0';
-        else
-          if (ft_strlen(str) == 0)
-            ft_strpcat_char(str, ' ');
-      }
-      if (str[0] == '0')
-      {
-        ft_strpcat_char(str, ' ');
-        if (str[ft_strlen(str) - 1] == ' ')
-          str[ft_strlen(str) - 1] = '\0';
-      }
-      if ((str[0] == '0') && (n!= 0)) // '0' flag, but n != 0
-        str[0] = ' ';
-      else
-      {
-        if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
-        {
-          if ((str[0] != '+') && (str[0] != '-'))
-          {
-            ft_memmove(&str[1], &str[0], ft_strlen(str));
-            str[0] = ' ';
-            if (str[ft_strlen(str) - 1] == ' ')
-            {
-              str[ft_strlen(str) - 1] = '\0';
-            }
-          }
-        }
-        else
-        {
-          if ((!(blksk->flag & 4)) && (blksk->width == 0) && (n > 0))//just ' 'flag and no '+' flag, and n is positive, and width = 0
-            {
-              ft_memmove(&str[1], &str[0], ft_strlen(str));
-              str[0] = ' ';
-              str[ft_strlen(str)] = '\0';
-            }
-          else
-          {
-            if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+') && (str[0] != '-')))
-              ft_strpcat_char(str, ' ');
-          }
-        }
-      }
-    }
-  return (str);
+    return (digit_space(str, width, blksk, n));
 }
 
 

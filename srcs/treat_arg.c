@@ -32,6 +32,8 @@ int		treat_num(char *final, va_list ap, t_block *blksk)
 	if (blksk->precision == -1)
 		blksk->precision = va_arg(ap, int);
 	n = add_modifier(ap, blksk);
+	blksk->precision = (blksk->precision == -2) ? 0 : blksk->precision;
+	blksk->orig = blksk->precision;
 	string_digit(n, final, blksk);
 	return (0);
 }
