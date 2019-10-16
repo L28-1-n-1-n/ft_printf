@@ -27,7 +27,7 @@ SRCS = ft_printf.c count_arg.c parse.c parse_arg.c big_int.c \
 			print_e_str.c print_g_str.c string_bin.c treat_time.c check_buff.c \
 			format_final.c alter_format.c parse_arg_helper.c helper_hex_one.c helper_hex_two.c\
 			helper_hex_snippet.c convert_base.c test_array.c print_result_helper.c \
-			decode_float_helper.c decode_float_helper_two.c
+			decode_float_helper.c decode_float_helper_two.c sub_array_helper.c
 
 
 HEAD = printf.h

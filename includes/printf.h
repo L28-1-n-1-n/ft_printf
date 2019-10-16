@@ -139,6 +139,7 @@ unsigned int uf_subnormal(t_float *fnum);
 void uf_not_subnormal(t_float *fnum, long double *fraction, unsigned int bit_value);
 void   compose_float_64(t_float *fnum, long double *fraction);
 void   compose_float_80(t_float *fnum, long double *fraction);
+void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power);
 #endif
 
 

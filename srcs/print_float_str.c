@@ -1,16 +1,20 @@
 #include "printf.h"
 #include <stdlib.h>
 
+size_t round_f_helper(char *str, size_t i)
+{
+  ft_memmove(&str[1], &str[0], ft_strlen(&str[0]));
+  str[0] = '0';
+  i += 1;
+  return (i);
+}
+
 void round_float(char *str, int carry, size_t i)
 {
   if (!carry)
     return ;
     if ((str[i] == '9') && (i == 0))
-    {
-      ft_memmove(&str[1], &str[0], ft_strlen(&str[0]));
-      str[0] = '0';
-      i += 1;
-    }
+      i = round_f_helper(str, i);
   if (str[i] == '9') // i.e. carry is 1
   {
     if (str[i - 1] == '9')
@@ -18,18 +22,15 @@ void round_float(char *str, int carry, size_t i)
       str[i] = '0';
       round_float(str, 1, i - 1);
     }
+    else  if (str[i - 1] == '.')
+    {
+      str[i] = '0';
+      round_float(str, 1, i - 2);
+    }
     else
     {
-      if (str[i - 1] == '.')
-      {
-        str[i] = '0';
-        round_float(str, 1, i - 2);
-      }
-      else
-      {
-        str[i - 1]++;
-        str[i] = '0';
-      }
+      str[i - 1]++;
+      str[i] = '0';
     }
   }
   else
@@ -108,7 +109,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
       {
-        printf("YOLO\n");
         if ((blksk->modifier == L) && (blksk->precision < 4931))
         {
           while (blksk->precision--)
@@ -123,7 +123,6 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
               ft_strcat_char(str,'0');
             blksk->precision -= 4931;
             i = 0;
-            printf("precision is %d\n", blksk->precision);
             while ((fnum->big_str[i] == '0') && (fnum->big_str[i]))
               i++;
             while ((blksk->precision > 0) && (fnum->big_str[i]))
