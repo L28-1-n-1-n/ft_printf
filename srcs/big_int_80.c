@@ -66,9 +66,11 @@ void  print_bits_80(uint64_t *data, char *message, unsigned int number, unsigned
     mask = mask >> 1;
     bit_number--;
   }
-  if (strcmp(message, "(add 3)"))
-    printf("-------------------------------------------     %u    ---------------------------------\n", row_no);
-  printf("%s %s %d\n\n", str, message, number);
+  (void)message;
+  (void)number;
+//  if (strcmp(message, "(add 3)"))
+  //  printf("-------------------------------------------     %u    ---------------------------------\n", row_no);
+  //printf("%s %s %d\n\n", str, message, number);
 }
 
 void compare_blocks_80(uint64_t*raw, unsigned int row_no, uint64_t origin_mask)
@@ -157,13 +159,13 @@ void  big_int_80(t_float *fnum)
     within_row_80(raw, 8);
     man_mask >>= 8;
     z -= 8;
-    printf("mask is %llu and z is %d\n", man_mask, z);
+  //  printf("mask is %llu and z is %d\n", man_mask, z);
     raw[309] |= ((fnum->mantissa & man_mask) >> z);
   }
   //print_bits_80(raw, "(hola)", 309, 309);
   within_row_80(raw, 8);
   z = fnum->exponent - 64;
-  printf("z is %d\n", z);
+//  printf("z is %d\n", z);
   //print_bits_80(raw, "(HOLA)", 309, 309);
   while (z > 8)
   {

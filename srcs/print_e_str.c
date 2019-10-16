@@ -71,10 +71,7 @@ void pos_exp(char *str, t_block *blksk, int i)
   str[i] = '.';
   carry = (str[i + blksk->precision + 1] > '5') ? 1 : 0;
   round_e_float(str, carry, i + blksk->precision);
-  printf("str is first %s\n", str);
-  printf("i + blksk->precision is first %d\n", i + blksk->precision);
   str[i + blksk->precision + 1] = '\0';
-
   if (blksk->type == 'e')
     ft_strcat(str, "e+");
   else
@@ -88,8 +85,6 @@ void pos_exp(char *str, t_block *blksk, int i)
   }
   ft_strcat_char(digits, (tens + '0'));
   ft_strcat(str, ft_strrev(digits));
-  printf("digits is %s\n", digits);
-  printf("str after cat digits is %s\n", str);
   ft_strcat_char(str, '\0');
   tens = ft_strlen(str);
   while(tens < 20000)
@@ -97,7 +92,6 @@ void pos_exp(char *str, t_block *blksk, int i)
     str[tens] = '\0';
     tens++;
   }
-  printf("tens has been augmented to %d\n", tens);
 }
 
 void neg_exp(char *str, t_block *blksk, int i)

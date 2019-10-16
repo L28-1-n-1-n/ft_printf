@@ -51,7 +51,7 @@ void dash_and_non_neg(char *str, t_block *blksk, int width, intmax_t n)
 {
   if ((blksk->flag & 8) && (n > 0))// '-'flag and n is not negative
   {
-    if ((str[0] != '+') && (str[0] != '-'))
+    if ((str[0] != '+') && (str[0] != '-') && (str[0] != ' '))
     {
       ft_memmove(&str[1], &str[0], ft_strlen(str));
       str[0] = ' ';
@@ -61,15 +61,16 @@ void dash_and_non_neg(char *str, t_block *blksk, int width, intmax_t n)
   }
   else
   {
-    if ((!(blksk->flag & 4)) && (blksk->width == 0) && (n > 0))//just ' 'flag and no '+' flag, and n is positive, and width = 0
+    if ((!(blksk->flag & 4)) && (blksk->width == 0) && (n > 0) && (str[0] != ' '))
       {
-        ft_memmove(&str[1], &str[0], ft_strlen(str));
-        str[0] = ' ';
-        str[ft_strlen(str)] = '\0';
+          ft_memmove(&str[1], &str[0], ft_strlen(str));
+          str[0] = ' ';
+          str[ft_strlen(str)] = '\0';
       }
     else
       if (((ft_strlen(str) < (size_t)width)) || ((str[0] != ' ') && (str[0] != '+') && (str[0] != '-')))
-        ft_strpcat_char(str, ' ');
+        if (str[0] != ' ')
+          ft_strpcat_char(str, ' ');
   }
 }
 

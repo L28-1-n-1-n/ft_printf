@@ -47,7 +47,6 @@ unsigned int	increment_fmt(const char *fmt)
 
 int				return_snippet(int ret, char *final)
 {
-	printf("we got hereagain\n");
 	if (ret != -1)
 		ret = output_final(final, 0);
 	free(final);
@@ -73,16 +72,13 @@ int				coms(const char *fmt, va_list ap, t_block *blks, unsigned int m)
 		fmt += (len = small_loop(fmt, 0));
 		check_buff(final, (char *)(fmt - len), len);
 		k += check_k(k, m, blks[k].type);
-		printf("we completed this part1\n");
 
 		if ((!(*fmt)) || ((ret = treat_arg(fmt, final, ap, &blks[k])) == -1))
 			break ;
 		if (!(*fmt++))
 			break ;
-		printf("here\n");
 		fmt += increment_fmt(fmt);
 		k++;
 	}
-	printf("we completed this part\n");
 	return (return_snippet(ret, final));
 }
