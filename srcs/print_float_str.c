@@ -108,9 +108,12 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
   {
     if (*(fnum->big_str) && (fnum->exponent < 0)) // sub_array
       {
+        printf("YOLO\n");
         if ((blksk->modifier == L) && (blksk->precision < 4931))
+        {
           while (blksk->precision--)
             ft_strcat_char(str,'0');
+        }
         else // include L and precision >= 4931, or ANY precision for non-L, i.e. sub_array
         {
           if (blksk->modifier == L)
@@ -120,6 +123,7 @@ int print_float_str(char *final, t_block *blksk, t_float *fnum)
               ft_strcat_char(str,'0');
             blksk->precision -= 4931;
             i = 0;
+            printf("precision is %d\n", blksk->precision);
             while ((fnum->big_str[i] == '0') && (fnum->big_str[i]))
               i++;
             while ((blksk->precision > 0) && (fnum->big_str[i]))

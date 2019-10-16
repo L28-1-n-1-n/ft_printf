@@ -134,6 +134,11 @@ int help_six(char *str, t_block *blksk, int j);
 int help_seven(char *str, t_block *blksk, int i, int j);
 int help_eight(char *str, t_block *blksk, uintmax_t n, int j);
 void nest_one(char *str, t_block *blksk, int i, int j);
+void print_result_helper(char *str, t_float *fnum, unsigned int bit);
+unsigned int uf_subnormal(t_float *fnum);
+void uf_not_subnormal(t_float *fnum, long double *fraction, unsigned int bit_value);
+void   compose_float_64(t_float *fnum, long double *fraction);
+void   compose_float_80(t_float *fnum, long double *fraction);
 #endif
 
 
