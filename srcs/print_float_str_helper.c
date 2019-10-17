@@ -40,17 +40,20 @@ void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry)
             ft_strcat_char(str, ' ');
         fnum->eflag |= 2; // this one particular case we need to deal with trailing zeros followed by space in g flag
       }
-      if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4))) // zero flag without '-'
+      if ((blksk->type == 'f') || (blksk->type == 'F'))
       {
-        carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
-        while (carry--)
-          ft_strpcat_char(str, '0');
-      }
-      if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
-      {
-        carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
-        while (carry--)
-          ft_strpcat_char(str, ' ');
+        if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4))) // zero flag without '-'
+        {
+          carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
+          while (carry--)
+            ft_strpcat_char(str, '0');
+          }
+        if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
+        {
+          carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
+          while (carry--)
+            ft_strpcat_char(str, ' ');
+        }
       }
   }
 }
@@ -60,8 +63,12 @@ void mod_final(char *final, t_block *blksk, t_float *fnum)
   if (((blksk->flag & 32) && (!(blksk->flag & 4))) && (!(blksk->flag & 8)) &&
       (!((fnum->sign == '-') && (blksk->flag & 2)))) // 32 is space flag
     ft_strcat_char(final, ' ');
-  if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
-    ft_strcat_char(final, ' ');
+  if ((blksk->type == 'f') || (blksk->type == 'F'))
+    if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8) && (!(blksk->flag & 4))) // space flag
+      ft_strcat_char(final, ' ');
+  if ((blksk->type == 'e') || (blksk->type == 'E'))
+    if (((blksk->flag & 32) && (fnum->sign == '+')) && (blksk->flag & 8)) // space flag
+      ft_strcat_char(final, ' ');
   if ((fnum->sign == '-') && (blksk->flag & 2)) // '0' flag and negative digit
     ft_strcat_char(final, '-');
   if (((fnum->sign == '+') && (blksk->flag & 4)) && (blksk->flag & 2)) // '+' flag, positive number and '0' flag present

@@ -35,6 +35,7 @@ t_float   *init_float(t_float *fnum)
   fnum->remain = 0;
   fnum->decimal = 0;
   fnum->eflag = 0;
+  fnum->final_len = 0;
   ft_strcpy(fnum->big_str, "\0");
   return (fnum);
 }

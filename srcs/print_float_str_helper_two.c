@@ -59,7 +59,7 @@ void treat_eflag(char *str, t_float *fnum, t_block *blksk)
   if (fnum->eflag & 4) // only here we add nan or inf
   {
     if (blksk->type == 'e')
-      ft_strcat(str, fnum->big_str);
+        ft_strcat(str, fnum->big_str);
     else
     {
       if ((ft_strcmp(fnum->big_str, "nan")) && (ft_strcmp(fnum->big_str, "NAN")))

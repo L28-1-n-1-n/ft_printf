@@ -72,7 +72,7 @@ typedef struct s_float
   uint64_t remain;
   long double decimal;
   unsigned int eflag; // 1 for e flag, 2 for g flag, 4 for nan,inf,snan,qnan
-
+  int final_len;
   char big_str[20000];
 }              t_float;
 
@@ -157,6 +157,9 @@ void pos_exp(char *str, t_block *blksk, int i);
 void neg_exp(char *str, t_block *blksk, int i);
 void non_big_str(char *str, t_block *blksk, t_float *fnum);
 void mod_final(char *final, t_block *blksk, t_float *fnum);
+void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry);
+int pestr_helper(char *final, char *str, t_block *blksk, t_float *fnum);
+int pf_subarray(char *str, t_block *blksk, t_float *fnum);
 void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry);
 
 
