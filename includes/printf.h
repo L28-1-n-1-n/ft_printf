@@ -156,6 +156,8 @@ void round_float(char *str, int carry, size_t i);
 void pos_exp(char *str, t_block *blksk, int i);
 void neg_exp(char *str, t_block *blksk, int i);
 void non_big_str(char *str, t_block *blksk, t_float *fnum);
+void mod_final(char *final, t_block *blksk, t_float *fnum);
+void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry);
 
 
 

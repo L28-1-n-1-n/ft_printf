@@ -78,6 +78,89 @@ int adjust_e_pres(char *final, char *str, t_block *blksk, t_float *fnum)
     fnum->integer = ((int)(fnum->decimal * 10) >= 5) ? fnum->integer + 1 : fnum->integer;
   return (final_len);
 }
+/*
+int print_e_str(char *final, t_block *blksk, t_float *fnum)
+{
+  char *str;
+  int carry;
+  int i;
+  int final_len;
+
+  if (blksk->precision == -2)
+    blksk->precision = 6;
+  if (blksk->precision + blksk->width > FLEN)
+  {
+    if (!(str = ft_memalloc(blksk->precision + blksk->width )))
+      return(ft_free(str, -1));
+    ft_bzero(str, blksk->precision + blksk->width);
+  }
+  else
+  {
+    if (!(str = ft_memalloc(FLEN)))
+      return(ft_free(str, -1));
+    ft_bzero(str, FLEN);
+  }
+  final_len = adjust_e_pres(final, str, blksk, fnum);
+  i = 0;
+  carry = 0;
+  non_big_str(str, blksk, fnum);
+  if (((blksk->flag & 16) || (blksk->precision)) && (!(fnum->eflag & 4)))// '#' is on or precision is non-zero
+    ft_strcat_char(group_digit(str, blksk), '.');
+  carry = modify_carry(str, blksk, fnum);
+  carry = blksk->width - ft_strlen(str);
+  mod_final(final, blksk, fnum);
+
+  if ((size_t)blksk->width > ft_strlen(str))
+  {
+      if (blksk->flag & 8)// '-' flag , 0 ignored
+      {
+      carry = ((blksk->flag & 32) && (fnum->sign == '+')) ? carry - 1 : carry;
+        while (carry--)
+          ft_strcat_char(str, ' ');
+      fnum->eflag |= 2;
+      }
+      if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4))) // zero flag without '-'
+      {
+        carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32))  ? carry - 1 : carry; // presence of sign reduce 1 zero
+        if (fnum->eflag == 1)
+              carry -= 3;
+        while (carry--)
+          ft_strcat_char(final, '0');
+      }
+      if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
+      {
+        carry = (blksk->flag & 32) ? carry - 1 : carry; // space flag is absorbed in width
+        if (fnum->eflag == 1)
+              carry -= 3;
+        while (carry--)
+          ft_strcat_char(final, ' ');
+      }
+  }
+  blksk->precision = blksk->orig;
+  if (!(fnum->eflag & 4))
+  {
+    move_dot(str, blksk);
+    carry = blksk->width - (ft_strlen(final) - final_len + ft_strlen(str));
+    if (carry > 0)
+      adjust_str(str, blksk, carry);
+  }
+
+if (ft_strlen(final) + ft_strlen(str) > FLEN)
+{
+  output_final(final, 0);
+  if (ft_strlen(str) > FLEN)
+    output_final(str, 0);
+  else
+    ft_strcat(final, str);
+}
+else
+  ft_strcat(final, str);
+  free (str);
+  return (0);
+}
+*/
+
+// OLD VERSION BELOW
 
 int print_e_str(char *final, t_block *blksk, t_float *fnum)
 {

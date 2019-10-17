@@ -54,17 +54,22 @@ int pf_subarray(char *str, t_block *blksk, t_float *fnum)
     return (i);
 }
 
-void treat_eflag(char *str, t_float *fnum)
+void treat_eflag(char *str, t_float *fnum, t_block *blksk)
 {
   if (fnum->eflag & 4) // only here we add nan or inf
   {
-    if ((ft_strcmp(fnum->big_str, "nan")) && (ft_strcmp(fnum->big_str, "NAN")))
+    if (blksk->type == 'e')
       ft_strcat(str, fnum->big_str);
     else
     {
-      if (str[0] == '+')
-        str[0] = '\0';
-      ft_strcat(str, fnum->big_str);
+      if ((ft_strcmp(fnum->big_str, "nan")) && (ft_strcmp(fnum->big_str, "NAN")))
+        ft_strcat(str, fnum->big_str);
+        else
+        {
+          if (str[0] == '+')
+          str[0] = '\0';
+          ft_strcat(str, fnum->big_str);
+        }
     }
   }
 }
@@ -93,6 +98,6 @@ int modify_carry(char *str, t_block *blksk, t_float *fnum)
       carry = ((int)(fnum->decimal * 10) >= 5) ? 1 : 0;
     round_float(str, carry, ft_strlen(str) - 1);
   }
-  treat_eflag(str, fnum);
+  treat_eflag(str, fnum, blksk);
   return (carry);
 }
