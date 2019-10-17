@@ -140,6 +140,27 @@ void uf_not_subnormal(t_float *fnum, long double *fraction, unsigned int bit_val
 void   compose_float_64(t_float *fnum, long double *fraction);
 void   compose_float_80(t_float *fnum, long double *fraction);
 void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power);
+void			sum_power(char product[1080][1000], t_float *fnum);
+int pfstr_helper(char *final, char *str, t_block *blksk, t_float *fnum);
+void round_float(char *str, int carry, size_t i);
+int modify_carry(char *str, t_block *blksk, t_float *fnum);
+unsigned int    aggre_help_80(char **product, unsigned int i, unsigned int j, unsigned int carry);
+int case_n_zero(char *str, int j, intmax_t n, t_block *blksk);
+void    aggregate_80(char **product);
+int di_nosign(char *str, int j, t_block *blksk, int i);
+int no_zero_nor_space(char *str, int j);
+char *digit_space(char *str,int width, t_block *blksk, intmax_t n);
+int valueofi(char *str, intmax_t n, t_block *blksk);
+int nest(char *str, intmax_t n, t_block *blksk);
+void round_float(char *str, int carry, size_t i);
+void pos_exp(char *str, t_block *blksk, int i);
+void neg_exp(char *str, t_block *blksk, int i);
+void non_big_str(char *str, t_block *blksk, t_float *fnum);
+
+
+
+
+
 #endif
 
 

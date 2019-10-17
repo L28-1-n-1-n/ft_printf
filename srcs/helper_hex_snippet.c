@@ -1,7 +1,6 @@
 #include "printf.h"
 #include <stdio.h>
 
-
 unsigned int snippet_one(const char *fmt, char *str, t_block *blksk)
 {
   unsigned int count;

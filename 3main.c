@@ -59,7 +59,7 @@ printf("%*c\n",  42, 'a');*/
 	printf("@moulitest: %.5u", 42);*/
 //	ft_printf("%5%");
 //	printf("%5%");
-	/*char s[400];
+	char s[400];
 
 	ft_strcpy(s, "hello");
 	ft_printf("=%+40f\n", 0.00123);
@@ -73,7 +73,7 @@ printf("%*c\n",  42, 'a');*/
 	ft_printf("=%+40g\n", 0.00123);
 	printf("=%+40g\n", 0.00123);
 	ft_printf("=%-40G\n", 0.00123);
-	printf("=%-40G\n", 0.00123);*/
+	printf("=%-40G\n", 0.00123);
 
 //	ft_printf("bin=%-Lb\n", -9223372036854775808);
 //	ft_printf("zero=%+ 30.788f\n", -0);
