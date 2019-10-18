@@ -1,15 +1,10 @@
 #include "printf.h"
 #include <stdlib.h>
-void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
-{
-  //exp is the i pos of '.'
-  /* This is final check to remove all trailing zeroes*/
-  int tmp;
-  int count_del;
-  int dot_pos;
 
-  dot_pos = exp;
-  count_del = 0;
+void remove_finalz_helper(char *final, int exp, t_float *fnum, t_block *blksk)
+{
+  int tmp;
+
   tmp = 0;
   if ((blksk->type == 'f') || (blksk->type == 'F'))
   {
@@ -19,7 +14,6 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
     exp = tmp;
     while(final[tmp] == '0')
       tmp--;
-    printf("first digit is %c\n", final[tmp]);
     while (++tmp <= exp)
     {
       if (fnum->eflag & 2)
@@ -29,7 +23,19 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
     }
     final[tmp] = '\0';
   }
-  else
+}
+
+void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
+{
+  int tmp;
+  int count_del;
+  int dot_pos;
+
+  dot_pos = exp;
+  count_del = 0;
+  tmp = 0;
+  remove_finalz_helper(final, exp, fnum, blksk);
+  if (!((blksk->type == 'f') || (blksk->type == 'F')))
   {
     if (blksk->type == 'e')
       while (final[exp] != 'e')
@@ -42,21 +48,13 @@ void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
     while(final[tmp] == '0')
       tmp--;
     count_del = exp - tmp;
-
    if (count_del != 0) // so trailing zeroes present
       ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp + 1]));
   }
 }
 
-
-void      adjust_trail(char *final, t_block *blksk, int exp)
+int adjust_trail_helper(char *final, t_block *blksk, int end, int exp)
 {
-  //exp is the i pos of '.'
-    printf("WE GOT TO ADJUST TRAIL\n");
-  int end;
-  int tmp;
-  tmp = 0;
-  end = ft_strlen(final) - 1;
   if (blksk->flag & 8)// '-' flag , 0 ignored
     while (exp < end)
       final[exp++] = ' ';
@@ -67,6 +65,17 @@ void      adjust_trail(char *final, t_block *blksk, int exp)
     while (exp < end)
       final[exp++] = '0';
   }
+  return (exp);
+}
+
+void      adjust_trail(char *final, t_block *blksk, int exp)
+{
+  int end;
+  int tmp;
+
+  tmp = 0;
+  end = ft_strlen(final) - 1;
+  exp = adjust_trail_helper(final, blksk, end, exp);
   if ((!(blksk->flag & 2)) &&  (!(blksk->flag & 8))) // no '-' or zero flag
   {
     final[end] = final[exp - 1];
@@ -84,6 +93,7 @@ void      adjust_trail(char *final, t_block *blksk, int exp)
       final[exp++] = ' ';
   }
 }
+
 t_float   *copy_float(t_float *fnum, t_float *fnum_copy)
 {
   fnum_copy->sign = fnum->sign;
@@ -93,6 +103,7 @@ t_float   *copy_float(t_float *fnum, t_float *fnum_copy)
   fnum_copy->remain = fnum->remain;
   fnum_copy->decimal = fnum->decimal;
   fnum_copy->eflag = fnum->eflag;
+  fnum_copy->final_len = fnum->final_len;
   ft_strcpy(fnum_copy->big_str, "\0");
   return (fnum_copy);
 }
@@ -103,6 +114,7 @@ void copy_blocks(t_block *blksk, t_block *blks_cpy)
     blks_cpy[0].flag = blksk->flag;
     blks_cpy[0].width = blksk->width;
     blks_cpy[0].modifier = blksk->modifier;
+    blks_cpy[0].orig = blksk->orig;
     blks_cpy[0].precision = blksk->precision;
     blks_cpy[0].type = blksk->type;
     blks_cpy[0].str = blksk->str;
@@ -130,22 +142,9 @@ int find_exponent(t_block *blkse, t_float *fnume)
   free(finalc);
   return (k);
 }
-int print_g_str(char *final, t_block *blksk, t_float *fnum)
+
+void duplicate_g(t_float *fnum, t_float *fnume, t_block *blksk, t_block *blkse)
 {
-  t_float *fnume;
-  t_block *blkse;
-  int     exp;
-  int return_value;
-
-  return_value = 0;
-
-  if (!(fnume = (t_float *)malloc(sizeof(t_float))))
-    return (ft_free(fnume, -1));
-  if(!(blkse = (t_block *)malloc(sizeof(t_block))))
-  {
-    free(fnume);
-    return (ft_free(blkse, -1));
-  }
   if (blksk->precision == -2)
     blksk->precision = 6;
   init_float(fnume);
@@ -156,7 +155,28 @@ int print_g_str(char *final, t_block *blksk, t_float *fnum)
     blkse->type = 'e';
   else
     blkse->type = 'E';
-  exp = find_exponent(blkse, fnume);
+}
+
+void print_g_str_helper_two(char *final, t_block *blksk, int exp, t_float *fnum)
+{
+  if (!(blksk->flag & 16)) // if '#' flag is present, nothing changes. Only in its absence trailing zeroes are removed
+  {
+    exp = ft_strlen(final) - 1;
+    while ((final[exp] != '0') && (final[exp] != '.'))
+      exp--;
+    while (final[exp] == '0')
+      exp--;
+    if (final[exp] == '.')
+      adjust_trail(final, blksk, exp);
+    remove_finalz(final, blksk, exp, fnum);
+  }
+}
+
+int print_g_str_helper(t_block *blksk, int exp, char *final, t_float *fnum)
+{
+  int return_value;
+
+  return_value = 0;
   if (blksk->precision == 0)
     blksk->precision = 1;
   if ((exp < -4) || (blksk->precision <= exp))
@@ -174,26 +194,34 @@ int print_g_str(char *final, t_block *blksk, t_float *fnum)
     blksk->precision = blksk->precision - (exp + 1);
     return_value = print_float_str(final, blksk, fnum);
   }
+  return (return_value);
+}
+
+int print_g_str(char *final, t_block *blksk, t_float *fnum)
+{
+  t_float *fnume;
+  t_block *blkse;
+  int     exp;
+  int return_value;
+
+  return_value = 0;
+  if (!(fnume = (t_float *)malloc(sizeof(t_float))))
+    return (ft_free(fnume, -1));
+  if(!(blkse = (t_block *)malloc(sizeof(t_block))))
+  {
+    free(fnume);
+    return (ft_free(blkse, -1));
+  }
+  duplicate_g(fnum, fnume, blksk, blkse);
+  exp = find_exponent(blkse, fnume);
+  return_value = print_g_str_helper(blksk, exp, final, fnum);
   if (return_value == -1)
     {
       free(fnume);
       return (ft_free(blkse, -1));
     }
-  if (!(blksk->flag & 16)) // if '#' flag is present, nothing changes. Only in its absence trailing zeroes are removed
-  {
-    exp = ft_strlen(final) - 1;
-    while ((final[exp] != '0') && (final[exp] != '.'))
-      exp--;
-    printf("first exp %c\n", final[exp]);
-    while (final[exp] == '0')
-      exp--;
-    printf("second exp %c\n", final[exp]);
-    if (final[exp] == '.')
-      adjust_trail(final, blksk, exp);
-    remove_finalz(final, blksk, exp, fnum);
-  }
+  print_g_str_helper_two(final, blksk, exp, fnum);
   free(fnume);
   free(blkse);
-  printf("finallll is %s\n", final);
   return (0);
 }
