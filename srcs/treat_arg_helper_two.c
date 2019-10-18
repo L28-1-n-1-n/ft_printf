@@ -29,6 +29,8 @@ int		treat_nonpri(char *final, va_list ap, t_block *blksk, const char *fmt)
 	uintmax_t n;
 
 	n = va_arg(ap, unsigned int);
+	if (blksk->type == 'R')
+		treat_random(final, n);
 	blksk->flag |= 2;
 	blksk->width = 2;
 	blksk->precision = 0;

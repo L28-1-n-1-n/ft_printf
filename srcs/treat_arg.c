@@ -96,7 +96,7 @@ int		treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
 		return (treat_float(final, ap, blksk));
 	if (blksk->type == 'b')
 		return (treat_bin(final, ap, blksk));
-	if (blksk->type == 'r')
+	if ((blksk->type == 'r') || (blksk->type == 'R'))
 		return (treat_nonpri(final, ap, blksk, fmt));
 	if (blksk->type == 'k')
 		return (treat_time(final));

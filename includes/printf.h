@@ -77,7 +77,7 @@ typedef struct s_float
 }              t_float;
 
 extern const char g_test[160][72];
-
+extern const char g_pi[139][72];
 
 
 int		ft_printf(const char *fmt, ...);
@@ -161,6 +161,10 @@ void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry);
 int pestr_helper(char *final, char *str, t_block *blksk, t_float *fnum);
 int pf_subarray(char *str, t_block *blksk, t_float *fnum);
 void treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry);
+void duplicate_g(t_float *fnum, t_float *fnume, t_block *blksk, t_block *blkse);
+void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum);
+int find_exponent(t_block *blkse, t_float *fnume);
+int treat_random(char *final, uintmax_t n);
 
 
 

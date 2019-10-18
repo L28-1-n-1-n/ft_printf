@@ -1,58 +1,6 @@
 #include "printf.h"
 #include <stdlib.h>
 
-void remove_finalz_helper(char *final, int exp, t_float *fnum, t_block *blksk)
-{
-  int tmp;
-
-  tmp = 0;
-  if ((blksk->type == 'f') || (blksk->type == 'F'))
-  {
-    tmp = ft_strlen(final) - 1;
-    while (!((final[tmp] >= '0') && (final[tmp] <= '9')))
-      tmp--;
-    exp = tmp;
-    while(final[tmp] == '0')
-      tmp--;
-    while (++tmp <= exp)
-    {
-      if (fnum->eflag & 2)
-        final[tmp] = ' ';
-      else
-        final[tmp] = '\0';
-    }
-    final[tmp] = '\0';
-  }
-}
-
-void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum)
-{
-  int tmp;
-  int count_del;
-  int dot_pos;
-
-  dot_pos = exp;
-  count_del = 0;
-  tmp = 0;
-  remove_finalz_helper(final, exp, fnum, blksk);
-  if (!((blksk->type == 'f') || (blksk->type == 'F')))
-  {
-    if (blksk->type == 'e')
-      while (final[exp] != 'e')
-        exp++;
-    else // case 'E'
-      while (final[exp] != 'E')
-        exp++;
-    exp -= 1;
-    tmp = exp;
-    while(final[tmp] == '0')
-      tmp--;
-    count_del = exp - tmp;
-   if (count_del != 0) // so trailing zeroes present
-      ft_memmove(&final[tmp + 1], &final[exp + 1], ft_strlen(&final[exp + 1]));
-  }
-}
-
 int adjust_trail_helper(char *final, t_block *blksk, int end, int exp)
 {
   if (blksk->flag & 8)// '-' flag , 0 ignored
@@ -92,69 +40,6 @@ void      adjust_trail(char *final, t_block *blksk, int exp)
     while (exp < end)
       final[exp++] = ' ';
   }
-}
-
-t_float   *copy_float(t_float *fnum, t_float *fnum_copy)
-{
-  fnum_copy->sign = fnum->sign;
-  fnum_copy->exponent = fnum->exponent;
-  fnum_copy->mantissa = fnum->mantissa;
-  fnum_copy->integer = fnum->integer;
-  fnum_copy->remain = fnum->remain;
-  fnum_copy->decimal = fnum->decimal;
-  fnum_copy->eflag = fnum->eflag;
-  fnum_copy->final_len = fnum->final_len;
-  ft_strcpy(fnum_copy->big_str, "\0");
-  return (fnum_copy);
-}
-
-void copy_blocks(t_block *blksk, t_block *blks_cpy)
-{
-    blks_cpy[0].order = blksk->order;
-    blks_cpy[0].flag = blksk->flag;
-    blks_cpy[0].width = blksk->width;
-    blks_cpy[0].modifier = blksk->modifier;
-    blks_cpy[0].orig = blksk->orig;
-    blks_cpy[0].precision = blksk->precision;
-    blks_cpy[0].type = blksk->type;
-    blks_cpy[0].str = blksk->str;
-    blks_cpy[0].pos = blksk->pos;
-}
-
-int find_exponent(t_block *blkse, t_float *fnume)
-{
-  char *finalc;
-  int i;
-  int k;
-
-  k = 0;
-  finalc = ft_strnew(50000);
-  ft_bzero(finalc, 50000);
-  print_e_str(finalc, blkse, fnume);
-  if (blkse->type == 'e')
-    i = ft_strchr_arg(finalc, 'e') + 2;
-  else
-    i = ft_strchr_arg(finalc, 'E') + 2;
-  if (finalc[i - 1] == '-')
-    k = -1 * ft_atoi(&finalc[i]);
-  else
-    k = ft_atoi(&finalc[i]);
-  free(finalc);
-  return (k);
-}
-
-void duplicate_g(t_float *fnum, t_float *fnume, t_block *blksk, t_block *blkse)
-{
-  if (blksk->precision == -2)
-    blksk->precision = 6;
-  init_float(fnume);
-  copy_float(fnum, fnume);
-  init_blocks(blkse, 1);
-  copy_blocks(blksk, blkse);
-  if (blksk->type == 'g')
-    blkse->type = 'e';
-  else
-    blkse->type = 'E';
 }
 
 void print_g_str_helper_two(char *final, t_block *blksk, int exp, t_float *fnum)
@@ -216,10 +101,10 @@ int print_g_str(char *final, t_block *blksk, t_float *fnum)
   exp = find_exponent(blkse, fnume);
   return_value = print_g_str_helper(blksk, exp, final, fnum);
   if (return_value == -1)
-    {
+  {
       free(fnume);
       return (ft_free(blkse, -1));
-    }
+  }
   print_g_str_helper_two(final, blksk, exp, fnum);
   free(fnume);
   free(blkse);

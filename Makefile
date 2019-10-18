@@ -30,7 +30,8 @@ SRCS = ft_printf.c count_arg.c parse.c parse_arg.c big_int.c \
 			decode_float_helper.c decode_float_helper_two.c sub_array_80.c sub_array_80_helper.c \
 			print_float_str_helper.c print_float_str_helper_two.c \
 			string_digit.c string_digit_helper.c string_digit_helper_two.c string_digit_helper_three.c \
-			print_e_str.c print_e_str_helper.c print_e_str_helper_two.c
+			print_e_str.c print_e_str_helper.c print_e_str_helper_two.c \
+			print_g_str_helper.c print_g_str_helper_two.c treat_random.c pi.c \
 
 
 HEAD = printf.h

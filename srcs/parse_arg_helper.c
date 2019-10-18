@@ -30,6 +30,8 @@ void	check_type_helper(char *str, unsigned int k, t_block *blks)
 		blks[k].type = 'b';
 	else if (*str == 'r')
 		blks[k].type = 'r';
+	else if (*str == 'R')
+		blks[k].type = 'R';
 	else if (*str == 'k')
 		blks[k].type = 'k';
 	if (*str == '%')
@@ -41,7 +43,7 @@ void	check_type_helper(char *str, unsigned int k, t_block *blks)
 
 int		check_type(char *str, unsigned int k, t_block *blks)
 {
-	while (*str && !(ft_strchr("cdixXpeEfFgGousbrk%", *str)))
+	while (*str && !(ft_strchr("cdixXpeEfFgGousbrRk%", *str)))
 		str++;
 	if (*str)
 	{
@@ -70,7 +72,7 @@ int		check_type(char *str, unsigned int k, t_block *blks)
 
 char	*check_len(char *str, unsigned int k, t_block *blks)
 {
-	while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousbrk%", *str)))
+	while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousbrRk%", *str)))
 		str++;
 	if (*str == 'L')
 		blks[k].modifier = L;

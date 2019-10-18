@@ -20,9 +20,12 @@ void	check_buff(char *final, char *str, size_t len)
 
 	limit = (unsigned int)(FLEN / (unsigned int)5 * (unsigned int)4);
 	final_len = ft_strlen(final);
+	printf("we got to check\n");
+	printf("final is %s\n", final);
 	loop = 0;
 	if (len + final_len >= limit)
 	{
+		printf("we are here\n");
 		while ((loop < len) && (len + final_len >= limit))
 		{
 			ft_strncat(final, &str[loop], limit - final_len);
@@ -34,5 +37,9 @@ void	check_buff(char *final, char *str, size_t len)
 			ft_strncat(final, &str[loop], len);
 	}
 	else
+	{
+		printf("we are here2\n");
 		ft_strncat(final, str, len);
+	}
+	printf("we exit check\n");
 }
