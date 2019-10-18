@@ -16,7 +16,6 @@ void generate_random(char *str, uintmax_t n)
   seed = seconds % 10;
   str[0] = g_pi[0][seed];
   tmp = (unsigned int)(g_pi[0][seed] - '0');
-  printf("tmp is %u\n", tmp);
   (void)n;
   while (i < n)
   {
@@ -39,10 +38,15 @@ int treat_random(char *final, uintmax_t n)
   char *str;
 
   str = (n < 2048) ? ft_strnew(2048) : ft_strnew(n);
-  generate_random(final, n);
+  if (str == NULL)
+    {
+      free(str);
+      return (-1);
+    }
+  generate_random(str, n);
   if (ft_strlen(final) + ft_strlen(str) > FLEN)
   {
-    output_final(str, 0);
+    output_final(final, 0);
     if (ft_strlen(str) > FLEN)
       output_final(str, 0);
     else

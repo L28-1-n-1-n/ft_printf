@@ -30,7 +30,7 @@ int		treat_nonpri(char *final, va_list ap, t_block *blksk, const char *fmt)
 
 	n = va_arg(ap, unsigned int);
 	if (blksk->type == 'R')
-		treat_random(final, n);
+		return (treat_random(final, n));
 	blksk->flag |= 2;
 	blksk->width = 2;
 	blksk->precision = 0;
@@ -90,7 +90,10 @@ int		treat_char(char *final, va_list ap, t_block *blksk)
 	else
 		str = ft_strnew(2048);
 	if (str == NULL)
+	{
+		free (str);
 		return (-1);
+	}
 	if (blksk->str)
 		str[0] = '%';
 	else

@@ -48,8 +48,9 @@ printf("%*c\n",  42, 'a');*/
 
 	//printf("%.17s\n", "hello");
 	//printf("%.s\n", "hello");
+	ft_printf("non-printable character=%r%%%r%r{CYAN}%s{RESETTEXT}\n", '\t', '\n', '\b', "YAAAYYY!!!");
 
-	ft_printf("Rand=%R\n", 40000);
+	ft_printf("Randaewfraefowjefpoaijwepfoaiwjefpoiwjecnkasdlnvklanewo=%R\n", 60000);
 
 /*	ft_printf("%llu\n", 4999999999);
 	printf("%llu\n", 4999999999);

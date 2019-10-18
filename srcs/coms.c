@@ -72,7 +72,6 @@ int				coms(const char *fmt, va_list ap, t_block *blks, unsigned int m)
 		fmt += (len = small_loop(fmt, 0));
 		check_buff(final, (char *)(fmt - len), len);
 		k += check_k(k, m, blks[k].type);
-
 		if ((!(*fmt)) || ((ret = treat_arg(fmt, final, ap, &blks[k])) == -1))
 			break ;
 		if (!(*fmt++))
