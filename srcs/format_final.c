@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
+
 int		output_final(char *final, int add)
 {
 	static int print_count = 0;

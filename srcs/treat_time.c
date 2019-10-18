@@ -13,7 +13,7 @@
 #include "printf.h"
 #include <time.h>
 #include <string.h>
-
+#include <stdlib.h>
 char	*find_month(char *month)
 {
 	if (!(ft_strcmp(month, "Jan")))
@@ -76,6 +76,7 @@ int		treat_time(char *final)
 	ft_strcat(iso, result[2]);
 	ft_strcat_char(iso, 'T');
 	ft_strcat(iso, result[3]);
+	free(result);
 	find_timezone(iso, seconds);
 	ft_strcat(final, iso);
 	return (0);

@@ -67,7 +67,7 @@ int				coms(const char *fmt, va_list ap, t_block *blks, unsigned int m)
 		return (ft_free(final, -1));
 	fmt += (len = small_loop(fmt, len));
 	check_buff(final, (char *)(fmt - len), len);
-	while (*fmt)
+	while (*fmt && (k <= m))
 	{
 		fmt += (len = small_loop(fmt, 0));
 		check_buff(final, (char *)(fmt - len), len);
