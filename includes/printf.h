@@ -165,6 +165,10 @@ void duplicate_g(t_float *fnum, t_float *fnume, t_block *blksk, t_block *blkse);
 void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum);
 int find_exponent(t_block *blkse, t_float *fnume);
 int treat_random(char *final, uintmax_t n);
+void end_big_int(uint64_t raw[31], t_float *fnum);
+void	within_row(uint64_t *raw, unsigned int shift);
+void	carry_bit(uint64_t *raw, unsigned int row_no, unsigned int carry);
+void	print_result(uint64_t *raw, t_float *fnum);
 
 
 

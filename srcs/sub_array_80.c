@@ -98,5 +98,5 @@ void    sub_array_80(t_float *fnum)
     i++;
   }
   free(product);*/
-  ft_free_dblptr((void **)product, 0);
+  ft_free_dblptr(product, 0);
 }

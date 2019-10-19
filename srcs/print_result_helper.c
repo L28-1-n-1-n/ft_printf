@@ -1,5 +1,12 @@
 #include "printf.h"
 
+void end_big_int(uint64_t raw[31], t_float *fnum)
+{
+  within_row(raw, z - 1);
+	carry_bit(raw, 30, 0);
+	print_result(raw, fnum);
+}
+
 void print_result_helper(char *str, t_float *fnum, unsigned int bit)
 {
   unsigned int i;
