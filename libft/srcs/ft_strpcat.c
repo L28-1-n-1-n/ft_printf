@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 16:03:56 by hlo               #+#    #+#             */
-/*   Updated: 2019/01/19 17:34:43 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 16:12:18 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*ft_strpcat(char *dest, const char *src)
 
 	i = 0;
 	j = 0;
-	
 	ft_memmove(&dest[ft_strlen(src)], &dest[0], ft_strlen(dest));
 	while (src[j] != '\0')
 	{

@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 13:23:29 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/19 13:27:27 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 14:22:34 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,23 @@ void	treat_final_space(char *str, t_block *blksk, t_float *fnum, char *final)
 void	treat_extra_space_f(char *str, t_block *blksk, t_float *fnum, int carry)
 {
 	if ((blksk->type == 'f') || (blksk->type == 'F'))
+	{
+		if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4)))
 		{
-			if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4)))
-			{
-				carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32)) ? carry - 1 : carry;
-				while (carry--)
-					ft_strpcat_char(str, '0');
-			}
-			if ((!(blksk->flag & 2)) && (!(blksk->flag & 8)))
-			{
-				carry = (blksk->flag & 32) ? carry - 1 : carry;
-				while (carry--)
-					ft_strpcat_char(str, ' ');
-			}
+			carry = ((fnum->sign == '-') || (blksk->flag & 4)
+					|| (blksk->flag & 32)) ? carry - 1 : carry;
+			while (carry--)
+				ft_strpcat_char(str, '0');
 		}
+		if ((!(blksk->flag & 2)) && (!(blksk->flag & 8)))
+		{
+			carry = (blksk->flag & 32) ? carry - 1 : carry;
+			while (carry--)
+				ft_strpcat_char(str, ' ');
+		}
+	}
 }
+
 void	treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry)
 {
 	if ((size_t)blksk->width > ft_strlen(str))
@@ -72,21 +74,6 @@ void	treat_extra_space(char *str, t_block *blksk, t_float *fnum, int carry)
 			fnum->eflag |= 2;
 		}
 		treat_extra_space_f(str, blksk, fnum, carry);
-		/*if ((blksk->type == 'f') || (blksk->type == 'F'))
-		{
-			if ((blksk->flag & 2) && (!(blksk->flag & 8)) && (!(fnum->eflag & 4)))
-			{
-				carry = ((fnum->sign == '-') || (blksk->flag & 4) || (blksk->flag & 32)) ? carry - 1 : carry;
-				while (carry--)
-					ft_strpcat_char(str, '0');
-			}
-			if ((!(blksk->flag & 2)) && (!(blksk->flag & 8)))
-			{
-				carry = (blksk->flag & 32) ? carry - 1 : carry;
-				while (carry--)
-					ft_strpcat_char(str, ' ');
-			}
-		}*/
 	}
 }
 
@@ -96,7 +83,7 @@ void	mod_final(char *final, t_block *blksk, t_float *fnum)
 			(!((fnum->sign == '-') && (blksk->flag & 2))))
 		ft_strcat_char(final, ' ');
 	if ((blksk->type == 'f') || (blksk->type == 'F'))
-		if (((blksk->flag & 32) && (fnum->sign == '+')) 
+		if (((blksk->flag & 32) && (fnum->sign == '+'))
 				&& (blksk->flag & 8) && (!(blksk->flag & 4)))
 			ft_strcat_char(final, ' ');
 	if ((blksk->type == 'e') || (blksk->type == 'E'))

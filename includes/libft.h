@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 15:49:11 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/19 05:25:44 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 16:13:46 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void				ft_lstelemprint(t_list *elem);
 t_list				*ft_elem_upper(t_list *elem);
 int					ft_lstlength(t_list *lst);
 int					ft_lsqrt(int nb);
-char	 			*ft_strrev(char *str);
-int 				ft_free(void *var, int return_value);
+char				*ft_strrev(char *str);
+int					ft_free(void *var, int return_value);
 int					ft_free_dblptr(char **var, int return_value);
 #endif

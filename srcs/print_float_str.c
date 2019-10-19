@@ -73,7 +73,7 @@ void	non_big_str(char *str, t_block *blksk, t_float *fnum)
 			ft_strcat_char(str, fnum->integer + '0');
 	}
 	if (((blksk->flag & 16) || (blksk->precision)) && (!(fnum->eflag & 4)))
-		ft_strcat_char(group_digit(str, blksk), '.');
+		ft_strcat_char(group_d(str, blksk), '.');
 }
 
 void	adjust_f_pres(char *str, t_block *blksk, t_float *fnum)

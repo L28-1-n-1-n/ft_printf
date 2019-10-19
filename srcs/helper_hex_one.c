@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 12:53:11 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/19 13:02:12 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 15:42:47 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,13 @@ int		help_eight(char *str, t_block *blksk, uintmax_t n, int j)
 			str[j--] = ' ';
 	}
 	return (j);
+}
+
+char	*nest_hex(char *str, t_block *blksk)
+{
+	if (!(blksk->flag & 2))
+		snippet_two(str, blksk);
+	else
+		snippet_three(str, blksk);
+	return (str);
 }

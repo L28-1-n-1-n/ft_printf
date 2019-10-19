@@ -6,14 +6,14 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 13:00:33 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 13:03:16 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 16:07:19 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 #include <time.h>
-#include <string.h>
 #include <stdlib.h>
+
 char	*find_month(char *month)
 {
 	if (!(ft_strcmp(month, "Jan")))
@@ -76,15 +76,7 @@ int		treat_time(char *final)
 	ft_strcat(iso, result[2]);
 	ft_strcat_char(iso, 'T');
 	ft_strcat(iso, result[3]);
-	/*i = 0;
-	while (result[i] != 0)
-	{
-		free(result[i]);
-		i++;
-	}
-	free(result);*/
 	ft_free_dblptr(result, 0);
-
 	find_timezone(iso, seconds);
 	ft_strcat(final, iso);
 	return (0);

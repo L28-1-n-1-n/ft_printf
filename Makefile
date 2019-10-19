@@ -20,8 +20,8 @@ SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes
 
-SRCS = ft_printf.c count_arg.c parse.c parse_arg.c big_int.c \
-			coms.c treat_arg.c treat_arg_helper.c treat_arg_helper_two.c string_hex.c \
+SRCS = ft_printf.c count_arg.c parse.c parse_arg.c big_int.c coms.c \
+			treat_arg.c treat_arg_helper.c treat_arg_helper_two.c string_hex.c \
 			decode_float.c add_modifier.c add_unsigned_modifier.c ft_itoamax.c \
 			big_int_80.c print_float_str.c float_special.c sub_array.c sub_array_helper.c \
 		  print_g_str.c string_bin.c treat_time.c check_buff.c \

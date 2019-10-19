@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 15:55:48 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 15:59:27 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 16:05:00 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		treat_char(char *final, va_list ap, t_block *blksk)
 		str = ft_strnew(2048);
 	if (str == NULL)
 	{
-		free (str);
+		free(str);
 		return (-1);
 	}
 	if (blksk->str)

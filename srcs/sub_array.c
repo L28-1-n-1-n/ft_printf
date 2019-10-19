@@ -6,13 +6,13 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 06:34:21 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/16 06:34:30 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 15:47:05 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power)
+void	first_shift(char product[1080][1000], t_float *fnum, unsigned int power)
 {
 	unsigned int offset;
 
@@ -29,16 +29,17 @@ void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power)
 	}
 }
 
-void aggre_helper_one(char product[1080][1000], unsigned int i, unsigned int j, unsigned int carry)
+void	aggre_helper_one(char product[1080][1000],
+		unsigned int i, unsigned int j, unsigned int carry)
 {
 	unsigned int tmp;
 
 	tmp = 0;
 	while (i < 1079)
 	{
-		while(product[i][j])
+		while (product[i][j])
 		{
-			tmp  = (product[i][j] - '0') * 5;
+			tmp = (product[i][j] - '0') * 5;
 			product[i + 1][j] += carry + '0';
 			carry = tmp / 10;
 			tmp = tmp % 10;
@@ -58,7 +59,7 @@ void aggre_helper_one(char product[1080][1000], unsigned int i, unsigned int j, 
 	}
 }
 
-void aggre_helper_two(char product[1080][1000])
+void	aggre_helper_two(char product[1080][1000])
 {
 	int i;
 
@@ -70,11 +71,11 @@ void aggre_helper_two(char product[1080][1000])
 	}
 }
 
-void    aggregate(char product[1080][1000])
+void	aggregate(char product[1080][1000])
 {
-	int i;
-	int j;
-	unsigned int carry;
+	int				i;
+	int				j;
+	unsigned int	carry;
 
 	i = 27;
 	j = 0;
@@ -83,11 +84,11 @@ void    aggregate(char product[1080][1000])
 	aggre_helper_two(product);
 }
 
-void    sub_array(t_float *fnum)
+void	sub_array(t_float *fnum)
 {
-	char product[1080][1000];
-	int i;
-	long double seed;
+	char		product[1080][1000];
+	int			i;
+	long double	seed;
 
 	i = 0;
 	while (i < 1080)
