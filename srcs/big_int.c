@@ -124,10 +124,8 @@ void	big_int(t_float *fnum)
 	}
 	within_row(raw, 8);
 	z = fnum->exponent - 52 + z;
-	while (z > 8)
-	{
-		within_row(raw, 8);
-		z -= 8;
-	}
-	end_big_int(raw, fnum);
+	z = loop_big_int(raw, z);
+	within_row(raw, z - 1);
+	carry_bit(raw, 30, 0);
+	print_result(raw, fnum);
 }

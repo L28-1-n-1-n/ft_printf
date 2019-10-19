@@ -68,14 +68,22 @@ char *compose_digit(char *str, intmax_t n, t_block *blksk)
 
 void string_digit(intmax_t n, char *final, t_block *blksk)
 {
-  char str[2048];
-  ft_bzero(str, 2048);
-/*  if (blksk->width + blksk->precision > 2048)
+ // char str[2048];
+  //ft_bzero(str, 2048);
+  char *str;
+  if (blksk->width + blksk->precision > 2048)
     str = ft_strnew(blksk->width + blksk->precision);
   else
-    str = ft_strnew(2048);*/
-  if (ft_strlen(final) + ft_strlen(str) > FLEN)
-    output_final(final, 0);
-  ft_strcat(final, compose_digit(str, n, blksk));
-//  free(str);
+    str = ft_strnew(2048);
+  if (str == NULL)
+  {
+    ft_free(str, -1);
+    return ;
+  }
+  //if (ft_strlen(final) + ft_strlen(str) > FLEN)
+    //output_final(final, 0);
+  compose_digit(str, n, blksk);
+  check_buff(final, str, ft_strlen(str));
+  //ft_strcat(final, compose_digit(str, n, blksk));
+  free(str);
 }

@@ -1,10 +1,13 @@
 #include "printf.h"
 
-void end_big_int(uint64_t raw[31], t_float *fnum)
+int loop_big_int(uint64_t raw[31], int z)
 {
-  within_row(raw, z - 1);
-	carry_bit(raw, 30, 0);
-	print_result(raw, fnum);
+  while (z > 8)
+	{
+		within_row(raw, 8);
+		z -= 8;
+	}
+  return (z);
 }
 
 void print_result_helper(char *str, t_float *fnum, unsigned int bit)

@@ -136,7 +136,7 @@ int help_eight(char *str, t_block *blksk, uintmax_t n, int j);
 void nest_one(char *str, t_block *blksk, int i, int j);
 void print_result_helper(char *str, t_float *fnum, unsigned int bit);
 unsigned int uf_subnormal(t_float *fnum);
-void uf_not_subnormal(t_float *fnum, long double *fraction, unsigned int bit_value);
+void uf_nsn(t_float *fnum, long double *fr, unsigned int bit_value);
 void   compose_float_64(t_float *fnum, long double *fraction);
 void   compose_float_80(t_float *fnum, long double *fraction);
 void    first_shift(char product[1080][1000], t_float *fnum, unsigned int power);
@@ -165,10 +165,12 @@ void duplicate_g(t_float *fnum, t_float *fnume, t_block *blksk, t_block *blkse);
 void      remove_finalz(char *final, t_block *blksk, int exp, t_float *fnum);
 int find_exponent(t_block *blkse, t_float *fnume);
 int treat_random(char *final, uintmax_t n);
-void end_big_int(uint64_t raw[31], t_float *fnum);
+int loop_big_int(uint64_t raw[31], int z);
 void	within_row(uint64_t *raw, unsigned int shift);
-void	carry_bit(uint64_t *raw, unsigned int row_no, unsigned int carry);
-void	print_result(uint64_t *raw, t_float *fnum);
+void	exp_0_to_neg_12(t_float *fnum, long double *fraction);
+void	print_small_range(unsigned int i, t_float *fnum, long double *fraction);
+
+
 
 
 

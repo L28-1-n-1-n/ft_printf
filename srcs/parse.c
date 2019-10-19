@@ -6,13 +6,13 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 09:55:16 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 10:00:50 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 13:02:23 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 #include <stdlib.h>
-#include <stdio.h>
+
 void	init_blocks(t_block *blks, int total)
 {
 	total = total - 1;
