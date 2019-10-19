@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 15:50:41 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 15:55:33 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 17:13:39 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		treat_string(char *final, va_list ap, t_block *blksk)
 	else
 		str = ft_strnew(2048);
 	if (str == NULL)
-		return (-1);
+		ft_free(str, -1);
 	string = va_arg(ap, char *);
 	treat_string_helper(str, string, blksk);
 	mod_string_flag(str, blksk);
