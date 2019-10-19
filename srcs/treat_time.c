@@ -76,7 +76,15 @@ int		treat_time(char *final)
 	ft_strcat(iso, result[2]);
 	ft_strcat_char(iso, 'T');
 	ft_strcat(iso, result[3]);
-	free(result);
+	/*i = 0;
+	while (result[i] != 0)
+	{
+		free(result[i]);
+		i++;
+	}
+	free(result);*/
+	ft_free_dblptr(result, 0);
+
 	find_timezone(iso, seconds);
 	ft_strcat(final, iso);
 	return (0);

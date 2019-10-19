@@ -71,7 +71,7 @@ void    sub_array_80(t_float *fnum)
   int i;
 
   i = 0;
-  product = (char **)malloc(sizeof(char *) * 64);
+  product = (char **)ft_memalloc(sizeof(char *) * 64);
   while (i < 64)
   {
     if (!(product[i]=(char*)ft_strnew(16426)))
@@ -91,4 +91,12 @@ void    sub_array_80(t_float *fnum)
   ft_strcat_char(product[62], '\0');
   aggregate_80(product);
   sum_power_80(product, fnum);
+  /*i = 0;
+  while (product[i] != 0)
+  {
+    free(product[i]);
+    i++;
+  }
+  free(product);*/
+  ft_free_dblptr((void **)product, 0);
 }

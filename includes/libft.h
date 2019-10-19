@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 15:49:11 by hlo               #+#    #+#             */
-/*   Updated: 2019/05/03 20:19:00 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/19 05:25:44 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ char				*ft_strcat_char(char *dest, const char c);
 char				*ft_strpcat_char(char *dest, const char c);
 size_t				ft_strlcat(char *dest, const char *src, size_t n);
 char				*ft_strchr(const char *str, int c);
-size_t			ft_strchr_arg(const char *str, int c);
-size_t			ft_strchr_pos(const char *str, int c);
+size_t				ft_strchr_arg(const char *str, int c);
+size_t				ft_strchr_pos(const char *str, int c);
 char				*ft_strrchr(const char *str, int c);
 char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_strnstr(const char *hay, const char *ndle, size_t len);
@@ -98,4 +98,5 @@ int					ft_lstlength(t_list *lst);
 int					ft_lsqrt(int nb);
 char	 			*ft_strrev(char *str);
 int 				ft_free(void *var, int return_value);
+int					ft_free_dblptr(char **var, int return_value);
 #endif
