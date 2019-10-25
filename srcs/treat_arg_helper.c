@@ -97,7 +97,7 @@ int		treat_string(char *final, va_list ap, t_block *blksk)
 	else
 		str = ft_strnew(2048);
 	if (str == NULL)
-		return (-1);
+		ft_free(str, -1);
 	string = va_arg(ap, char *);
 	treat_string_helper(str, string, blksk);
 	mod_string_flag(str, blksk);
