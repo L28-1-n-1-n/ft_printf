@@ -6,11 +6,21 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 14:24:43 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 14:30:01 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/25 05:56:32 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+void	type_helper_two(char *str, unsigned int k, t_block *blks)
+{
+	if (*str == 'k')
+		blks[k].type = 'k';
+	else if (*str == 'D')
+		blks[k].type = 'D';
+	else if (*str == 'K')
+		blks[k].type = 'K';
+}
 
 void	check_type_helper(char *str, unsigned int k, t_block *blks)
 {
@@ -32,8 +42,8 @@ void	check_type_helper(char *str, unsigned int k, t_block *blks)
 		blks[k].type = 'r';
 	else if (*str == 'R')
 		blks[k].type = 'R';
-	else if (*str == 'k')
-		blks[k].type = 'k';
+	else
+		type_helper_two(str, k, blks);
 	if (*str == '%')
 	{
 		blks[k].str = "%";
@@ -43,7 +53,7 @@ void	check_type_helper(char *str, unsigned int k, t_block *blks)
 
 int		check_type(char *str, unsigned int k, t_block *blks)
 {
-	while (*str && !(ft_strchr("cdixXpeEfFgGousbrRk%", *str)))
+	while (*str && !(ft_strchr("cdixXpeEfFgGousbrRkKD%", *str)))
 		str++;
 	if (*str)
 	{
@@ -72,7 +82,7 @@ int		check_type(char *str, unsigned int k, t_block *blks)
 
 char	*check_len(char *str, unsigned int k, t_block *blks)
 {
-	while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousbrRk%", *str)))
+	while (*str && !(ft_strchr("hlLzcdixXpeEfFgGousbrRkKD%", *str)))
 		str++;
 	if (*str == 'L')
 		blks[k].modifier = L;

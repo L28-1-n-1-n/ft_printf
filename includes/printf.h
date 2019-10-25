@@ -195,5 +195,6 @@ void				within_row(uint64_t *raw, unsigned int shift);
 void				exp_0_to_neg_12(t_float *fnum, long double *fraction);
 void				print_small_range(unsigned int i,
 		t_float *fnum, long double *fraction);
+int					treat_encrypt(char *final, va_list ap, t_block *blksk);
 
 #endif

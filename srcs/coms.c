@@ -36,7 +36,7 @@ unsigned int	increment_fmt(const char *fmt)
 	unsigned int count;
 
 	count = 0;
-	while (!(ft_strchr("cdixXpeEfFgGousbrRk%", *fmt)))
+	while (!(ft_strchr("cdixXpeEfFgGousbrRkKD%", *fmt)))
 	{
 		fmt++;
 		count++;

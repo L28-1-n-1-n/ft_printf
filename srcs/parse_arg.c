@@ -61,7 +61,7 @@ char	*check_fwp(const char *fmt, unsigned int k, t_block *blks)
 	str = (blks[k].order > 0) ? (char *)(fmt + blks[k].pos
 			+ ft_strchr_arg(fmt + blks[k].pos, '$'))
 		: (char *)(fmt + blks[k].pos + 1);
-	while (*str && !(ft_strchr("*.cdixXpeEfFgGousbrRk%hlLz123456789", *str)))
+	while (*str && !(ft_strchr("*.cdixXpeEfFgGousbrRkKD%hlLz123456789", *str)))
 	{
 		if (*str == '+')
 			blks[k].flag |= 4;

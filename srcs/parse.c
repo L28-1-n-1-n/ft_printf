@@ -12,6 +12,7 @@
 
 #include "printf.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void	init_blocks(t_block *blks, int total)
 {

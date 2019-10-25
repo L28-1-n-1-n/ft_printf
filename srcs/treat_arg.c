@@ -6,7 +6,7 @@
 /*   By: hlo <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 15:30:24 by hlo               #+#    #+#             */
-/*   Updated: 2019/10/13 15:49:54 by hlo              ###   ########.fr       */
+/*   Updated: 2019/10/25 05:55:56 by hlo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int		treat_arg(const char *fmt, char *final, va_list ap, t_block *blksk)
 	if (blksk->type == 'f' || blksk->type == 'F' || blksk->type == 'e'
 			|| blksk->type == 'E' || blksk->type == 'g' || blksk->type == 'G')
 		return (treat_float(final, ap, blksk));
-	if (blksk->type == 'b')
+	if (blksk->type == 'b' || blksk->type == 'K' || blksk->type == 'D')
 		return (treat_bin(final, ap, blksk));
 	if ((blksk->type == 'r') || (blksk->type == 'R'))
 		return (treat_nonpri(final, ap, blksk, fmt));

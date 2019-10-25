@@ -89,6 +89,8 @@ int		treat_bin(char *final, va_list ap, t_block *blksk)
 {
 	intmax_t n;
 
+	if ((blksk->type == 'K') || (blksk->type == 'D'))
+		return (treat_encrypt(final, ap, blksk));
 	n = add_modifier(ap, blksk);
 	string_bin(n, final, blksk);
 	return (0);
